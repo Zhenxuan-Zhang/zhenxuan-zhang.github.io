@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>你的名字 | MRI · 重建 · AI</title>
+  <meta name="description" content="MRI 重建 / Diffusion / INR / 逆问题研究者个人主页" />
+  <meta property="og:title" content="你的名字 | MRI · 重建 · AI" />
+  <meta property="og:description" content="MRI 重建 / Diffusion / INR / 逆问题研究者个人主页" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/assets/og.png" />
+  <meta name="theme-color" content="#0f172a" />
+  <link rel="icon" href="/assets/favicon.svg" />
+  <style>
+    :root{
+      --bg:#0b1020; --card:#11162a; --muted:#a3acc2; --text:#e6ecff; --brand:#6ea8fe; --accent:#8bd3ff; --ring:rgba(110,168,254,.4);
+      --mx:auto; --w:1100px; --r:20px; --shadow:0 10px 30px rgba(0,0,0,.25);
+    }
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f7f9fc; --card:#ffffff; --muted:#5b6474; --text:#0b1020; --brand:#0f62fe; --accent:#0ea5e9; --ring:rgba(14,165,233,.25)}
+    }
+    *{box-sizing:border-box}
+    body{margin:0; font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; color:var(--text); background:radial-gradient(1200px 600px at 10% -10%, rgba(110,168,254,.12), transparent 60%),radial-gradient(900px 500px at 120% 10%, rgba(139,211,255,.12), transparent 60%), var(--bg)}
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:var(--w); margin:0 var(--mx); padding:28px 22px}
+    .nav{display:flex; gap:18px; align-items:center; justify-content:space-between}
+    .nav a.logo{font-weight:700; letter-spacing:.3px}
+    .nav .links a{margin-left:16px; opacity:.9}
+    header.hero{padding:72px 0 36px}
+    .hero-grid{display:grid; grid-template-columns:1.4fr .9fr; gap:28px; align-items:center}
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.06); border-radius:var(--r); box-shadow:var(--shadow)}
+    .hero .intro{padding:30px}
+    h1{margin:0 0 8px; font-size:40px; line-height:1.15}
+    .subtitle{color:var(--muted); margin:0 0 18px}
+    .tags{display:flex; flex-wrap:wrap; gap:10px; margin:18px 0}
+    .tag{padding:6px 10px; border-radius:999px; background:rgba(110,168,254,.12); border:1px solid rgba(110,168,254,.35); font-size:13px}
+    .cta{display:flex; gap:12px; margin-top:10px}
+    .btn{display:inline-block; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); color:var(--text)}
+    .btn.primary{background:linear-gradient(180deg, var(--brand), var(--accent)); color:white; border:none; box-shadow:0 10px 20px var(--ring)}
+    .btn:hover{transform:translateY(-1px)}
+    .headshot{aspect-ratio:1/1; border-radius:18px; overflow:hidden}
+    .headshot img{width:100%; height:100%; object-fit:cover}
+
+    section{padding:18px 0 8px}
+    h2{font-size:26px; margin:10px 0 14px}
+    .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+    .item{padding:16px; border-radius:16px}
+    .muted{color:var(--muted)}
+    .kpis{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:8px}
+    .kpi{padding:14px; border-radius:14px; text-align:center}
+    .kpi strong{display:block; font-size:22px}
+
+    .pub{padding:16px; border-radius:14px}
+    .pub .title{font-weight:600}
+    .pub .meta{font-size:14px; color:var(--muted)}
+    .list{display:grid; gap:12px}
+
+    footer{padding:40px 0 60px; color:var(--muted); text-align:center}
+    .social a{margin:0 8px}
+
+    @media (max-width: 920px){
+      .hero-grid{grid-template-columns:1fr}
+      .grid{grid-template-columns:1fr}
+      .kpis{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <nav class="nav">
+      <a class="logo" href="#">你的名字</a>
+      <div class="links">
+        <a href="#research">研究</a>
+        <a href="#pubs">论文</a>
+        <a href="#projects">项目</a>
+        <a href="#contact">联系</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="hero-grid">
+        <div class="card intro">
+          <h1>Hi, 我是 <span style="color:var(--accent)">你的名字</span> 👋</h1>
+          <p class="subtitle">专注 MRI 重建、Diffusion、INR 与逆问题。当前在 <strong>你的机构</strong> 攻读博士，研究统一的 MRI 图像增强与下游任务协同优化。</p>
+          <div class="tags">
+            <span class="tag">Unified MRI Reconstruction</span>
+            <span class="tag">Diffusion × INR</span>
+            <span class="tag">Slice-to-Volume</span>
+            <span class="tag">Inverse Problems</span>
+          </div>
+          <div class="cta">
+            <a class="btn primary" href="#projects">查看项目</a>
+            <a class="btn" href="#pubs">最新论文</a>
+            <a class="btn" href="https://github.com/你的用户名" target="_blank" rel="noopener">GitHub</a>
+          </div>
+          <div class="kpis">
+            <div class="card kpi"><strong>10+</strong><span class="muted">论文/预印本</span></div>
+            <div class="card kpi"><strong>3</strong><span class="muted">开源框架</span></div>
+            <div class="card kpi"><strong>2</strong><span class="muted">在审 TMI</span></div>
+            <div class="card kpi"><strong>1</strong><span class="muted">国家项目</span></div>
+          </div>
+        </div>
+        <div class="card headshot">
+          <img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1200&auto=format&fit=crop" alt="headshot" />
+        </div>
+      </div>
+    </header>
+
+    <section id="research">
+      <h2>研究方向</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>Unified MRI Reconstruction</h3>
+          <p class="muted">多域一致性与隐式先验融合，重建质量与下游任务联合优化。</p>
+        </div>
+        <div class="card item">
+          <h3>Diffusion × INR</h3>
+          <p class="muted">融合扩散模型与坐标隐式表示，提升结构保真与跨域泛化。</p>
+        </div>
+        <div class="card item">
+          <h3>Slice-to-Volume</h3>
+          <p class="muted">基于配准与对比学习的切片-体数据重建，解决运动与层间缺失。</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="pubs">
+      <h2>代表论文</h2>
+      <div class="list">
+        <div class="card pub">
+          <div class="title">Task-Oriented Prompt Uncertainty Collaborative Learning for Multi-Contrast MRI Segmentation</div>
+          <div class="meta">2025 · arXiv · 第一作者 · <a href="#">PDF</a> · <a href="#">代码</a></div>
+        </div>
+        <div class="card pub">
+          <div class="title">Implicit Priors for Inverse Problems: A Survey</div>
+          <div class="meta">2025 · Under Review · 通讯作者 · <a href="#">稿件</a></div>
+        </div>
+        <div class="card pub">
+          <div class="title">PSS-Diff: Progressive Self-supervised Synthesis for High-field MRI</div>
+          <div class="meta">2025 · Preprint · <a href="#">PDF</a> · <a href="#">代码</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <h2>开源项目</h2>
+      <div class="grid">
+        <div class="card item">
+          <h3>UnifiedMRIReconstruction</h3>
+          <p class="muted">集成 Diffusion、SIREN-INR 与 ConvLSTM 的统一重建框架。</p>
+          <p><a href="https://github.com/你的用户名/UnifiedMRIReconstruction" target="_blank" rel="noopener">GitHub →</a></p>
+        </div>
+        <div class="card item">
+          <h3>TUCL</h3>
+          <p class="muted">模态补全 + 缺失模态分割的两阶段框架，含评测脚本。</p>
+          <p><a href="https://github.com/你的用户名/TUCL" target="_blank" rel="noopener">GitHub →</a></p>
+        </div>
+        <div class="card item">
+          <h3>PR-INR</h3>
+          <p class="muted">先验正则化的隐式表示用于 MRI 重建与去噪。</p>
+          <p><a href="https://github.com/你的用户名/PR-INR" target="_blank" rel="noopener">GitHub →</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="talks">
+      <h2>报告 & 教学</h2>
+      <div class="list">
+        <div class="card pub">
+          <div class="title">AI-Powered Advancements in MRI</div>
+          <div class="meta">2025 · 受邀报告 · <a href="#">Slides</a> · <a href="#">视频</a></div>
+        </div>
+        <div class="card pub">
+          <div class="title">Unrolling-based Deep Learning for Inverse Problems</div>
+          <div class="meta">2024 · 教学分享 · <a href="#">讲义</a></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <h2>联系</h2>
+      <div class="card item">
+        <p>📧 邮箱：<a href="mailto:you@example.com">you@example.com</a> &nbsp;·&nbsp; 🐙 GitHub：<a href="https://github.com/你的用户名" target="_blank" rel="noopener">@你的用户名</a>
+        <br/>💼 LinkedIn：<a href="#" target="_blank" rel="noopener">your-linkedin</a> &nbsp;·&nbsp; 📝 Google Scholar：<a href="#" target="_blank" rel="noopener">你的学术主页</a></p>
+      </div>
+    </section>
+
+    <footer>
+      <div class="social">
+        <a href="https://github.com/你的用户名" target="_blank" rel="noopener">GitHub</a> ·
+        <a href="#" target="_blank" rel="noopener">Scholar</a> ·
+        <a href="#" target="_blank" rel="noopener">Twitter/X</a>
+      </div>
+      <p class="muted">© <span id="y"></span> 你的名字 · Built with GitHub Pages</p>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
+  <!-- 可选：添加简单的页面访问统计（自行替换为真实的统计脚本，如 Plausible/Umami/GA） -->
+</body>
+</html>
