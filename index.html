@@ -64,21 +64,25 @@
     /* ---- Education Row: left logo + right text ---- */
     .edu-row {
       display: flex;
-      align-items: flex-start;
-      gap: 18px;
-      padding: 16px;
+      align-items: center;   /* 让左侧校徽和右侧内容垂直居中对齐 */
+      gap: 20px;
+      padding: 18px;
     }
     
+    /* 校徽区域放大 */
     .edu-left {
-      flex: 0 0 70px;      /* 校徽大小，可调 */
-      max-width: 70px;
+      flex: 0 0 100px;       /* 校徽大小：可改成 90 / 100 / 110px */
+      max-width: 100px;
+      display: flex;
+      align-items: center;   /* 校徽在自身容器内垂直居中 */
+      justify-content: center;
     }
     
     .edu-left img {
       width: 100%;
       height: auto;
-      border-radius: 10px;
       object-fit: contain;
+      border-radius: 12px;
       display: block;
     }
     
@@ -86,15 +90,19 @@
       flex: 1;
     }
     
+    /* Mobile */
     @media(max-width: 640px){
       .edu-row {
         flex-direction: column;
+        text-align: center;
       }
       .edu-left {
-        width: 70px;
+        width: 110px;
+        max-width: 110px;
         margin: 0 auto;
       }
     }
+
 
     @media (max-width: 640px) {
       .pub-row {
