@@ -60,6 +60,41 @@
     .pub-right {
       flex: 1 1 60%;   /* 右侧占 60% */
     }
+    
+    /* ---- Education Row: left logo + right text ---- */
+    .edu-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 16px;
+    }
+    
+    .edu-left {
+      flex: 0 0 70px;      /* 校徽大小，可调 */
+      max-width: 70px;
+    }
+    
+    .edu-left img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      object-fit: contain;
+      display: block;
+    }
+    
+    .edu-right {
+      flex: 1;
+    }
+    
+    @media(max-width: 640px){
+      .edu-row {
+        flex-direction: column;
+      }
+      .edu-left {
+        width: 70px;
+        margin: 0 auto;
+      }
+    }
 
     @media (max-width: 640px) {
       .pub-row {
@@ -110,18 +145,36 @@
     <section id="education">
       <h2>Education</h2>
       <div class="list">
-        <div class="card item">
-          <div class="title"><strong>Ph.D. in Bioengineering Research</strong></div>
-          <div class="meta">Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally</div>
+        <div class="card item edu-row">
+          <div class="edu-left">
+            <img src="logo/imperial.png" alt="Imperial College London">
+          </div>
+          <div class="edu-right">
+            <div class="title"><strong>Ph.D. in Bioengineering Research</strong></div>
+            <div class="meta">Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally</div>
+          </div>
         </div>
-        <div class="card item">
-          <div class="title"><strong>Master of Biological and Pharmaceutical Engineering</strong></div>
-          <div class="meta">School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao</div>
+
+        <div class="card item edu-row">
+          <div class="edu-left">
+            <img src="logo/sysu.png" alt="Sun Yat-sen University">
+          </div>
+          <div class="edu-right">
+            <div class="title"><strong>Master of Biological and Pharmaceutical Engineering</strong></div>
+            <div class="meta">School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao</div>
+          </div>
         </div>
-        <div class="card item">
-          <div class="title"><strong>Bachelor of Biomedical Engineering</strong></div>
-          <div class="meta">School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021 · GPA: 3.4 / 4.0</div>
+
+        <div class="card item edu-row">
+          <div class="edu-left">
+            <img src="logo/sysu.png" alt="Sun Yat-sen University">
+          </div>
+          <div class="edu-right">
+            <div class="title"><strong>Bachelor of Biomedical Engineering</strong></div>
+            <div class="meta">School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021 · GPA: 3.4 / 4.0</div>
+          </div>
         </div>
+
       </div>
     </section>
 
