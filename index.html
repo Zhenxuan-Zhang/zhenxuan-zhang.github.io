@@ -45,7 +45,8 @@
     }
 
     .pub-left {
-      flex: 0 0 120px;
+      flex: 0 0 40%;   /* 左侧占 40% */
+      max-width: 40%;  /* 防止溢出 */
     }
 
     .pub-left img {
@@ -57,7 +58,7 @@
     }
 
     .pub-right {
-      flex: 1;
+      flex: 1 1 60%;   /* 右侧占 60% */
     }
 
     @media (max-width: 640px) {
