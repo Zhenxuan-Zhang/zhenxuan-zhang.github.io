@@ -36,6 +36,41 @@
     .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     footer{padding:40px 0 60px;color:var(--muted);text-align:center}
     @media(max-width:920px){.hero-grid{grid-template-columns:1fr}.two-col{grid-template-columns:1fr}}
+    /* ---- Publication Row (Left Image + Right Text) ---- */
+    .pub-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .pub-left {
+      flex: 0 0 120px;
+    }
+
+    .pub-left img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+      object-fit: cover;
+    }
+
+    .pub-right {
+      flex: 1;
+    }
+
+    @media (max-width: 640px) {
+      .pub-row {
+        flex-direction: column;
+      }
+      .pub-left {
+        flex-basis: auto;
+        width: 100%;
+        max-width: 260px;
+        margin: 0 auto;
+      }
+    }
   </style>
 </head>
 <body>
