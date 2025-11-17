@@ -115,79 +115,172 @@
         margin: 0 auto;
       }
     }
+    .lang-switch button {
+      background: transparent;
+      border: 1px solid var(--brand);
+      color: var(--brand);
+      padding: 4px 10px;
+      margin-left: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    .lang-switch button:hover {
+      background: var(--brand);
+      color: white;
+    }
+
   </style>
 </head>
 <body>
   <div class="container">
     <nav class="nav">
-      <div class="logo">Zhang Zhenxuan</div>
-      <div></div>
+      <div class="logo" data-en="Zhang Zhenxuan" data-zh="张振璇">Zhang Zhenxuan</div>
+      <div class="lang-switch">
+        <button onclick="switchLang('en')">EN</button>
+        <button onclick="switchLang('zh')">中文</button>
+      </div>
     </nav>
 
+
     <header class="hero">
-      <div class="hero-grid">
-        <div class="card intro">
-          <h1>Zhang Zhenxuan</h1>
-          <p class="subtitle">Department of Bioengineering, Imperial College London, UK</p>
-          <div class="idline">
-            <span><strong>Student ID</strong>: 06017159</span>
-            <span>📞 +44-07880879565</span>
-            <span>✉️ <a href="mailto:vince126110@gmail.com">vince126110@gmail.com</a></span>
-            <span>✉️ <a href="mailto:z.zhenxuan24@imperial.ac.uk">z.zhenxuan24@imperial.ac.uk</a></span>
-          </div>
-          <div class="tags">
-            <span class="tag">Medical Image Reconstruction</span>
-            <span class="tag">Modality Synthesis</span>
-            <span class="tag">Vision–Language Clinical Reasoning</span>
-            <span class="tag">LLM · INR · Diffusion</span>
-          </div>
-          <p>I am a Ph.D. student at Imperial College London supervised by Dr. Guang Yang and Dr. Peter J. Lally. My research focuses on medical image reconstruction, modality synthesis, and vision-language-based clinical reasoning. I am particularly interested in integrating large language models, implicit neural representations, and diffusion models to develop agentic AI systems for MRI reconstruction and report generation. My recent works explore uncertainty-aware multi-task learning, interpretable radiology reporting, and cross-modal representation learning. I am passionate about advancing intelligent, transparent, and trustworthy AI for medical imaging applications.</p>
-        </div>
-        <div class="card headshot">
-        <!-- Optional: place a square photo at assets/profile.jpg -->
-        <img src="https://avatars.githubusercontent.com/u/50417197?s=400&u=4d561732e01355b60c7a125d0c08a02cb0cacee2&v=4" alt="Zhang Zhenxuan" loading="lazy" decoding="async" />
-        </div>
+  <div class="hero-grid">
+
+    <div class="card intro">
+
+      <!-- Name -->
+      <h1 data-en="Zhang Zhenxuan" data-zh="张振璇">Zhang Zhenxuan</h1>
+
+      <!-- Subtitle -->
+      <p class="subtitle" 
+         data-en="Department of Bioengineering, Imperial College London, UK"
+         data-zh="英国帝国理工学院 生物工程系">
+         Department of Bioengineering, Imperial College London, UK
+      </p>
+
+      <!-- ID Line -->
+      <div class="idline">
+        <span data-en="Student ID: 06017159" data-zh="学号：06017159">Student ID: 06017159</span>
+        <span data-en="📞 +44-07880879565" data-zh="📞 +44-07880879565">📞 +44-07880879565</span>
+        <span data-en="✉️ Personal: vince126110@gmail.com" data-zh="✉️ 个人邮箱：vince126110@gmail.com">
+          ✉️ Personal: vince126110@gmail.com
+        </span>
+        <span data-en="✉️ Academic: z.zhenxuan24@imperial.ac.uk" data-zh="✉️ 学术邮箱：z.zhenxuan24@imperial.ac.uk">
+          ✉️ Academic: z.zhenxuan24@imperial.ac.uk
+        </span>
       </div>
-    </header>
+
+      <!-- Tags -->
+      <div class="tags">
+        <span class="tag" data-en="Medical Image Reconstruction" data-zh="医学图像重建">Medical Image Reconstruction</span>
+        <span class="tag" data-en="Modality Synthesis" data-zh="模态合成">Modality Synthesis</span>
+        <span class="tag" data-en="Vision–Language Clinical Reasoning" data-zh="视觉-语言临床推理">Vision–Language Clinical Reasoning</span>
+        <span class="tag" data-en="LLM · INR · Diffusion" data-zh="大模型 · 隐式表示 · 扩散模型">LLM · INR · Diffusion</span>
+      </div>
+
+      <!-- About Me Paragraph -->
+      <p
+        data-en="I am a Ph.D. student at Imperial College London supervised by Dr. Guang Yang and Dr. Peter J. Lally. My research focuses on medical image reconstruction, modality synthesis, and vision-language-based clinical reasoning. I am particularly interested in integrating large language models, implicit neural representations, and diffusion models to develop agentic AI systems for MRI reconstruction and report generation. My recent works explore uncertainty-aware multi-task learning, interpretable radiology reporting, and cross-modal representation learning. I am passionate about advancing intelligent, transparent, and trustworthy AI for medical imaging applications."
+        data-zh="我目前在英国帝国理工学院攻读博士，导师为 Dr. Guang Yang 和 Dr. Peter J. Lally。我的研究方向包括医学图像重建、模态合成以及基于视觉-语言模型的临床推理。我特别关注将大语言模型、隐式神经表示和扩散模型结合起来，用于 MRI 重建与医学报告生成。我近期的研究涉及不确定性建模、多任务学习、可解释医学影像报告以及跨模态表示学习。我致力于推动智能、透明和可信赖的医学影像人工智能技术的发展。"
+      >
+      I am a Ph.D. student at Imperial College London supervised by Dr. Guang Yang and Dr. Peter J. Lally. My research focuses on medical image reconstruction, modality synthesis, and vision-language-based clinical reasoning. I am particularly interested in integrating large language models, implicit neural representations, and diffusion models to develop agentic AI systems for MRI reconstruction and report generation. My recent works explore uncertainty-aware multi-task learning, interpretable radiology reporting, and cross-modal representation learning. I am passionate about advancing intelligent, transparent, and trustworthy AI for medical imaging applications.
+      </p>
+
+    </div>
+
+    <!-- Headshot -->
+    <div class="card headshot">
+      <img src="https://avatars.githubusercontent.com/u/50417197?s=400&u=4d561732e01355b60c7a125d0c08a02cb0cacee2&v=4" 
+           alt="Zhang Zhenxuan" loading="lazy" decoding="async" />
+    </div>
+
+  </div>
+</header>
+
 
     <section id="education">
-      <h2>Education</h2>
-      <div class="list">
-        <div class="card item edu-row">
-          <div class="edu-left">
-            <img src="logo/Imperial.png" alt="Imperial College London">
-          </div>
-          <div class="edu-right">
-            <div class="title"><strong>Ph.D. in Bioengineering Research</strong></div>
-            <div class="meta">Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally</div>
-          </div>
+  <h2 data-en="Education" data-zh="教育经历">Education</h2>
+
+  <div class="list">
+
+    <!-- PhD -->
+    <div class="card item edu-row">
+      <div class="edu-left">
+        <img src="logo/Imperial.png" alt="Imperial College London">
+      </div>
+      <div class="edu-right">
+
+        <div class="title">
+          <strong 
+            data-en="Ph.D. in Bioengineering Research" 
+            data-zh="生物工程博士（研究型）">
+            Ph.D. in Bioengineering Research
+          </strong>
         </div>
 
-        <div class="card item edu-row">
-          <div class="edu-left">
-            <img src="logo/sysu.jpeg" alt="Sun Yat-sen University">
-          </div>
-          <div class="edu-right">
-            <div class="title"><strong>Master of Biological and Pharmaceutical Engineering</strong></div>
-            <div class="meta">School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao</div>
-          </div>
-        </div>
-
-        <div class="card item edu-row">
-          <div class="edu-left">
-            <img src="logo/sysu.jpeg" alt="Sun Yat-sen University">
-          </div>
-          <div class="edu-right">
-            <div class="title"><strong>Bachelor of Biomedical Engineering</strong></div>
-            <div class="meta">School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021 · GPA: 3.4 / 4.0</div>
-          </div>
+        <div class="meta"
+          data-en="Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally"
+          data-zh="英国帝国理工学院 生物工程系 · 2024 — 2028 · 导师：Guang Yang 教授、Peter J. Lally 教授">
+          Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally
         </div>
 
       </div>
-    </section>
+    </div>
+
+    <!-- Master -->
+    <div class="card item edu-row">
+      <div class="edu-left">
+        <img src="logo/sysu.jpeg" alt="Sun Yat-sen University">
+      </div>
+      <div class="edu-right">
+
+        <div class="title">
+          <strong
+            data-en="Master of Biological and Pharmaceutical Engineering"
+            data-zh="生物与制药工程硕士">
+            Master of Biological and Pharmaceutical Engineering
+          </strong>
+        </div>
+
+        <div class="meta"
+          data-en="School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao"
+          data-zh="中山大学 生物医学工程学院 · 2021 — 2024 · 导师：张贺晔教授、高智凡教授">
+          School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Bachelor -->
+    <div class="card item edu-row">
+      <div class="edu-left">
+        <img src="logo/sysu.jpeg" alt="Sun Yat-sen University">
+      </div>
+      <div class="edu-right">
+
+        <div class="title">
+          <strong
+            data-en="Bachelor of Biomedical Engineering"
+            data-zh="生物医学工程学士">
+            Bachelor of Biomedical Engineering
+          </strong>
+        </div>
+
+        <div class="meta"
+          data-en="School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021"
+          data-zh="中山大学 生物医学工程学院 · 2017 — 2021">
+          School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
 
     <section id="publication">
-  <h2>Publication</h2>
+  <h2 data-en="Publication" data-zh="出版记录">Education</h2>
   <div class="list">
 
     <div class="card pub pub-row">
@@ -361,43 +454,175 @@
 
 
     <section id="teaching">
-      <h2>Teaching Experience</h2>
-      <div class="list">
-        <div class="card item"><div class="title"><strong>Graduate Teaching Assistant — Image Processing</strong></div><div class="meta">Imperial College London · Jan 2025 — Apr 2025</div><p>Responsible for tutorial preparation, Q&A sessions, and exam paper marking.</p></div>
-        <div class="card item"><div class="title"><strong>Graduate Teaching Assistant — Trustworthy AI in Medical Analysis</strong></div><div class="meta">Imperial College London · Mar 2025 — May 2025</div><p>Assisted in-class discussions and graded project reports.</p></div>
-        <div class="card item"><div class="title"><strong>MSc Final Project Co-Supervisor</strong></div><div class="meta">Imperial College London · Jun 2025 — Sep 2025</div><p>Supervised one student group (4 students) for their final MSc research project.</p></div>
+    <h2 data-en="Teaching Experience" data-zh="教学经历">Teaching Experience</h2>
+    <div class="list">
+  
+      <div class="card item">
+        <div class="title" 
+             data-en="Graduate Teaching Assistant — Image Processing"
+             data-zh="研究生助教 — 图像处理课程">
+             Graduate Teaching Assistant — Image Processing
+        </div>
+        <div class="meta"
+             data-en="Imperial College London · Jan 2025 — Apr 2025"
+             data-zh="帝国理工学院 · 2025年1月—2025年4月">
+             Imperial College London · Jan 2025 — Apr 2025
+        </div>
+        <p data-en="Responsible for tutorial preparation, Q&A sessions, and exam paper marking."
+           data-zh="负责辅导课准备、答疑环节以及试卷批改工作。">
+           Responsible for tutorial preparation, Q&A sessions, and exam paper marking.
+        </p>
       </div>
-    </section>
+  
+      <div class="card item">
+        <div class="title"
+             data-en="Graduate Teaching Assistant — Trustworthy AI in Medical Analysis"
+             data-zh="研究生助教 — 医学分析中的可信人工智能课程">
+             Graduate Teaching Assistant — Trustworthy AI in Medical Analysis
+        </div>
+        <div class="meta"
+             data-en="Imperial College London · Mar 2025 — May 2025"
+             data-zh="帝国理工学院 · 2025年3月—2025年5月">
+             Imperial College London · Mar 2025 — May 2025
+        </div>
+        <p data-en="Assisted in-class discussions and graded project reports."
+           data-zh="协助课堂讨论并负责项目报告评分。">
+           Assisted in-class discussions and graded project reports.
+        </p>
+      </div>
+  
+      <div class="card item">
+        <div class="title"
+             data-en="MSc Final Project Co-Supervisor"
+             data-zh="硕士毕业项目联合指导教师">
+             MSc Final Project Co-Supervisor
+        </div>
+        <div class="meta"
+             data-en="Imperial College London · Jun 2025 — Sep 2025"
+             data-zh="帝国理工学院 · 2025年6月—2025年9月">
+             Imperial College London · Jun 2025 — Sep 2025
+        </div>
+        <p data-en="Supervised one student group (4 students) for their final MSc research project."
+           data-zh="指导一个4人学生小组完成硕士毕业科研项目。">
+           Supervised one student group (4 students) for their final MSc research project.
+        </p>
+      </div>
+  
+    </div>
+  </section>
 
     <section id="awards">
-      <h2>Award</h2>
-      <div class="list">
-        <div class="card item"><div class="title"><strong>Sun Yat-sen University Scholarship</strong></div><div class="meta">Sep 2021 — Jun 2022 · First Prize</div></div>
-        <div class="card item"><div class="title"><strong>Sun Yat-sen University Scholarship</strong></div><div class="meta">Sep 2022 — Jun 2023 · Second Prize</div></div>
-        <div class="card item"><div class="title"><strong>National CSC Scholarship</strong></div><div class="meta">2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study</div></div>
-        <div class="card item"><div class="title"><strong>The 5th National Undergraduate Biomedical Engineering Innovation Design Competition</strong></div><div class="meta">Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images</div></div>
+  <h2 data-en="Award" data-zh="奖项">Award</h2>
+  <div class="list">
+
+    <div class="card item">
+      <div class="title"
+           data-en="Sun Yat-sen University Scholarship"
+           data-zh="中山大学奖学金">
+           Sun Yat-sen University Scholarship
       </div>
-    </section>
+      <div class="meta"
+           data-en="Sep 2021 — Jun 2022 · First Prize"
+           data-zh="2021年9月—2022年6月 · 一等奖">
+           Sep 2021 — Jun 2022 · First Prize
+      </div>
+    </div>
+
+    <div class="card item">
+      <div class="title"
+           data-en="Sun Yat-sen University Scholarship"
+           data-zh="中山大学奖学金">
+           Sun Yat-sen University Scholarship
+      </div>
+      <div class="meta"
+           data-en="Sep 2022 — Jun 2023 · Second Prize"
+           data-zh="2022年9月—2023年6月 · 二等奖">
+           Sep 2022 — Jun 2023 · Second Prize
+      </div>
+    </div>
+
+    <div class="card item">
+      <div class="title"
+           data-en="National CSC Scholarship"
+           data-zh="国家留基委奖学金（CSC）">
+           National CSC Scholarship
+      </div>
+      <div class="meta"
+           data-en="2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study"
+           data-zh="2024—2028 · 国家留学基金委（CSC）海外博士奖学金">
+           2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study
+      </div>
+    </div>
+
+    <div class="card item">
+      <div class="title"
+           data-en="The 5th National Undergraduate Biomedical Engineering Innovation Design Competition"
+           data-zh="第五届全国大学生生物医学工程创新设计竞赛">
+           The 5th National Undergraduate Biomedical Engineering Innovation Design Competition
+      </div>
+      <div class="meta"
+           data-en="Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images"
+           data-zh="2019年1月—2019年5月 · 三等奖 · 脊柱MRI图像自动分割算法">
+           Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images
+      </div>
+    </div>
+
+  </div>
+</section>
 
     <section id="skills">
-      <h2>Technical Skills and Interests</h2>
-      <div class="two-col">
-        <div class="card item">
-          <p><strong>Languages:</strong> English, Chinese, Cantonese, Hakka</p>
-          <p><strong>Program Languages:</strong> Python, C/C++, Matlab</p>
-          <p><strong>Deep Learning Framework:</strong> Pytorch, Tensorflow, Keras</p>
-        </div>
-        <div class="card item">
-          <p><strong>Areas of Interest:</strong> Deep Learning, Multi-task Learning, Representation Learning, Active Learning</p>
-          <p><strong>Soft Skills:</strong> Problem Solving, Self-learning, Presentation, Adaptability</p>
-        </div>
-      </div>
-    </section>
+  <h2 data-en="Technical Skills and Interests" data-zh="技术技能与研究兴趣">
+    Technical Skills and Interests
+  </h2>
+
+  <div class="two-col">
+
+    <div class="card item">
+      <p data-en="Languages: English, Chinese, Cantonese, Hakka"
+         data-zh="语言：英语、普通话、粤语、客家话">
+         <strong>Languages:</strong> English, Chinese, Cantonese, Hakka
+      </p>
+
+      <p data-en="Programming Languages: Python, C/C++, Matlab"
+         data-zh="编程语言：Python、C/C++、Matlab">
+         <strong>Programming Languages:</strong> Python, C/C++, Matlab
+      </p>
+
+      <p data-en="Deep Learning Frameworks: Pytorch, Tensorflow, Keras"
+         data-zh="深度学习框架：Pytorch、Tensorflow、Keras">
+         <strong>Deep Learning Frameworks:</strong> Pytorch, Tensorflow, Keras
+      </p>
+    </div>
+
+    <div class="card item">
+      <p data-en="Areas of Interest: Deep Learning, Multi-task Learning, Representation Learning, Active Learning"
+         data-zh="研究兴趣：深度学习、多任务学习、表示学习、主动学习">
+         <strong>Areas of Interest:</strong> Deep Learning, Multi-task Learning, Representation Learning, Active Learning
+      </p>
+
+      <p data-en="Soft Skills: Problem Solving, Self-learning, Presentation, Adaptability"
+         data-zh="软技能：解决问题、自主学习、演讲表达、适应能力">
+         <strong>Soft Skills:</strong> Problem Solving, Self-learning, Presentation, Adaptability
+      </p>
+    </div>
+
+  </div>
+</section>
+
+
 
     <footer>
       <p>© <span id="y"></span> Zhang Zhenxuan · Department of Bioengineering, Imperial College London</p>
     </footer>
   </div>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <script>
+  function switchLang(lang) {
+    document.querySelectorAll('[data-en]').forEach(el => {
+      el.textContent = lang === 'en' ? el.dataset.en : el.dataset.zh;
+    });
+  }
+  </script>
+
 </body>
 </html>
