@@ -8,18 +8,19 @@
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root{
-      --bg:#0b1020;
-      --bg-glass:rgba(255,255,255,0.04);
-      --card:#11162a;
-      --muted:#a3acc2;
-      --text:#e6ecff;
-      --brand:#6ea8fe;
-      --accent:#8bd3ff;
-      --ring:rgba(110,168,254,.4);
-      --w:1200px;
-      --r:18px;
-      --blur:14px;
-    }
+    --bg:#0b1020;
+    --bg-glass:rgba(255,255,255,0.04);
+    --card:rgba(255,255,255,0.18); /* ✨卡片变亮玻璃 */
+    --muted:#374151; /* 更深灰 */
+    --text:#111827; /* 主文本变深色（深灰黑） */
+    --brand:#2563eb; /* 科技蓝 */
+    --accent:#0ea5e9;
+    --ring:rgba(37,99,235,.35);
+    --w:1200px;
+    --r:18px;
+    --blur:18px; /* 更柔和 */
+  }
+
 
     /* 亮色模式可选 */
     @media (prefers-color-scheme: light){
@@ -102,29 +103,46 @@
     }
 
     /* 通用卡片 */
-    .card{
-      background:rgba(15,23,42,0.92);
-      border-radius:var(--r);
-      padding:18px 18px;
-      border:1px solid rgba(148,163,184,0.32);
-      box-shadow:0 14px 35px rgba(15,23,42,.8);
+    .card, section{
+    background:var(--card);
+    backdrop-filter:blur(var(--blur));
+    border-radius:var(--r);
+    padding:18px;
+    border:1px solid rgba(255,255,255,0.22);
+    box-shadow:0 8px 25px rgba(0,0,0,.22);
+  }
+
+
+    /* 左侧头像卡片 - 圆形头像 */
+    .headshot-card{
+      padding:0;
+      width:180px;  /* 可根据需要调大小 */
+      height:180px;
+      margin:0 auto;
+      background:rgba(255,255,255,0.22);
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      border:2px solid rgba(255,255,255,0.5);
+      backdrop-filter:blur(10px);
+    }
+    
+    .headshot{
+      width:100%;
+      height:100%;
+      border-radius:50%;
+      overflow:hidden;
+    }
+    
+    .headshot img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      border-radius:50%;
     }
 
-    /* 左侧头像卡片 */
-    .headshot-card{
-      padding:10px;
-    }
-    .headshot{
-      border-radius:16px;
-      overflow:hidden;
-      border:1.5px solid rgba(255,255,255,0.45);
-    }
-    .headshot img{
-      display:block;
-      width:100%;
-      height:auto;
-      object-fit:cover;
-    }
 
     .profile-name{
       font-size:26px;
