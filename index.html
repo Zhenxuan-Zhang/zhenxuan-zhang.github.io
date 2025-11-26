@@ -245,31 +245,50 @@
     }
 
     /* Education 行：左logo右内容 */
+    /* 教育经历行卡片 */
     .edu-row {
+      background: rgba(255,255,255,0.32); /* ✨更亮玻璃面板 */
+      border-radius: 18px;
+      padding: 20px 22px;
       display: flex;
+      gap: 20px;
       align-items: center;
-      gap: 16px;
-      padding: 10px 10px;
-      background:rgba(15,23,42,0.7);
-      border-radius:12px;
+      border: 1px solid rgba(255,255,255,0.35);
+      backdrop-filter: blur(14px);
+      transition: 0.25s ease;
     }
+    .edu-row:hover {
+      background: rgba(255,255,255,0.45); /* hover 更提亮 */
+      transform: translateY(-2px);
+    }
+    
+    /* 左侧 Logo */
     .edu-left {
-      flex: 0 0 80px;
-      max-width: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      width: 70px;
+      min-width: 70px;
     }
     .edu-left img {
       width: 100%;
       height: auto;
-      object-fit: contain;
-      border-radius: 12px;
-      display: block;
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); /* Logo更立体 */
     }
+    
+    /* 右侧文字增强 */
     .edu-right {
-      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
+    .edu-right .title strong {
+      font-size: 15.5px;
+      color: #0f172a; /* 近黑、强调 */
+      font-weight: 700;
+    }
+    .edu-right .meta {
+      font-size: 14px;
+      color: #334155; /* 更深灰，可读 */
+    }
+
 
     /* skills 两列 */
     .two-col{
