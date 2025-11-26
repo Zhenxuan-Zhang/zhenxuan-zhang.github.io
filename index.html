@@ -246,24 +246,61 @@
 
     /* Education 行：左logo右内容 */
     /* 教育经历小卡片 */
+    /* 统一所有条目样式为小卡片 */
+    .item, 
+    .pub, 
     .edu-row {
-      background: rgba(255,255,255,0.38); /* 亮玻璃 */
+      background: rgba(255,255,255,0.38);
       border-radius: 14px;
       padding: 16px 18px;
       display: flex;
       gap: 14px;
-      align-items: center;
+      align-items: flex-start;
       border: 1px solid rgba(255,255,255,0.32);
       backdrop-filter: blur(12px);
       box-shadow: 0 4px 14px rgba(0,0,0,0.10);
       transition: 0.25s ease;
     }
     
-    /* Hover 更有“小卡片浮起”感 */
+    /* 统一悬浮效果 */
+    .item:hover, 
+    .pub:hover, 
     .edu-row:hover {
       background: rgba(255,255,255,0.52);
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    }
+    
+    /* 调整 pub-row 布局以适配小卡片 */
+    .pub-row {
+      flex-direction: row;
+    }
+    .pub-left {
+      width: 120px;
+      min-width: 120px;
+    }
+    .pub-left img {
+      width: 100%;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .pub-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    
+    /* 统一右侧文本样式 */
+    .title strong,
+    .title {
+      font-size: 15.5px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .meta {
+      font-size: 13px;
+      color: #475569;
     }
     
     /* 校徽尺寸变更精致 */
@@ -492,7 +529,7 @@
 
         <!-- Publication -->
         <section id="publication">
-          <h2 data-en="Publication" data-zh="出版记录">Education</h2>
+          <h2 data-en="Publication" data-zh="出版记录">Publication</h2>
           <div class="list">
 
             <div class="item pub-row">
@@ -550,7 +587,7 @@
 
         <!-- Under Review -->
         <section id="under-review">
-          <h2 data-en="Under Review" data-zh="审稿中">Education</h2>
+          <h2 data-en="Under Review" data-zh="审稿中">Under Review</h2>
           <div class="list">
 
             <div class="item pub-row">
