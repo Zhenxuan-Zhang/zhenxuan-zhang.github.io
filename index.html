@@ -245,48 +245,53 @@
     }
 
     /* Education 行：左logo右内容 */
-    /* 教育经历行卡片 */
+    /* 教育经历小卡片 */
     .edu-row {
-      background: rgba(255,255,255,0.32); /* ✨更亮玻璃面板 */
-      border-radius: 18px;
-      padding: 20px 22px;
+      background: rgba(255,255,255,0.38); /* 亮玻璃 */
+      border-radius: 14px;
+      padding: 16px 18px;
       display: flex;
-      gap: 20px;
+      gap: 14px;
       align-items: center;
-      border: 1px solid rgba(255,255,255,0.35);
-      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.32);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
       transition: 0.25s ease;
     }
+    
+    /* Hover 更有“小卡片浮起”感 */
     .edu-row:hover {
-      background: rgba(255,255,255,0.45); /* hover 更提亮 */
+      background: rgba(255,255,255,0.52);
       transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.18);
     }
     
-    /* 左侧 Logo */
+    /* 校徽尺寸变更精致 */
     .edu-left {
-      width: 70px;
-      min-width: 70px;
+      width: 54px;
+      min-width: 54px;
     }
     .edu-left img {
       width: 100%;
-      height: auto;
-      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.3)); /* Logo更立体 */
+      height: 100%;
+      object-fit: contain;
+      border-radius: 8px;
     }
     
-    /* 右侧文字增强 */
+    /* 内容区更紧凑、更可读 */
     .edu-right {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 2px;
     }
     .edu-right .title strong {
-      font-size: 15.5px;
-      color: #0f172a; /* 近黑、强调 */
+      font-size: 15px;
+      color: #0f172a;
       font-weight: 700;
     }
     .edu-right .meta {
-      font-size: 14px;
-      color: #334155; /* 更深灰，可读 */
+      font-size: 13px;
+      color: #4b5563;
     }
 
 
