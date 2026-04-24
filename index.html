@@ -4,25 +4,25 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zhang Zhenxuan | Homepage</title>
-  <meta name="description" content="Zhang Zhenxuan — Ph.D. student, Department of Bioengineering, Imperial College London. Medical image reconstruction, modality synthesis, and vision-language based clinical reasoning." />
+  <meta name="description" content="Zhang Zhenxuan — Ph.D. student, Department of Bioengineering, Imperial College London. Motion-robust MRI reconstruction, ultra-low-field MRI synthesis, and verifiable radiology report generation." />
   <meta name="theme-color" content="#0f172a" />
   <style>
     :root{
-    --bg:#0b1020;
-    --bg-glass:rgba(255,255,255,0.04);
-    --card:rgba(255,255,255,0.18); /* ✨卡片变亮玻璃 */
-    --muted:#374151; /* 更深灰 */
-    --text:#111827; /* 主文本变深色（深灰黑） */
-    --brand:#2563eb; /* 科技蓝 */
-    --accent:#0ea5e9;
-    --ring:rgba(37,99,235,.35);
-    --w:1200px;
-    --r:18px;
-    --blur:18px; /* 更柔和 */
-  }
+      --bg:#0b1020;
+      --bg-glass:rgba(255,255,255,0.04);
+      --card:rgba(255,255,255,0.18);
+      --muted:#374151;
+      --text:#111827;
+      --brand:#2563eb;
+      --accent:#0ea5e9;
+      --ring:rgba(37,99,235,.35);
+      --w:1200px;
+      --r:18px;
+      --blur:18px;
+      --venue:#1F3A5F;
+      --nav-h:60px;
+    }
 
-
-    /* 亮色模式可选 */
     @media (prefers-color-scheme: light){
       :root{
         --bg:#eef3f8;
@@ -38,6 +38,11 @@
 
     *{box-sizing:border-box;margin:0;padding:0}
 
+    html{
+      scroll-behavior:smooth;
+      scroll-padding-top:calc(var(--nav-h) + 16px);
+    }
+
     body{
       margin:0;
       font:16px/1.65 'Inter', system-ui, -apple-system, Segoe UI, Roboto;
@@ -49,36 +54,115 @@
     .page{
       max-width:var(--w);
       margin:0 auto;
-      padding:24px 16px 40px;
+      padding:0 16px 40px;
     }
 
-    /* 顶部导航 */
-    .nav{
+    /* ============= Sticky Top Nav ============= */
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:100;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      background:rgba(11,16,32,0.72);
+      border-bottom:1px solid rgba(255,255,255,0.08);
+      margin:0 -16px 24px;
+      padding:0 16px;
+    }
+
+    .topbar-inner{
+      max-width:var(--w);
+      margin:0 auto;
+      min-height:var(--nav-h);
       display:flex;
       align-items:center;
       justify-content:space-between;
-      margin-bottom:20px;
-    }
-    .logo{
-      font-weight:700;
-      font-size:20px;
-    }
-    .lang-switch button {
-      background: transparent;
-      border: 1px solid var(--brand);
-      color: var(--brand);
-      padding: 4px 10px;
-      margin-left: 8px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 13px;
-    }
-    .lang-switch button:hover {
-      background: var(--brand);
-      color: white;
+      gap:16px;
     }
 
-    /* 主布局：左侧信息 + 右侧内容 */
+    .logo{
+      font-weight:700;
+      font-size:18px;
+      color:#fff;
+      white-space:nowrap;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      flex-wrap:nowrap;
+      overflow-x:auto;
+      scrollbar-width:none;
+    }
+    .nav-links::-webkit-scrollbar{display:none}
+
+    .nav-links a{
+      color:#cbd5e1;
+      text-decoration:none;
+      font-size:13.5px;
+      font-weight:500;
+      padding:6px 12px;
+      border-radius:8px;
+      white-space:nowrap;
+      transition:all 0.2s ease;
+      position:relative;
+    }
+
+    .nav-links a:hover{
+      color:#fff;
+      background:rgba(255,255,255,0.08);
+    }
+
+    .nav-links a.active{
+      color:#fff;
+      background:rgba(37,99,235,0.32);
+    }
+
+    .lang-switch{
+      display:flex;
+      gap:4px;
+      flex-shrink:0;
+    }
+    .lang-switch button {
+      background:transparent;
+      border:1px solid rgba(37,99,235,0.55);
+      color:#93c5fd;
+      padding:4px 10px;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:12.5px;
+      transition:all 0.2s;
+    }
+    .lang-switch button:hover{
+      background:var(--brand);
+      color:white;
+    }
+    .lang-switch button.active{
+      background:var(--brand);
+      color:white;
+    }
+
+    @media(max-width:720px){
+      .topbar-inner{
+        flex-wrap:wrap;
+        padding:10px 0;
+        gap:8px;
+      }
+      .logo{font-size:16px}
+      .nav-links{
+        order:3;
+        width:100%;
+        overflow-x:auto;
+        padding-bottom:4px;
+      }
+      .nav-links a{
+        font-size:12.5px;
+        padding:5px 10px;
+      }
+    }
+
+    /* ============= Layout ============= */
     .layout{
       display:flex;
       gap:26px;
@@ -92,7 +176,7 @@
       flex-direction:column;
       gap:18px;
       position:sticky;
-      top:20px;
+      top:calc(var(--nav-h) + 16px);
     }
 
     .main{
@@ -100,23 +184,25 @@
       display:flex;
       flex-direction:column;
       gap:20px;
+      min-width:0;
     }
 
-    /* 通用卡片 */
     .card, section{
-    background:var(--card);
-    backdrop-filter:blur(var(--blur));
-    border-radius:var(--r);
-    padding:18px;
-    border:1px solid rgba(255,255,255,0.22);
-    box-shadow:0 8px 25px rgba(0,0,0,.22);
-  }
+      background:var(--card);
+      backdrop-filter:blur(var(--blur));
+      border-radius:var(--r);
+      padding:18px;
+      border:1px solid rgba(255,255,255,0.22);
+      box-shadow:0 8px 25px rgba(0,0,0,.22);
+    }
 
+    section{
+      scroll-margin-top:calc(var(--nav-h) + 16px);
+    }
 
-    /* 左侧头像卡片 - 圆形头像 */
     .headshot-card{
       padding:0;
-      width:180px;  /* 可根据需要调大小 */
+      width:180px;
       height:180px;
       margin:0 auto;
       background:rgba(255,255,255,0.22);
@@ -128,21 +214,20 @@
       border:2px solid rgba(255,255,255,0.5);
       backdrop-filter:blur(10px);
     }
-    
+
     .headshot{
       width:100%;
       height:100%;
       border-radius:50%;
       overflow:hidden;
     }
-    
+
     .headshot img{
       width:100%;
       height:100%;
       object-fit:cover;
       border-radius:50%;
     }
-
 
     .profile-name{
       font-size:26px;
@@ -164,6 +249,14 @@
       margin-bottom:10px;
     }
 
+    .profile-idline a{
+      color:var(--brand);
+      text-decoration:none;
+    }
+    .profile-idline a:hover{
+      text-decoration:underline;
+    }
+
     .tags{
       display:flex;
       flex-wrap:wrap;
@@ -179,8 +272,6 @@
       color:#c7dbff;
       white-space:nowrap;
     }
-
-    /* 右侧 section */
 
     h2{
       font-size:20px;
@@ -199,56 +290,8 @@
       gap:12px;
     }
 
-    .item{
-      padding:12px 10px;
-      border-radius:12px;
-      background:rgba(15,23,42,0.7);
-    }
-
-    .title{
-      font-size:14.5px;
-      font-weight:600;
-      margin-bottom:4px;
-    }
-
-    .meta{
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    /* publication 行：左图右文 */
-    .pub-row {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 0;
-      background:transparent;
-    }
-    .pub-left {
-      flex: 0 0 34%;
-      max-width: 34%;
-    }
-    .pub-left img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-      display: block;
-      object-fit: cover;
-    }
-    .pub-right {
-      flex: 1 1 66%;
-    }
-    .pub-right .title{
-      font-size:14.5px;
-      font-weight:600;
-      margin-bottom:4px;
-    }
-
-    /* Education 行：左logo右内容 */
-    /* 教育经历小卡片 */
-    /* 统一所有条目样式为小卡片 */
-    .item, 
-    .pub, 
+    .item,
+    .pub-row,
     .edu-row {
       background: rgba(255,255,255,0.38);
       border-radius: 14px;
@@ -261,78 +304,207 @@
       box-shadow: 0 4px 14px rgba(0,0,0,0.10);
       transition: 0.25s ease;
     }
-    
-    /* 统一悬浮效果 */
-    .item:hover, 
-    .pub:hover, 
+
+    .item:hover,
+    .pub-row:hover,
     .edu-row:hover {
       background: rgba(255,255,255,0.52);
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(0,0,0,0.18);
     }
-    
-    /* 调整 pub-row 布局以适配小卡片 */
+
+    .item.block {
+      display: block;
+    }
+
+    .title {
+      font-size:14.5px;
+      font-weight:600;
+      margin-bottom:4px;
+    }
+
+    .meta {
+      font-size:13px;
+      color:var(--muted);
+    }
+
     .pub-row {
       flex-direction: row;
     }
     .pub-left {
       width: 120px;
       min-width: 120px;
+      flex: 0 0 120px;
     }
     .pub-left img {
       width: 100%;
       border-radius: 10px;
       object-fit: cover;
+      display:block;
     }
     .pub-right {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 4px;
+      min-width:0;
     }
-    
-    /* 统一右侧文本样式 */
-    .title strong,
-    .title {
-      font-size: 15.5px;
-      font-weight: 700;
-      color: #0f172a;
+    .pub-right .title{
+      font-size:14.5px;
+      font-weight:650;
+      color:#0f172a;
+      line-height:1.4;
+      margin-bottom:2px;
     }
-    .meta {
-      font-size: 13px;
-      color: #475569;
+
+    .venue-badge{
+      display:inline-block;
+      padding:2px 8px;
+      border-radius:6px;
+      background:rgba(31,58,95,0.12);
+      color:var(--venue);
+      font-size:12px;
+      font-weight:600;
+      margin-left:4px;
+      white-space:nowrap;
     }
-    
-    /* 校徽尺寸变更精致 */
+    .venue-badge.top{
+      background:rgba(220,38,38,0.08);
+      color:#991b1b;
+    }
+    .venue-badge.oral{
+      background:rgba(217,119,6,0.10);
+      color:#92400e;
+    }
+    .venue-badge.review{
+      background:rgba(14,165,233,0.12);
+      color:#075985;
+    }
+    .venue-badge.preprint{
+      background:rgba(107,114,128,0.18);
+      color:#374151;
+    }
+
     .edu-left {
       width: 54px;
       min-width: 54px;
+      flex: 0 0 54px;
     }
     .edu-left img {
       width: 100%;
-      height: 100%;
+      height: auto;
       object-fit: contain;
       border-radius: 8px;
     }
-    
-    /* 内容区更紧凑、更可读 */
+
     .edu-right {
       display: flex;
       flex-direction: column;
       gap: 2px;
-    }
-    .edu-right .title strong {
-      font-size: 15px;
-      color: #0f172a;
-      font-weight: 700;
-    }
-    .edu-right .meta {
-      font-size: 13px;
-      color: #4b5563;
+      flex:1;
+      min-width:0;
     }
 
+    .res-item{
+      background:rgba(255,255,255,0.38);
+      border-radius:14px;
+      padding:14px 18px;
+      border:1px solid rgba(255,255,255,0.32);
+      backdrop-filter:blur(12px);
+      box-shadow:0 4px 14px rgba(0,0,0,0.10);
+      transition:0.25s ease;
+    }
+    .res-item:hover{
+      background:rgba(255,255,255,0.52);
+      transform:translateY(-2px);
+      box-shadow:0 6px 18px rgba(0,0,0,0.18);
+    }
+    .res-item .title{
+      font-size:15px;
+      font-weight:700;
+      color:#0f172a;
+      margin-bottom:2px;
+    }
+    .res-item .meta{
+      font-size:12.5px;
+      color:#4b5563;
+      margin-bottom:8px;
+    }
+    .res-item .desc{
+      font-size:13.5px;
+      color:#1f2937;
+      line-height:1.55;
+    }
+    .res-outcome{
+      margin-top:6px;
+      font-size:12.5px;
+      color:var(--venue);
+      font-style:italic;
+    }
 
-    /* skills 两列 */
+    /* ============= Publication Tabs ============= */
+    .pub-tabs{
+      display:flex;
+      gap:6px;
+      margin:4px 0 16px;
+      border-bottom:1px solid rgba(255,255,255,0.15);
+      padding-bottom:0;
+      flex-wrap:wrap;
+    }
+
+    .pub-tab{
+      padding:8px 16px;
+      font-size:14px;
+      font-weight:600;
+      color:#475569;
+      background:transparent;
+      border:none;
+      cursor:pointer;
+      border-bottom:2px solid transparent;
+      margin-bottom:-1px;
+      transition:all 0.2s ease;
+      display:flex;
+      align-items:center;
+      gap:6px;
+      white-space:nowrap;
+    }
+
+    .pub-tab:hover{
+      color:#0f172a;
+      background:rgba(255,255,255,0.15);
+      border-radius:8px 8px 0 0;
+    }
+
+    .pub-tab.active{
+      color:var(--brand);
+      border-bottom-color:var(--brand);
+    }
+
+    .pub-tab .count{
+      font-size:11.5px;
+      font-weight:700;
+      background:rgba(37,99,235,0.12);
+      color:var(--brand);
+      padding:1px 8px;
+      border-radius:999px;
+      min-width:22px;
+      text-align:center;
+    }
+
+    .pub-tab.active .count{
+      background:var(--brand);
+      color:white;
+    }
+
+    .pub-panel{
+      display:none;
+    }
+    .pub-panel.active{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
     .two-col{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -343,10 +515,9 @@
       margin-top:26px;
       text-align:center;
       font-size:13px;
-      color:var(--muted);
+      color:#9ca3af;
     }
 
-    /* 响应式 */
     @media(max-width:960px){
       .layout{
         flex-direction:column;
@@ -366,8 +537,8 @@
       .pub-left{
         flex-basis:auto;
         max-width:240px;
-        margin:0 auto;
         width:100%;
+        margin:0 auto;
       }
       .edu-row{
         flex-direction:column;
@@ -376,22 +547,40 @@
       .edu-left{
         max-width:90px;
       }
+      .pub-tab{
+        padding:6px 10px;
+        font-size:13px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="page">
-    <nav class="nav">
+
+  <header class="topbar">
+    <div class="topbar-inner">
       <div class="logo" data-en="Zhang Zhenxuan" data-zh="张振璇">Zhang Zhenxuan</div>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#about" data-en="About" data-zh="关于">About</a>
+        <a href="#education" data-en="Education" data-zh="教育">Education</a>
+        <a href="#research" data-en="Research" data-zh="科研">Research</a>
+        <a href="#publications" data-en="Publications" data-zh="论文">Publications</a>
+        <a href="#teaching" data-en="Teaching" data-zh="教学">Teaching</a>
+        <a href="#awards" data-en="Awards" data-zh="奖项">Awards</a>
+        <a href="#skills" data-en="Skills" data-zh="技能">Skills</a>
+      </nav>
+
       <div class="lang-switch">
-        <button onclick="switchLang('en')">EN</button>
-        <button onclick="switchLang('zh')">中文</button>
+        <button id="btnEn" class="active" onclick="switchLang('en')">EN</button>
+        <button id="btnZh" onclick="switchLang('zh')">中文</button>
       </div>
-    </nav>
+    </div>
+  </header>
+
+  <div class="page">
 
     <div class="layout">
 
-      <!-- 左侧信息栏 -->
       <aside class="sidebar">
 
         <div class="card headshot-card">
@@ -401,460 +590,447 @@
         </div>
 
         <div class="card">
-          <div class="profile-name" data-en="Zhang Zhenxuan" data-zh="张振璇">
-            Zhang Zhenxuan
-          </div>
+          <div class="profile-name" data-en="Zhang Zhenxuan" data-zh="张振璇">Zhang Zhenxuan</div>
           <div class="profile-subtitle"
-               data-en="Ph.D. Student · Department of Bioengineering, Imperial College London, UK"
-               data-zh="博士研究生 · 英国帝国理工学院 生物工程系">
-            Ph.D. Student · Department of Bioengineering, Imperial College London, UK
+               data-en="Second-year Ph.D. Student · Department of Bioengineering, Imperial College London, UK"
+               data-zh="博士二年级研究生 · 英国帝国理工学院 生物工程系">
+            Second-year Ph.D. Student · Department of Bioengineering, Imperial College London, UK
           </div>
 
           <div class="profile-idline">
-            <span data-en="Student ID: 06017159" data-zh="学号：06017159">Student ID: 06017159</span>
-            <span data-en="📞 +44-07880879565" data-zh="📞 +44-07880879565">📞 +44-07880879565</span>
-            <span data-en="✉️ Personal: vince126110@gmail.com" data-zh="✉️ 个人邮箱：vince126110@gmail.com">
-              ✉️ Personal: vince126110@gmail.com
-            </span>
-            <span data-en="✉️ Academic: z.zhenxuan24@imperial.ac.uk" data-zh="✉️ 学术邮箱：z.zhenxuan24@imperial.ac.uk">
-              ✉️ Academic: z.zhenxuan24@imperial.ac.uk
+            <span>📞 +44-07880879565</span>
+            <span>✉️ z.zhenxuan24@imperial.ac.uk</span>
+            <span>✉️ vince126110@gmail.com</span>
+            <span>
+              🎓 <a href="https://scholar.google.com/citations?user=8DvgcegAAAAJ" target="_blank">Google Scholar</a>
+              · <a href="https://github.com/" target="_blank">GitHub</a>
             </span>
           </div>
 
           <div class="tags">
-            <span class="tag" data-en="Medical Image Reconstruction" data-zh="医学图像重建">Medical Image Reconstruction</span>
+            <span class="tag" data-en="MRI Reconstruction" data-zh="MRI 重建">MRI Reconstruction</span>
             <span class="tag" data-en="Modality Synthesis" data-zh="模态合成">Modality Synthesis</span>
-            <span class="tag" data-en="Vision–Language Clinical Reasoning" data-zh="视觉-语言临床推理">Vision–Language Clinical Reasoning</span>
-            <span class="tag" data-en="LLM · INR · Diffusion" data-zh="大模型 · 隐式表示 · 扩散模型">LLM · INR · Diffusion</span>
+            <span class="tag" data-en="Agentic AI for Radiology" data-zh="放射 Agentic AI">Agentic AI for Radiology</span>
+            <span class="tag" data-en="LLM · INR · Diffusion" data-zh="大模型 · 隐式表征 · 扩散模型">LLM · INR · Diffusion</span>
           </div>
         </div>
 
       </aside>
 
-      <!-- 右侧主内容区 -->
       <main class="main">
 
-        <!-- About Me -->
         <section id="about">
           <h2 data-en="About Me" data-zh="关于我">About Me</h2>
           <div class="section-body">
             <p
-              data-en="I am a Ph.D. student at Imperial College London supervised by Dr. Guang Yang and Dr. Peter J. Lally. My research focuses on medical image reconstruction, modality synthesis, and vision-language-based clinical reasoning. I am particularly interested in integrating large language models, implicit neural representations, and diffusion models to develop agentic AI systems for MRI reconstruction and report generation. My recent works explore uncertainty-aware multi-task learning, interpretable radiology reporting, and cross-modal representation learning. I am passionate about advancing intelligent, transparent, and trustworthy AI for medical imaging applications."
-              data-zh="我目前在英国帝国理工学院攻读博士，导师为 Dr. Guang Yang 和 Dr. Peter J. Lally。我的研究方向包括医学图像重建、模态合成以及基于视觉-语言模型的临床推理。我特别关注将大语言模型、隐式神经表示和扩散模型结合起来，用于 MRI 重建与医学报告生成。我近期的研究涉及不确定性建模、多任务学习、可解释医学影像报告以及跨模态表示学习。我致力于推动智能、透明和可信赖的医学影像人工智能技术的发展。"
+              data-en="I am a second-year Ph.D. student at Imperial College London, supervised by Prof. Guang Yang and Prof. Peter J. Lally, funded by the China Scholarship Council. My research develops agentic AI for medical imaging along three threads: motion-robust MRI reconstruction with implicit neural representations (IEEE TIP 2026), ultra-low-field to high-field MRI synthesis via self-supervised diffusion (IEEE TMI 2026, ISBI 2026 Oral), and verifiable radiology report generation with large language models (AAAI 2026, MedIA 2025). My prior M.S. work at Sun Yat-sen University focused on echocardiography analysis (IEEE TMI 2024, MedIA 2025). I build methods that are label-efficient, uncertainty-aware, and clinically deployable, with the long-term goal of translating foundation-model-driven AI into trustworthy tools for real-world radiology workflows."
+              data-zh="帝国理工学院生物工程系博士二年级研究生，导师为 Guang Yang 教授与 Peter J. Lally 教授，由国家留学基金委（CSC）全额资助。研究方向聚焦于面向医学影像的 Agentic AI，目前在 IEEE TMI、IEEE TIP、Medical Image Analysis 三大医学影像与图像处理顶刊（均为 SCI 1 区 Top）以及 AAAI 等人工智能顶会上发表多篇论文。具体研究围绕三条主线展开：基于隐式神经表征的运动鲁棒 MRI 重建（IEEE TIP 2026）、基于自监督扩散模型的超低场到高场 MRI 合成（IEEE TMI 2026，ISBI 2026 Oral）、以及基于大语言模型的可验证放射报告生成（AAAI 2026，MedIA 2025）。硕士阶段在中山大学期间专注于超声心动图分析研究（IEEE TMI 2024，MedIA 2025）。致力于发展标签高效、不确定性感知、可临床部署的智能方法，长期目标是将基础模型驱动的 AI 转化为临床放射工作流中真正可信、可用的工具。"
             >
-              I am a Ph.D. student at Imperial College London supervised by Dr. Guang Yang and Dr. Peter J. Lally. My research focuses on medical image reconstruction, modality synthesis, and vision-language-based clinical reasoning. I am particularly interested in integrating large language models, implicit neural representations, and diffusion models to develop agentic AI systems for MRI reconstruction and report generation. My recent works explore uncertainty-aware multi-task learning, interpretable radiology reporting, and cross-modal representation learning. I am passionate about advancing intelligent, transparent, and trustworthy AI for medical imaging applications.
+              I am a second-year Ph.D. student at Imperial College London, supervised by Prof. Guang Yang and Prof. Peter J. Lally, funded by the China Scholarship Council. My research develops agentic AI for medical imaging along three threads: motion-robust MRI reconstruction with implicit neural representations (IEEE TIP 2026), ultra-low-field to high-field MRI synthesis via self-supervised diffusion (IEEE TMI 2026, ISBI 2026 Oral), and verifiable radiology report generation with large language models (AAAI 2026, MedIA 2025). My prior M.S. work at Sun Yat-sen University focused on echocardiography analysis (IEEE TMI 2024, MedIA 2025). I build methods that are label-efficient, uncertainty-aware, and clinically deployable, with the long-term goal of translating foundation-model-driven AI into trustworthy tools for real-world radiology workflows.
             </p>
           </div>
         </section>
 
-        <!-- Education -->
         <section id="education">
           <h2 data-en="Education" data-zh="教育经历">Education</h2>
           <div class="list">
 
-            <!-- PhD -->
-            <div class="item edu-row">
-              <div class="edu-left">
-                <img src="logo/Imperial.png" alt="Imperial College London">
-              </div>
+            <div class="edu-row">
+              <div class="edu-left"><img src="logo/Imperial.png" alt="Imperial College London"></div>
               <div class="edu-right">
-
                 <div class="title">
-                  <strong 
-                    data-en="Ph.D. in Bioengineering Research" 
-                    data-zh="生物工程博士（研究型）">
-                    Ph.D. in Bioengineering Research
-                  </strong>
+                  <strong data-en="Ph.D. in Bioengineering" data-zh="生物工程博士">Ph.D. in Bioengineering</strong>
                 </div>
-
                 <div class="meta"
-                  data-en="Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally"
+                  data-en="Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisors: Prof. Guang Yang and Prof. Peter J. Lally"
                   data-zh="英国帝国理工学院 生物工程系 · 2024 — 2028 · 导师：Guang Yang 教授、Peter J. Lally 教授">
-                  Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisor: Prof. Guang Yang and Prof. Peter J Lally
+                  Department of Bioengineering, Imperial College London · 2024 — 2028 · Supervisors: Prof. Guang Yang and Prof. Peter J. Lally
                 </div>
-
               </div>
             </div>
 
-            <!-- Master -->
-            <div class="item edu-row">
-              <div class="edu-left">
-                <img src="logo/sysu.jpeg" alt="Sun Yat-sen University">
-              </div>
+            <div class="edu-row">
+              <div class="edu-left"><img src="logo/sysu.jpeg" alt="Sun Yat-sen University"></div>
               <div class="edu-right">
-
                 <div class="title">
-                  <strong
-                    data-en="Master of Biological and Pharmaceutical Engineering"
-                    data-zh="生物与制药工程硕士">
-                    Master of Biological and Pharmaceutical Engineering
-                  </strong>
+                  <strong data-en="Master of Biological and Pharmaceutical Engineering" data-zh="生物与制药工程硕士">Master of Biological and Pharmaceutical Engineering</strong>
                 </div>
-
                 <div class="meta"
                   data-en="School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao"
                   data-zh="中山大学 生物医学工程学院 · 2021 — 2024 · 导师：张贺晔教授、高智凡教授">
                   School of Biomedical Engineering, Sun Yat-sen University · 2021 — 2024 · Supervisors: Prof. Heye Zhang and Prof. Zhifan Gao
                 </div>
-
               </div>
             </div>
 
-            <!-- Bachelor -->
-            <div class="item edu-row">
-              <div class="edu-left">
-                <img src="logo/sysu.jpeg" alt="Sun Yat-sen University">
-              </div>
+            <div class="edu-row">
+              <div class="edu-left"><img src="logo/sysu.jpeg" alt="Sun Yat-sen University"></div>
               <div class="edu-right">
-
                 <div class="title">
-                  <strong
-                    data-en="Bachelor of Biomedical Engineering"
-                    data-zh="生物医学工程学士">
-                    Bachelor of Biomedical Engineering
-                  </strong>
+                  <strong data-en="Bachelor of Biomedical Engineering" data-zh="生物医学工程学士">Bachelor of Biomedical Engineering</strong>
                 </div>
-
                 <div class="meta"
                   data-en="School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021"
                   data-zh="中山大学 生物医学工程学院 · 2017 — 2021">
                   School of Biomedical Engineering, Sun Yat-sen University · 2017 — 2021
                 </div>
-
               </div>
             </div>
 
           </div>
         </section>
 
-        <!-- Publication -->
-        <section id="publication">
-          <h2 data-en="Publication" data-zh="出版记录">Publication</h2>
+        <section id="research">
+          <h2 data-en="Research Experience" data-zh="科研经历">Research Experience</h2>
           <div class="list">
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/CSC.png" alt="Publication Image">
+            <div class="res-item">
+              <div class="title" data-en="Motion-Robust MRI Reconstruction via Implicit Neural Representations" data-zh="基于隐式神经表征的运动鲁棒 MRI 重建">Motion-Robust MRI Reconstruction via Implicit Neural Representations</div>
+              <div class="meta" data-en="Imperial College London · 2024 — present" data-zh="英国帝国理工学院 · 2024 — 至今">Imperial College London · 2024 — present</div>
+              <div class="desc"
+                data-en="Designed Progressive Refinement Implicit Neural Representation (PR-INR), which couples motion-aware diffusion for global structure recovery with implicit detail restoration for local fidelity, reconstructing 3D brain volumes from motion-corrupted 2D slices and outperforming state-of-the-art baselines across five public MRI datasets."
+                data-zh="提出渐进式精化隐式神经表征方法（PR-INR），将面向全局结构恢复的运动感知扩散模型与面向局部细节复原的隐式表征相结合，实现从运动损伤 2D 切片到 3D 脑部体数据的高质量重建，并在五个公开 MRI 数据集上全面超越现有 SOTA 方法。">
+                Designed Progressive Refinement Implicit Neural Representation (PR-INR), which couples motion-aware diffusion for global structure recovery with implicit detail restoration for local fidelity, reconstructing 3D brain volumes from motion-corrupted 2D slices and outperforming state-of-the-art baselines across five public MRI datasets.
               </div>
+              <div class="res-outcome" data-en="Outcome: IEEE Transactions on Image Processing, 2026." data-zh="成果：IEEE TIP, 2026。">Outcome: IEEE Transactions on Image Processing, 2026.</div>
+            </div>
+
+            <div class="res-item">
+              <div class="title" data-en="Ultra-Low-Field to High-Field MRI Synthesis for Point-of-Care Imaging" data-zh="面向便携式成像的超低场到高场 MRI 合成">Ultra-Low-Field to High-Field MRI Synthesis for Point-of-Care Imaging</div>
+              <div class="meta" data-en="Imperial College London · 2024 — present" data-zh="英国帝国理工学院 · 2024 — 至今">Imperial College London · 2024 — present</div>
+              <div class="desc"
+                data-en="Developed unpaired LF↔HF MRI translation methods for portable 0.05T scanners, including (i) a cyclic self-supervised diffusion model, (ii) a pretext-task adversarial learning framework, and (iii) reliability-guided selective generation that abstains on unreliable regions to reduce hallucination risk."
+                data-zh="针对便携式 0.05T 扫描仪，发展了一系列非配对的低场-高场 MRI 转换方法，包括：(i) 双向循环自监督扩散模型；(ii) 基于前置任务的对抗学习框架；(iii) 可靠性引导的选择性生成机制，可在不可靠区域进行拒答，降低临床幻觉风险。">
+                Developed unpaired LF↔HF MRI translation methods for portable 0.05T scanners, including (i) a cyclic self-supervised diffusion model, (ii) a pretext-task adversarial learning framework, and (iii) reliability-guided selective generation that abstains on unreliable regions to reduce hallucination risk.
+              </div>
+              <div class="res-outcome" data-en="Outcome: IEEE TMI 2026; two ISBI 2026 Oral presentations; MICCAI submission under review." data-zh="成果：IEEE TMI 2026；ISBI 2026 Oral 两篇；MICCAI 在审。">Outcome: IEEE TMI 2026; two ISBI 2026 Oral presentations; MICCAI submission under review.</div>
+            </div>
+
+            <div class="res-item">
+              <div class="title" data-en="Verifiable Radiology Report Generation with Large Language Models" data-zh="基于大语言模型的可验证放射报告生成">Verifiable Radiology Report Generation with Large Language Models</div>
+              <div class="meta" data-en="Imperial College London · 2024 — present" data-zh="英国帝国理工学院 · 2024 — 至今">Imperial College London · 2024 — present</div>
+              <div class="desc"
+                data-en="Built agentic LLM pipelines for interpretable report generation with practicing radiologists: GEMA-Score, a multi-agent framework that decomposes report quality into clinically meaningful sub-criteria, and 'Reason Like a Radiologist,' a chain-of-thought and reinforcement-learning pipeline producing checkable reasoning traces."
+                data-zh="与临床放射科医生合作，构建可解释、可验证的 Agentic LLM 报告生成流水线：其中 GEMA-Score 将报告质量分解为具有临床意义的多维度子指标，由多智能体协同评估；'Reason Like a Radiologist' 则通过思维链与强化学习生成可核查的推理轨迹。">
+                Built agentic LLM pipelines for interpretable report generation with practicing radiologists: GEMA-Score, a multi-agent framework that decomposes report quality into clinically meaningful sub-criteria, and "Reason Like a Radiologist," a chain-of-thought and reinforcement-learning pipeline producing checkable reasoning traces.
+              </div>
+              <div class="res-outcome" data-en="Outcome: AAAI 2026; Medical Image Analysis 2025 (co-first author)." data-zh="成果：AAAI 2026；MedIA 2025（共同一作）。">Outcome: AAAI 2026; Medical Image Analysis 2025 (co-first author).</div>
+            </div>
+
+            <div class="res-item">
+              <div class="title" data-en="Multi-Dimensional Echocardiography Analysis" data-zh="多维超声心动图分析">Multi-Dimensional Echocardiography Analysis</div>
+              <div class="meta" data-en="Sun Yat-sen University · 2021 — 2024" data-zh="中山大学 · 2021 — 2024">Sun Yat-sen University · 2021 — 2024</div>
+              <div class="desc"
+                data-en="Proposed a cross-space consistency framework embedding pixel-, image-, and sequence-level tasks into a unified latent space for cardiac function assessment (validated on 10,908 patients across five datasets), and a text-guided bidirectional reciprocal cycle framework for label-efficient cardiac segmentation."
+                data-zh="提出跨空间一致性框架，将像素级、图像级与序列级任务嵌入统一的潜空间，用于多维心功能评估（在 5 个数据集、10,908 例患者上验证），以及基于文本引导的双向循环框架，实现标签高效的心脏结构分割。">
+                Proposed a cross-space consistency framework embedding pixel-, image-, and sequence-level tasks into a unified latent space for cardiac function assessment (validated on 10,908 patients across five datasets), and a text-guided bidirectional reciprocal cycle framework for label-efficient cardiac segmentation.
+              </div>
+              <div class="res-outcome" data-en="Outcome: IEEE TMI 2024; Medical Image Analysis 2025." data-zh="成果：IEEE TMI 2024；MedIA 2025。">Outcome: IEEE TMI 2024; Medical Image Analysis 2025.</div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- ============= Publications (with tabs) ============= -->
+        <section id="publications">
+          <h2 data-en="Publications" data-zh="发表论文">Publications</h2>
+
+          <div class="pub-tabs" role="tablist">
+            <button class="pub-tab active" onclick="switchPubTab('published', this)" role="tab">
+              <span data-en="Published" data-zh="已发表">Published</span>
+              <span class="count">13</span>
+            </button>
+            <button class="pub-tab" onclick="switchPubTab('review', this)" role="tab">
+              <span data-en="Under Review" data-zh="审稿中">Under Review</span>
+              <span class="count">3</span>
+            </button>
+            <button class="pub-tab" onclick="switchPubTab('preprints', this)" role="tab">
+              <span data-en="Preprints" data-zh="预印本">Preprints</span>
+              <span class="count">7</span>
+            </button>
+          </div>
+
+          <!-- Published papers -->
+          <div class="pub-panel active" id="pub-published">
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/CSC.png" alt="Cross-Space Consistency"></div>
               <div class="pub-right">
                 <div class="title">Embedding Tasks into the Latent Space: Cross-Space Consistency for Multi-Dimensional Analysis in Echocardiography.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, C. Yu, H. Zhang, Z. Gao · <em>IEEE Transactions on Medical Imaging</em> 43(6):2215–2228, 2024 · <a href="https://doi.org/10.1109/TMI.2024.3362964" target="_blank">doi:10.1109/TMI.2024.3362964</a></div>
+                <div class="meta"><strong>Z. Zhang</strong>, C. Yu, H. Zhang, Z. Gao · <em>IEEE Transactions on Medical Imaging</em>, 43(6):2215–2228, 2024. <span class="venue-badge top">SCI 1区 Top · IF 9.8</span> · <a href="https://doi.org/10.1109/TMI.2024.3362964" target="_blank">doi:10.1109/TMI.2024.3362964</a></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/BRC.jpg" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/BRC.jpg" alt="BRC"></div>
               <div class="pub-right">
                 <div class="title">Bridging Multi-Level Gaps: Bidirectional Reciprocal Cycle Framework for Text-Guided Label-Efficient Segmentation in Echocardiography.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, H. Zhang, T. Zeng, G. Yang, Z. Gao · <em>Medical Image Analysis</em> 102:103536, May 2025 · <a href="https://doi.org/10.1016/j.media.2024.103536" target="_blank">doi:10.1016/j.media.2024.103536</a></div>
+                <div class="meta"><strong>Z. Zhang</strong>, H. Zhang, T. Zeng, G. Yang, Z. Shi, Z. Gao · <em>Medical Image Analysis</em>, 102:103536, May 2025. <span class="venue-badge top">SCI 1区 Top · IF 11.8</span> · <a href="https://doi.org/10.1016/j.media.2024.103536" target="_blank">doi:10.1016/j.media.2024.103536</a></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/gema-score.png" alt="Publication Image">
-              </div>
-              <div class="pub-right">
-                <div class="title">GEMA-Score: Granular Explainable Multi-Agent Score for Radiology Report Evaluation.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, K. Lee, W. Deng, H. Zhou, J. Jin, J. Huang, Z. Gao, D. C. Marshall, Y. Fang, G. Yang · <em>AAAI 2026 Poster</em> arXiv:2503.05347, 2025</div>
-              </div>
-            </div>
-
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/Box_Med_RL.png" alt="Publication Image">
-              </div>
-              <div class="pub-right">
-                <div class="title">Reason Like a Radiologist: Chain-of-Thought and Reinforcement Learning for Verifiable Report Generation.</div>
-                <div class="meta">P. Jing*, K. Lee*, <strong>Z. Zhang*</strong>, H. Zhou, Z. Yuan, Z. Gao, L. Zhu, G. Papanastasiou, Y. Fang, G. Yang <em>Medical Image Analysis</em>  arXiv:2504.18453, 2025</div>
-              </div>
-            </div>
-
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/MTRT_net.jpg" alt="Publication Image">
-              </div>
-              <div class="pub-right">
-                <div class="title">Multiple Token Rearrangement Transformer Network with Explicit Superpixel Constraint for Segmentation of Echocardiography.</div>
-                <div class="meta">W. Ding, H. Zhang, X. Liu, <strong>Z. Zhang</strong>, Z. Gao, L. Xu · <em>Medical Image Analysis</em> 102:103470, Jan 2025 · <a href="https://doi.org/10.1016/j.media.2024.103470" target="_blank">doi:10.1016/j.media.2024.103470</a></div>
-              </div>
-            </div>
-
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/fcvm.jpg" alt="Publication Image">
-              </div>
-              <div class="pub-right">
-                <div class="title">Artificial Intelligence-assisted Echocardiographic Monitoring in Pediatric Patients on Extracorporeal Membrane Oxygenation.</div>
-                <div class="meta">W. Chen, J. Wu, <strong>Z. Zhang</strong>, Z. Gao, X. Chen, Y. Zhang, Z. Lin, Z. Tang, W. Yu, S. Fan, H. Zhang, B. Xia · <em>Frontiers in Cardiovascular Medicine</em> 11:1418741, Dec 2024 · <a href="https://doi.org/10.3389/fcvm.2024.1418741" target="_blank">doi:10.3389/fcvm.2024.1418741</a></div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- Under Review -->
-        <section id="under-review">
-          <h2 data-en="Under Review" data-zh="审稿中">Under Review</h2>
-          <div class="list">
-
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/HRMC.png" alt="Publication Image">
-              </div>
-              <div class="pub-right">
-                <div class="title">Mining Implicit Expertise: Hierarchical Reversal Mutual Consistency for Learning Generalized Medical Visual Representations.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, H. Zhang, L. Gu, Z. Gao, G. Yang · Under Review: <em>IEEE TPAMI</em></div>
-              </div>
-            </div>
-
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/PR_INR.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/PR_INR.png" alt="PR-INR"></div>
               <div class="pub-right">
                 <div class="title">From Coarse to Continuous: Progressive Refinement Implicit Neural Representation for Motion-Robust Anisotropic MRI Reconstruction.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, L. Zhang, Y. Cheng, Z. Wang, F. Wang, H. Zhang, Y. Yang, Y. Wu, J. Huang, A. Aviles-Rivero, Z. Gao, G. Yang, P. J. Lally · Under Review: <em>IEEE TIP</em> · arXiv:2506.16210, 2025</div>
+                <div class="meta"><strong>Z. Zhang</strong>, L. Zhang, Y. Cheng, Z. Wang, F. Wang, H. Zhang, Y. Yang, Y. Wu, J. Huang, A. Aviles-Rivero, Z. Gao, G. Yang, P. J. Lally · <em>IEEE Transactions on Image Processing</em>, 35:3550–3565, 2026. <span class="venue-badge top">SCI 1区 Top · IF 13.7</span></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/CSS_DIFF.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/CSS_DIFF.png" alt="Cyclic Diffusion"></div>
               <div class="pub-right">
-                <div class="title">Cyclic Self-Supervised Diffusion for Ultra Low-field to High-field MRI Synthesis. </div>
-                <div class="meta"><strong>Z. Zhang</strong>, P. Jing*, Z. Wang, U. Briski, C. Beitone, Y. Yang, Y. Wu, F. Wang, L. Yang, J. Huang, Z. Gao, Z. Chen, K. T. Islam, G. Yang, P. J. Lally · Under Review: <em>IEEE TMI</em> · arXiv:2506.16210, 2025</div>
+                <div class="title">Cyclic Self-Supervised Diffusion for Ultra Low-field to High-field MRI Synthesis.</div>
+                <div class="meta"><strong>Z. Zhang*</strong>, P. Jing*, Z. Wang, U. Briski, C. Beitone, Y. Yang, Y. Wu, F. Wang, L. Yang, J. Huang, Z. Gao, Z. Chen, K. T. Islam, G. Yang, P. J. Lally · <em>IEEE Transactions on Medical Imaging</em>, 2026. (*co-first authors) <span class="venue-badge top">SCI 1区 Top · IF 9.8</span></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/GSD-Net.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/gema-score.png" alt="GEMA-Score"></div>
               <div class="pub-right">
-                <div class="title">From Noisy Labels to Intrinsic Structure: A Geometric-Structural Dual-Guided Framework for Noise-Robust Medical Image Segmentation.</div>
-                <div class="meta">T Wang*, <strong>Z. Zhang*</strong>, Y Zhou, X Zhang, Y Chen, T Tan, G Yang, T Tong · Under Review: <em>Medical Image Analysis</em></div>
+                <div class="title">GEMA-Score: Granular Explainable Multi-Agent Scoring Framework for Radiology Report Evaluation.</div>
+                <div class="meta"><strong>Z. Zhang</strong>, K. Lee, P. Jing, W. Deng, H. Zhou, Z. Jin, J. Huang, Z. Gao, D. C. Marshall, Y. Fang, G. Yang · <em>Proceedings of the AAAI Conference on Artificial Intelligence</em>, 40(15):13025–13033, 2026. <span class="venue-badge">CCF-A</span></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/ScribbleVS.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/Box_Med_RL.png" alt="Reason Like a Radiologist"></div>
               <div class="pub-right">
-                <div class="title">ScribbleVS: Scribble-Supervised Medical Image Segmentation via Dynamic Competitive Pseudo Label Selection.</div>
-                <div class="meta">T. Wang, X. Zhang, <strong>Z. Zhang</strong>, Y. Chen, Y. Zhou, L. Zhao, T. Tan, G. Yang, T. Tong · Under Review: <em>Medical Image Analysis</em></div>
+                <div class="title">Reason Like a Radiologist: Chain-of-Thought and Reinforcement Learning for Verifiable Report Generation.</div>
+                <div class="meta">P. Jing*, K. Lee*, <strong>Z. Zhang*</strong>, H. Zhou, Z. Yuan, Z. Gao, L. Zhu, G. Papanastasiou, Y. Fang, G. Yang · <em>Medical Image Analysis</em>, 109:103910, 2025. (*co-first authors) <span class="venue-badge top">SCI 1区 Top · IF 11.8</span></div>
               </div>
             </div>
 
-          </div>
-        </section>
-
-        <!-- Preprint -->
-        <section id="preprint">
-          <h2 data-en="Preprint" data-zh="预印本">Preprint</h2>
-          <div class="list">
-
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/TUCL.png" alt="Publication Image">
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/MTRT_net.jpg" alt="MTRT-Net"></div>
+              <div class="pub-right">
+                <div class="title">Multiple Token Rearrangement Transformer Network with Explicit Superpixel Constraint for Segmentation of Echocardiography.</div>
+                <div class="meta">W. Ding, H. Zhang, X. Liu, <strong>Z. Zhang</strong>, S. Zhuang, Z. Gao, L. Xu · <em>Medical Image Analysis</em>, 101:103470, 2025. <span class="venue-badge top">SCI 1区 Top · IF 11.8</span> · <a href="https://doi.org/10.1016/j.media.2024.103470" target="_blank">doi:10.1016/j.media.2024.103470</a></div>
               </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/fcvm.jpg" alt="FCVM"></div>
+              <div class="pub-right">
+                <div class="title">Artificial Intelligence-assisted Echocardiographic Monitoring in Pediatric Patients on Extracorporeal Membrane Oxygenation.</div>
+                <div class="meta">W. Chen, J. Wu, <strong>Z. Zhang</strong>, et al. · <em>Frontiers in Cardiovascular Medicine</em>, 11:1418741, Dec 2024. <span class="venue-badge">SCI 3区 · IF 2.9</span> · <a href="https://doi.org/10.3389/fcvm.2024.1418741" target="_blank">doi:10.3389/fcvm.2024.1418741</a></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/TUCL.png" alt="TUCL"></div>
               <div class="pub-right">
                 <div class="title">Task-oriented Uncertainty Collaborative Learning for Label-Efficient Brain Tumor Segmentation.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, H. Wu, J. Huang, B. Xie, Z. Gao, J. Du, P. Lally, G. Yang · arXiv:2503.05682, 2025</div>
+                <div class="meta"><strong>Z. Zhang</strong>, H. Wu, J. Huang, B. Xie, Z. Gao, J. Du, P. Lally, G. Yang · IEEE International Symposium on Biomedical Imaging (ISBI 2026). <span class="venue-badge oral">Oral</span></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/PTA_net.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/PTA_net.png" alt="PTA"></div>
               <div class="pub-right">
                 <div class="title">Pretext Task Adversarial Learning for Unpaired Low-field to Ultra High-field MRI Synthesis.</div>
-                <div class="meta"><strong>Z. Zhang</strong>, P. Jing, C. Beitone, J. Huang, Z. Gao, G. Yang, P. Lally · arXiv:2503.05339, 2025</div>
+                <div class="meta"><strong>Z. Zhang</strong>, P. Jing, C. Beitone, J. Huang, Z. Gao, G. Yang, P. Lally · IEEE International Symposium on Biomedical Imaging (ISBI 2026). <span class="venue-badge oral">Oral</span></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/ODEDM.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/MusicScore.png" alt="Musical Score"></div>
               <div class="pub-right">
-                <div class="title">Dynamic Dual Buffer with Divide-and-Conquer Strategy for Online Continual Learning.</div>
-                <div class="meta">C. Dai, H. Zhou, J. Huang, <strong>Z. Zhang</strong>, F. Wang, G. Yang, F. Ye · arXiv:2505.18101, 2025</div>
+                <div class="title">Musical Score Understanding Benchmark: Evaluating Large Language Models' Comprehension of Complete Musical Scores.</div>
+                <div class="meta">C. Dai, Y. Yang, K. Li, H. Zhou, S. Liang, Z. Bo, E. Liu, G. Jin, H. An, H. Zhang, <strong>Z. Zhang</strong>, et al. · Annual Meeting of the Association for Computational Linguistics (ACL). <span class="venue-badge">CCF-A</span></div>
               </div>
             </div>
 
-            <div class="item pub-row">
-              <div class="pub-left">
-                <img src="img_journal/Kronecker.png" alt="Publication Image">
-              </div>
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/Kronecker.png" alt="Hypercomplex MRI"></div>
               <div class="pub-right">
                 <div class="title">Lightweight Hypercomplex MRI Reconstruction: A Generalized Kronecker-Parameterized Approach.</div>
-                <div class="meta">H. Zhang, J. Huang, Y. Wu, C. Dai, F. Wang, <strong>Z. Zhang</strong>, G. Yang · arXiv:2503.05063, 2025</div>
+                <div class="meta">H. Zhang, J. Huang, Y. Wu, C. Dai, F. Wang, <strong>Z. Zhang</strong>, G. Yang · International Workshop on Machine Learning in Medical Imaging (MLMI), pp. 95–105, 2025.</div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/WaveletPET.png" alt="Wavelet PET"></div>
+              <div class="pub-right">
+                <div class="title">3D Wavelet-Based Structural Priors for Controlled Diffusion in Whole-Body Low-Dose PET Denoising.</div>
+                <div class="meta">P. Jing, Y. Yang, C.-W. Cheng, <strong>Z. Zhang</strong>, L. Yang, T. V. Lima, K. Strobel, A. Leimgruber, A. Aviles-Rivero, G. Yang, et al. · 28th International Conference on Pattern Recognition (ICPR 2026). <span class="venue-badge">CCF-C</span></div>
               </div>
             </div>
 
           </div>
+
+          <!-- Under Review -->
+          <div class="pub-panel" id="pub-review">
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/HRMC.png" alt="HRMC"></div>
+              <div class="pub-right">
+                <div class="title">Mining Implicit Expertise: Hierarchical Reversal Mutual Consistency for Learning Generalized Medical Visual Representations.</div>
+                <div class="meta"><strong>Z. Zhang</strong>, H. Zhang, L. Gu, Z. Gao, G. Yang · <span class="venue-badge review">Under Review · IEEE TPAMI</span></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/GSD-Net.png" alt="GSD-Net"></div>
+              <div class="pub-right">
+                <div class="title">From Noisy Labels to Intrinsic Structure: A Geometric-Structural Dual-Guided Framework for Noise-Robust Medical Image Segmentation.</div>
+                <div class="meta"><strong>Z. Zhang*</strong>, T. Wang*, Y. Zhou, X. Zhang, Y. Chen, T. Tan, G. Yang, T. Tong · <span class="venue-badge review">Under Review · Medical Image Analysis</span> (*co-first authors)</div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/ScribbleVS.png" alt="ScribbleVS"></div>
+              <div class="pub-right">
+                <div class="title">ScribbleVS: Scribble-Supervised Medical Image Segmentation via Dynamic Competitive Pseudo Label Selection.</div>
+                <div class="meta">T. Wang*, X. Zhang*, <strong>Z. Zhang</strong>, Y. Zhou, Y. Chen, L. Zhao, C. Xu, S. Chen, G. Yang, T. Tong · <span class="venue-badge review">Under Review · Medical Image Analysis</span> (*co-first authors)</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Preprints -->
+          <div class="pub-panel" id="pub-preprints">
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/Trustworthy.png" alt="Trustworthy"></div>
+              <div class="pub-right">
+                <div class="title">Towards Trustworthy Selective Generation: Reliability-Guided Diffusion for Ultra-Low-Field to High-Field MRI Synthesis.</div>
+                <div class="meta"><strong>Z. Zhang</strong>, P. Jing, R. Yuan, L. Hu, A. Wang, F. Wang, Y. Wu, K. T. Islam, Z. Chen, Z. Wang, et al. · <span class="venue-badge preprint">arXiv:2603.11325, 2026</span></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/ExpertsEyes.png" alt="Experts Eyes"></div>
+              <div class="pub-right">
+                <div class="title">Seeing Through Experts' Eyes: A Foundational Vision Language Model Trained on Radiologists' Gaze and Reasoning.</div>
+                <div class="meta">K. Lee, P. Jing, <strong>Z. Zhang†</strong>, Y. Yang, T. Wang, D. C. Marshall, Y. Fang, G. Yang · <span class="venue-badge preprint">arXiv:2604.14316, 2026</span> (†co-corresponding author)</div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/ODEDM.png" alt="Dual Buffer"></div>
+              <div class="pub-right">
+                <div class="title">Dynamic Dual Buffer with Divide-and-Conquer Strategy for Online Continual Learning.</div>
+                <div class="meta">C. Dai, H. Zhou, J. Huang, <strong>Z. Zhang</strong>, F. Wang, Y. Gao, G. Yang, F. Ye · <span class="venue-badge preprint">arXiv:2505.18101, 2025</span></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/MultiContrast.png" alt="Multi-Contrast SR"></div>
+              <div class="pub-right">
+                <div class="title">Decoupling Multi-Contrast Super-Resolution: Self-Supervised Implicit Re-Representation for Unpaired Cross-Modal Synthesis.</div>
+                <div class="meta">Y. Wu, H. Rui, F. Wang, J. Huang, <strong>Z. Zhang</strong>, H. Zhang, Z. Wang, G. Yang · <span class="venue-badge preprint">arXiv:2505.05855, 2025</span></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/MAPDiff.png" alt="MAP-Diff"></div>
+              <div class="pub-right">
+                <div class="title">MAP-Diff: Multi-Anchor Guided Diffusion for Progressive 3D Whole-Body Low-Dose PET Denoising.</div>
+                <div class="meta">P. Jing, C.-W. Cheng, L. Yang, <strong>Z. Zhang</strong>, T. V. Lima, K. Strobel, A. Leimgruber, A. Aviles-Rivero, G. Yang, J. A. Montoya-Zegarra · <span class="venue-badge preprint">arXiv:2603.02012, 2026</span></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/HRCT.png" alt="HRCT"></div>
+              <div class="pub-right">
+                <div class="title">Unleashing Video Language Models for Fine-grained HRCT Report Generation.</div>
+                <div class="meta">Y. Fang, H. Zhou, K. Lee, Y. Wang, <strong>Z. Zhang</strong>, J. Huang, G. Yang · <span class="venue-badge preprint">arXiv:2603.12469, 2026</span></div>
+              </div>
+            </div>
+
+            <div class="pub-row">
+              <div class="pub-left"><img src="img_journal/HiPath.png" alt="HiPath"></div>
+              <div class="pub-right">
+                <div class="title">HiPath: Hierarchical Vision-Language Alignment for Structured Pathology Report Prediction.</div>
+                <div class="meta">R. Yuan, <strong>Z. Zhang</strong>, A. Wang, L. Hu, X. Hua, Y. Peng, J. Luo, G. Yang · <span class="venue-badge preprint">arXiv:2603.19957, 2026</span></div>
+              </div>
+            </div>
+
+          </div>
+
         </section>
 
-        <!-- Teaching -->
         <section id="teaching">
           <h2 data-en="Teaching Experience" data-zh="教学经历">Teaching Experience</h2>
           <div class="list">
-        
-            <div class="item">
-              <div class="title" 
-                  data-en="Graduate Teaching Assistant — Image Processing"
-                  data-zh="研究生助教 — 图像处理课程">
-                  Graduate Teaching Assistant — Image Processing
-              </div>
-              <div class="meta"
-                  data-en="Imperial College London · Jan 2025 — Apr 2025"
-                  data-zh="帝国理工学院 · 2025年1月—2025年4月">
-                  Imperial College London · Jan 2025 — Apr 2025
-              </div>
-              <p data-en="Responsible for tutorial preparation, Q&A sessions, and exam paper marking."
-                data-zh="负责辅导课准备、答疑环节以及试卷批改工作。">
-                Responsible for tutorial preparation, Q&A sessions, and exam paper marking.
-              </p>
+
+            <div class="item block">
+              <div class="title" data-en="Graduate Teaching Assistant — Image Processing" data-zh="研究生助教 — 图像处理">Graduate Teaching Assistant — Image Processing</div>
+              <div class="meta" data-en="Imperial College London · Jan 2025 — Apr 2025" data-zh="帝国理工学院 · 2025年1月 — 2025年4月">Imperial College London · Jan 2025 — Apr 2025</div>
+              <p data-en="Responsible for tutorial preparation, Q&A sessions, and exam paper marking." data-zh="负责辅导课备课、答疑以及期末试卷批改。">Responsible for tutorial preparation, Q&A sessions, and exam paper marking.</p>
             </div>
-        
-            <div class="item">
-              <div class="title"
-                  data-en="Graduate Teaching Assistant — Trustworthy AI in Medical Analysis"
-                  data-zh="研究生助教 — 医学分析中的可信人工智能课程">
-                  Graduate Teaching Assistant — Trustworthy AI in Medical Analysis
-              </div>
-              <div class="meta"
-                  data-en="Imperial College London · Mar 2025 — May 2025"
-                  data-zh="帝国理工学院 · 2025年3月—2025年5月">
-                  Imperial College London · Mar 2025 — May 2025
-              </div>
-              <p data-en="Assisted in-class discussions and graded project reports."
-                data-zh="协助课堂讨论并负责项目报告评分。">
-                Assisted in-class discussions and graded project reports.
-              </p>
+
+            <div class="item block">
+              <div class="title" data-en="Graduate Teaching Assistant — Trustworthy AI in Medical Analysis" data-zh="研究生助教 — 医学分析中的可信 AI">Graduate Teaching Assistant — Trustworthy AI in Medical Analysis</div>
+              <div class="meta" data-en="Imperial College London · Mar 2025 — May 2025" data-zh="帝国理工学院 · 2025年3月 — 2025年5月">Imperial College London · Mar 2025 — May 2025</div>
+              <p data-en="Assisted in-class discussions and graded project reports." data-zh="协助课堂讨论组织与项目报告评分。">Assisted in-class discussions and graded project reports.</p>
             </div>
-        
-            <div class="item">
-              <div class="title"
-                  data-en="MSc Final Project Co-Supervisor"
-                  data-zh="硕士毕业项目联合指导教师">
-                  MSc Final Project Co-Supervisor
-              </div>
-              <div class="meta"
-                  data-en="Imperial College London · Jun 2025 — Sep 2025"
-                  data-zh="帝国理工学院 · 2025年6月—2025年9月">
-                  Imperial College London · Jun 2025 — Sep 2025
-              </div>
-              <p data-en="Supervised one student group (4 students) for their final MSc research project."
-                data-zh="指导一个4人学生小组完成硕士毕业科研项目。">
-                Supervised one student group (4 students) for their final MSc research project.
-              </p>
+
+            <div class="item block">
+              <div class="title" data-en="MSc Final Project Co-Supervisor" data-zh="硕士毕业项目联合指导教师">MSc Final Project Co-Supervisor</div>
+              <div class="meta" data-en="Imperial College London · Jun 2025 — Sep 2025" data-zh="帝国理工学院 · 2025年6月 — 2025年9月">Imperial College London · Jun 2025 — Sep 2025</div>
+              <p data-en="Co-supervised a group of 4 MSc students on their final research project." data-zh="指导一组 4 名硕士生完成毕业研究项目。">Co-supervised a group of 4 MSc students on their final research project.</p>
             </div>
-        
+
+            <div class="item block">
+              <div class="title" data-en="MSc Final Project Co-Supervisor" data-zh="硕士毕业项目联合指导教师">MSc Final Project Co-Supervisor</div>
+              <div class="meta" data-en="Imperial College London · Mar 2026 — Sep 2026" data-zh="帝国理工学院 · 2026年3月 — 2026年9月">Imperial College London · Mar 2026 — Sep 2026</div>
+              <p data-en="Co-supervised a group of 5 MSc students on their final research project." data-zh="指导一组 5 名硕士生完成毕业研究项目。">Co-supervised a group of 5 MSc students on their final research project.</p>
+            </div>
+
           </div>
         </section>
 
-        <!-- Awards -->
         <section id="awards">
-          <h2 data-en="Award" data-zh="奖项">Award</h2>
+          <h2 data-en="Awards &amp; Grants" data-zh="奖项与项目资助">Awards &amp; Grants</h2>
           <div class="list">
 
-            <div class="item">
-              <div class="title"
-                  data-en="Sun Yat-sen University Scholarship"
-                  data-zh="中山大学奖学金">
-                  Sun Yat-sen University Scholarship
-              </div>
-              <div class="meta"
-                  data-en="Sep 2021 — Jun 2022 · First Prize"
-                  data-zh="2021年9月—2022年6月 · 一等奖">
-                  Sep 2021 — Jun 2022 · First Prize
-              </div>
+            <div class="item block">
+              <div class="title" data-en="Isambard-AI Compute Grant · UK AI Research Resource (AIRR)" data-zh="Isambard-AI 算力资助 · 英国 AIRR 国家级 AI 算力平台">Isambard-AI Compute Grant · UK AI Research Resource (AIRR)</div>
+              <div class="meta" data-en="2025 · DSIT / UKRI" data-zh="2025 · DSIT / UKRI">2025 · DSIT / UKRI</div>
+              <p data-en="Awarded 800,000 GPU hours on Isambard-AI via the DSIT/UKRI AIRR open call for the project 'AI-Enhanced MRI Reconstruction and Diagnostic Modeling Across Magnetic Field Strengths' (PI: Prof. Guang Yang; co-PI of the winning proposal). Selected among the strongest proposals in a highly competitive open call."
+                 data-zh="获 DSIT/UKRI AIRR 开放征集项目资助，于 Isambard-AI 平台获得 80 万 GPU 小时算力配额，用于研究课题 'AI-Enhanced MRI Reconstruction and Diagnostic Modeling Across Magnetic Field Strengths'（项目负责人：Guang Yang 教授；本人为中标提案的共同申请人）。该项目在高度竞争的开放征集中被评为最优提案之一。">
+                Awarded <strong>800,000 GPU hours</strong> on Isambard-AI via the DSIT/UKRI AIRR open call for the project "AI-Enhanced MRI Reconstruction and Diagnostic Modeling Across Magnetic Field Strengths" (PI: Prof. Guang Yang; co-PI of the winning proposal). Selected among the strongest proposals in a highly competitive open call.
+              </p>
             </div>
 
-            <div class="item">
-              <div class="title"
-                  data-en="Sun Yat-sen University Scholarship"
-                  data-zh="中山大学奖学金">
-                  Sun Yat-sen University Scholarship
-              </div>
-              <div class="meta"
-                  data-en="Sep 2022 — Jun 2023 · Second Prize"
-                  data-zh="2022年9月—2023年6月 · 二等奖">
-                  Sep 2022 — Jun 2023 · Second Prize
-              </div>
+            <div class="item block">
+              <div class="title" data-en="National CSC Scholarship" data-zh="国家公派留学奖学金（CSC）">National CSC Scholarship</div>
+              <div class="meta" data-en="2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study, full funding for Ph.D. studies at Imperial College London." data-zh="2024 — 2028 · 国家留学基金委（CSC）公派博士奖学金，全额资助于英国帝国理工学院攻读博士学位。">2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study, full funding for Ph.D. studies at Imperial College London.</div>
             </div>
 
-            <div class="item">
-              <div class="title"
-                  data-en="National CSC Scholarship"
-                  data-zh="国家留基委奖学金（CSC）">
-                  National CSC Scholarship
-              </div>
-              <div class="meta"
-                  data-en="2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study"
-                  data-zh="2024—2028 · 国家留学基金委（CSC）海外博士奖学金">
-                  2024 — 2028 · China Scholarship Council (CSC) Ph.D. Scholarship for Overseas Study
-              </div>
+            <div class="item block">
+              <div class="title" data-en="Sun Yat-sen University Scholarship" data-zh="中山大学奖学金">Sun Yat-sen University Scholarship</div>
+              <div class="meta" data-en="Sep 2022 — Jun 2023 · Second Prize" data-zh="2022年9月 — 2023年6月 · 二等奖">Sep 2022 — Jun 2023 · Second Prize</div>
             </div>
 
-            <div class="item">
-              <div class="title"
-                  data-en="The 5th National Undergraduate Biomedical Engineering Innovation Design Competition"
-                  data-zh="第五届全国大学生生物医学工程创新设计竞赛">
-                  The 5th National Undergraduate Biomedical Engineering Innovation Design Competition
-              </div>
-              <div class="meta"
-                  data-en="Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images"
-                  data-zh="2019年1月—2019年5月 · 三等奖 · 脊柱MRI图像自动分割算法">
-                  Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images
-              </div>
+            <div class="item block">
+              <div class="title" data-en="Sun Yat-sen University Scholarship" data-zh="中山大学奖学金">Sun Yat-sen University Scholarship</div>
+              <div class="meta" data-en="Sep 2021 — Jun 2022 · First Prize" data-zh="2021年9月 — 2022年6月 · 一等奖">Sep 2021 — Jun 2022 · First Prize</div>
+            </div>
+
+            <div class="item block">
+              <div class="title" data-en="The 5th National Undergraduate Biomedical Engineering Innovation Design Competition" data-zh="第五届全国大学生生物医学工程创新设计竞赛">The 5th National Undergraduate Biomedical Engineering Innovation Design Competition</div>
+              <div class="meta" data-en="Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images" data-zh="2019年1月 — 2019年5月 · 三等奖 · 脊柱 MRI 图像自动分割算法">Jan — May 2019 · Third Prize · Automatic segmentation algorithm for spine MRI images</div>
             </div>
 
           </div>
         </section>
 
-        <!-- Skills -->
         <section id="skills">
-          <h2 data-en="Technical Skills and Interests" data-zh="技术技能与研究兴趣">
-            Technical Skills and Interests
-          </h2>
-
+          <h2 data-en="Technical Skills &amp; Interests" data-zh="技能与研究兴趣">Technical Skills &amp; Interests</h2>
           <div class="two-col">
 
-            <div class="item">
-              <p data-en="Languages: English, Chinese, Cantonese, Hakka"
-                data-zh="语言：英语、普通话、粤语、客家话">
-                <strong>Languages:</strong> English, Chinese, Cantonese, Hakka
-              </p>
-
-              <p data-en="Programming Languages: Python, C/C++, Matlab"
-                data-zh="编程语言：Python、C/C++、Matlab">
-                <strong>Programming Languages:</strong> Python, C/C++, Matlab
-              </p>
-
-              <p data-en="Deep Learning Frameworks: Pytorch, Tensorflow, Keras"
-                data-zh="深度学习框架：Pytorch、Tensorflow、Keras">
-                <strong>Deep Learning Frameworks:</strong> Pytorch, Tensorflow, Keras
-              </p>
+            <div class="item block">
+              <p data-en="Languages: English, Chinese, Cantonese, Hakka" data-zh="语言：英语、普通话、粤语、客家话"><strong>Languages:</strong> English, Chinese, Cantonese, Hakka</p>
+              <p data-en="Programming Languages: Python, C/C++, MATLAB" data-zh="编程语言：Python, C/C++, MATLAB"><strong>Programming Languages:</strong> Python, C/C++, MATLAB</p>
+              <p data-en="Deep Learning Frameworks: PyTorch, TensorFlow" data-zh="深度学习框架：PyTorch, TensorFlow"><strong>Deep Learning Frameworks:</strong> PyTorch, TensorFlow</p>
             </div>
 
-            <div class="item">
-              <p data-en="Areas of Interest: Deep Learning, Multi-task Learning, Representation Learning, Active Learning"
-                data-zh="研究兴趣：深度学习、多任务学习、表示学习、主动学习">
-                <strong>Areas of Interest:</strong> Deep Learning, Multi-task Learning, Representation Learning, Active Learning
-              </p>
-
-              <p data-en="Soft Skills: Problem Solving, Self-learning, Presentation, Adaptability"
-                data-zh="软技能：解决问题、自主学习、演讲表达、适应能力">
-                <strong>Soft Skills:</strong> Problem Solving, Self-learning, Presentation, Adaptability
-              </p>
+            <div class="item block">
+              <p data-en="Areas of Interest: MRI Reconstruction, Modality Synthesis, Vision-Language Modeling, Agentic AI" data-zh="研究兴趣：MRI 重建、模态合成、视觉-语言建模、Agentic AI"><strong>Areas of Interest:</strong> MRI Reconstruction, Modality Synthesis, Vision-Language Modeling, Agentic AI</p>
+              <p data-en="Methods: Implicit Neural Representations, Diffusion Models, Large Language Models, Uncertainty-Aware Learning" data-zh="方法论：隐式神经表征、扩散模型、大语言模型、不确定性感知学习"><strong>Methods:</strong> Implicit Neural Representations, Diffusion Models, Large Language Models, Uncertainty-Aware Learning</p>
             </div>
 
           </div>
@@ -869,17 +1045,50 @@
   </div>
 
   <script>
-    document.getElementById('y').textContent=new Date().getFullYear();
+    document.getElementById('y').textContent = new Date().getFullYear();
 
+    // ============= Language switch =============
     function switchLang(lang) {
       document.querySelectorAll('[data-en]').forEach(el => {
-        if (lang === 'en') {
-          el.textContent = el.dataset.en;
-        } else {
-          el.textContent = el.dataset.zh;
-        }
+        el.textContent = (lang === 'en') ? el.dataset.en : el.dataset.zh;
+      });
+      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+      document.getElementById('btnZh').classList.toggle('active', lang === 'zh');
+      document.documentElement.lang = (lang === 'en') ? 'en' : 'zh-CN';
+    }
+
+    // ============= Publication tabs =============
+    function switchPubTab(key, btn) {
+      document.querySelectorAll('.pub-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.pub-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('pub-' + key).classList.add('active');
+    }
+
+    // ============= Nav highlight on scroll =============
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    function updateActiveLink() {
+      const scrollPos = window.scrollY + 120;
+      let current = '';
+      sections.forEach(sec => {
+        if (scrollPos >= sec.offsetTop) current = sec.id;
+      });
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + current);
       });
     }
+    window.addEventListener('scroll', updateActiveLink, { passive: true });
+    updateActiveLink();
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        setTimeout(() => {
+          link.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }, 300);
+      });
+    });
   </script>
 </body>
 </html>
