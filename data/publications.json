@@ -1,0 +1,454 @@
+{
+  "generated": "2026-09-18T15:44:55+00:00",
+  "source": "openalex",
+  "note": "Rebuilt by scripts/update_publications.py. Hand edits belong in publications.manual.json.",
+  "items": [
+    {
+      "id": "cyclic-diffusion-ulf",
+      "title": "Cyclic Self-Supervised Diffusion for Ultra Low-field to High-field MRI Synthesis",
+      "authors": "**Z. Zhang\\***, P. Jing\\*, Z. Wang, U. Briski, C. Beitone, Y. Yang, Y. Wu, F. Wang, L. Yang, J. Huang, Z. Gao, Z. Chen, K. T. Islam, G. Yang, P. J. Lally",
+      "venue": "IEEE Transactions on Medical Imaging",
+      "detail": "",
+      "year": 2026,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 1区 Top · IF 9.8",
+          "kind": "top"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/CSS_DIFF.png",
+      "citations": null,
+      "note": "*co-first authors",
+      "highlight": true
+    },
+    {
+      "id": "pr-inr",
+      "title": "From Coarse to Continuous: Progressive Refinement Implicit Neural Representation for Motion-Robust Anisotropic MRI Reconstruction",
+      "authors": "**Z. Zhang**, L. Zhang, Y. Cheng, Z. Wang, F. Wang, H. Zhang, Y. Yang, Y. Wu, J. Huang, A. Aviles-Rivero, Z. Gao, G. Yang, P. J. Lally",
+      "venue": "IEEE Transactions on Image Processing",
+      "detail": "35:3550–3565",
+      "year": 2026,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 1区 Top · IF 13.7",
+          "kind": "top"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/PR_INR.png",
+      "citations": null,
+      "highlight": true,
+      "note": ""
+    },
+    {
+      "id": "gema-score",
+      "title": "GEMA-Score: Granular Explainable Multi-Agent Scoring Framework for Radiology Report Evaluation",
+      "authors": "**Z. Zhang**, K. Lee, P. Jing, W. Deng, H. Zhou, Z. Jin, J. Huang, Z. Gao, D. C. Marshall, Y. Fang, G. Yang",
+      "venue": "Proceedings of the AAAI Conference on Artificial Intelligence",
+      "detail": "40(15):13025–13033",
+      "year": 2026,
+      "status": "published",
+      "type": "conference",
+      "badges": [
+        {
+          "text": "CCF-A",
+          "kind": "rank"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/gema-score.png",
+      "citations": null,
+      "highlight": true,
+      "note": ""
+    },
+    {
+      "id": "wavelet-pet",
+      "title": "3D Wavelet-Based Structural Priors for Controlled Diffusion in Whole-Body Low-Dose PET Denoising",
+      "authors": "P. Jing, Y. Yang, C.-W. Cheng, **Z. Zhang**, L. Yang, T. V. Lima, K. Strobel, A. Leimgruber, A. Aviles-Rivero, G. Yang, et al.",
+      "venue": "International Conference on Pattern Recognition (ICPR)",
+      "detail": "28th",
+      "year": 2026,
+      "status": "published",
+      "type": "conference",
+      "badges": [
+        {
+          "text": "CCF-C",
+          "kind": "rank"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/WaveletPET.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "gsd-net",
+      "title": "From Noisy Labels to Intrinsic Structure: A Geometric-Structural Dual-Guided Framework for Noise-Robust Medical Image Segmentation",
+      "authors": "**Z. Zhang\\***, T. Wang\\*, Y. Zhou, X. Zhang, Y. Chen, T. Tan, G. Yang, T. Tong",
+      "venue": "Under review",
+      "detail": "Medical Image Analysis",
+      "year": 2026,
+      "status": "review",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "Under review · Medical Image Analysis",
+          "kind": "review"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/GSD-Net.png",
+      "citations": null,
+      "note": "*co-first authors"
+    },
+    {
+      "id": "hipath",
+      "title": "HiPath: Hierarchical Vision-Language Alignment for Structured Pathology Report Prediction",
+      "authors": "R. Yuan, **Z. Zhang**, A. Wang, L. Hu, X. Hua, Y. Peng, J. Luo, G. Yang",
+      "venue": "arXiv",
+      "detail": "arXiv:2603.19957",
+      "year": 2026,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2603.19957",
+      "thumb": "img_journal/HiPath.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "map-diff",
+      "title": "MAP-Diff: Multi-Anchor Guided Diffusion for Progressive 3D Whole-Body Low-Dose PET Denoising",
+      "authors": "P. Jing, C.-W. Cheng, L. Yang, **Z. Zhang**, T. V. Lima, K. Strobel, A. Leimgruber, A. Aviles-Rivero, G. Yang, J. A. Montoya-Zegarra",
+      "venue": "arXiv",
+      "detail": "arXiv:2603.02012",
+      "year": 2026,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2603.02012",
+      "thumb": "img_journal/MAPDiff.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "hrmc",
+      "title": "Mining Implicit Expertise: Hierarchical Reversal Mutual Consistency for Learning Generalized Medical Visual Representations",
+      "authors": "**Z. Zhang**, H. Zhang, L. Gu, Z. Gao, G. Yang",
+      "venue": "Under review",
+      "detail": "IEEE TPAMI",
+      "year": 2026,
+      "status": "review",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "Under review · IEEE TPAMI",
+          "kind": "review"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/HRMC.png",
+      "citations": null
+    },
+    {
+      "id": "music-score-benchmark",
+      "title": "Musical Score Understanding Benchmark: Evaluating Large Language Models' Comprehension of Complete Musical Scores",
+      "authors": "C. Dai, Y. Yang, K. Li, H. Zhou, S. Liang, Z. Bo, E. Liu, G. Jin, H. An, H. Zhang, **Z. Zhang**, et al.",
+      "venue": "Annual Meeting of the Association for Computational Linguistics (ACL)",
+      "detail": "",
+      "year": 2026,
+      "status": "published",
+      "type": "conference",
+      "badges": [
+        {
+          "text": "CCF-A",
+          "kind": "rank"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/MusicScore.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "pretext-task-adversarial",
+      "title": "Pretext Task Adversarial Learning for Unpaired Low-field to Ultra High-field MRI Synthesis",
+      "authors": "**Z. Zhang**, P. Jing, C. Beitone, J. Huang, Z. Gao, G. Yang, P. J. Lally",
+      "venue": "IEEE International Symposium on Biomedical Imaging (ISBI)",
+      "detail": "",
+      "year": 2026,
+      "status": "published",
+      "type": "conference",
+      "badges": [
+        {
+          "text": "Oral",
+          "kind": "oral"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/PTA_net.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "scribblevs",
+      "title": "ScribbleVS: Scribble-Supervised Medical Image Segmentation via Dynamic Competitive Pseudo Label Selection",
+      "authors": "T. Wang\\*, X. Zhang\\*, **Z. Zhang**, Y. Zhou, Y. Chen, L. Zhao, C. Xu, S. Chen, G. Yang, T. Tong",
+      "venue": "Under review",
+      "detail": "Medical Image Analysis",
+      "year": 2026,
+      "status": "review",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "Under review · Medical Image Analysis",
+          "kind": "review"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/ScribbleVS.png",
+      "citations": null,
+      "note": "*co-first authors"
+    },
+    {
+      "id": "experts-eyes",
+      "title": "Seeing Through Experts' Eyes: A Foundational Vision Language Model Trained on Radiologists' Gaze and Reasoning",
+      "authors": "K. Lee, P. Jing, **Z. Zhang†**, Y. Yang, T. Wang, D. C. Marshall, Y. Fang, G. Yang",
+      "venue": "arXiv",
+      "detail": "arXiv:2604.14316",
+      "year": 2026,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2604.14316",
+      "thumb": "img_journal/ExpertsEyes.png",
+      "citations": null,
+      "note": "†co-corresponding author"
+    },
+    {
+      "id": "tucl-brain-tumor",
+      "title": "Task-oriented Uncertainty Collaborative Learning for Label-Efficient Brain Tumor Segmentation",
+      "authors": "**Z. Zhang**, H. Wu, J. Huang, B. Xie, Z. Gao, J. Du, P. J. Lally, G. Yang",
+      "venue": "IEEE International Symposium on Biomedical Imaging (ISBI)",
+      "detail": "",
+      "year": 2026,
+      "status": "published",
+      "type": "conference",
+      "badges": [
+        {
+          "text": "Oral",
+          "kind": "oral"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/TUCL.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "trustworthy-selective-generation",
+      "title": "Towards Trustworthy Selective Generation: Reliability-Guided Diffusion for Ultra-Low-Field to High-Field MRI Synthesis",
+      "authors": "**Z. Zhang**, P. Jing, R. Yuan, L. Hu, A. Wang, F. Wang, Y. Wu, K. T. Islam, Z. Chen, Z. Wang, et al.",
+      "venue": "arXiv",
+      "detail": "arXiv:2603.11325",
+      "year": 2026,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2603.11325",
+      "thumb": "img_journal/Trustworthy.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "hrct-report",
+      "title": "Unleashing Video Language Models for Fine-grained HRCT Report Generation",
+      "authors": "Y. Fang, H. Zhou, K. Lee, Y. Wang, **Z. Zhang**, J. Huang, G. Yang",
+      "venue": "arXiv",
+      "detail": "arXiv:2603.12469",
+      "year": 2026,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2603.12469",
+      "thumb": "img_journal/HRCT.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "brc-echo",
+      "title": "Bridging Multi-Level Gaps: Bidirectional Reciprocal Cycle Framework for Text-Guided Label-Efficient Segmentation in Echocardiography",
+      "authors": "**Z. Zhang**, H. Zhang, T. Zeng, G. Yang, Z. Shi, Z. Gao",
+      "venue": "Medical Image Analysis",
+      "detail": "102:103536",
+      "year": 2025,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 1区 Top · IF 11.8",
+          "kind": "top"
+        }
+      ],
+      "doi": "10.1016/j.media.2024.103536",
+      "url": "https://doi.org/10.1016/j.media.2024.103536",
+      "thumb": "img_journal/BRC.jpg",
+      "citations": null,
+      "highlight": true,
+      "note": ""
+    },
+    {
+      "id": "multi-contrast-sr",
+      "title": "Decoupling Multi-Contrast Super-Resolution: Self-Supervised Implicit Re-Representation for Unpaired Cross-Modal Synthesis",
+      "authors": "Y. Wu, H. Rui, F. Wang, J. Huang, **Z. Zhang**, H. Zhang, Z. Wang, G. Yang",
+      "venue": "arXiv",
+      "detail": "arXiv:2505.05855",
+      "year": 2025,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2505.05855",
+      "thumb": "img_journal/MultiContrast.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "dual-buffer-continual",
+      "title": "Dynamic Dual Buffer with Divide-and-Conquer Strategy for Online Continual Learning",
+      "authors": "C. Dai, H. Zhou, J. Huang, **Z. Zhang**, F. Wang, Y. Gao, G. Yang, F. Ye",
+      "venue": "arXiv",
+      "detail": "arXiv:2505.18101",
+      "year": 2025,
+      "status": "preprint",
+      "type": "preprint",
+      "badges": [],
+      "doi": "",
+      "url": "https://arxiv.org/abs/2505.18101",
+      "thumb": "img_journal/ODEDM.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "hypercomplex-kronecker",
+      "title": "Lightweight Hypercomplex MRI Reconstruction: A Generalized Kronecker-Parameterized Approach",
+      "authors": "H. Zhang, J. Huang, Y. Wu, C. Dai, F. Wang, **Z. Zhang**, G. Yang",
+      "venue": "International Workshop on Machine Learning in Medical Imaging (MLMI)",
+      "detail": "pp. 95–105",
+      "year": 2025,
+      "status": "published",
+      "type": "conference",
+      "badges": [],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/Kronecker.png",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "mtrt-net",
+      "title": "Multiple Token Rearrangement Transformer Network with Explicit Superpixel Constraint for Segmentation of Echocardiography",
+      "authors": "W. Ding, H. Zhang, X. Liu, **Z. Zhang**, S. Zhuang, Z. Gao, L. Xu",
+      "venue": "Medical Image Analysis",
+      "detail": "101:103470",
+      "year": 2025,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 1区 Top · IF 11.8",
+          "kind": "top"
+        }
+      ],
+      "doi": "10.1016/j.media.2024.103470",
+      "url": "https://doi.org/10.1016/j.media.2024.103470",
+      "thumb": "img_journal/MTRT_net.jpg",
+      "citations": null,
+      "note": ""
+    },
+    {
+      "id": "reason-like-radiologist",
+      "title": "Reason Like a Radiologist: Chain-of-Thought and Reinforcement Learning for Verifiable Report Generation",
+      "authors": "P. Jing\\*, K. Lee\\*, **Z. Zhang\\***, H. Zhou, Z. Yuan, Z. Gao, L. Zhu, G. Papanastasiou, Y. Fang, G. Yang",
+      "venue": "Medical Image Analysis",
+      "detail": "109:103910",
+      "year": 2025,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 1区 Top · IF 11.8",
+          "kind": "top"
+        }
+      ],
+      "doi": "",
+      "url": "",
+      "thumb": "img_journal/Box_Med_RL.png",
+      "citations": null,
+      "note": "*co-first authors"
+    },
+    {
+      "id": "cross-space-consistency",
+      "title": "Embedding Tasks into the Latent Space: Cross-Space Consistency for Multi-Dimensional Analysis in Echocardiography",
+      "authors": "**Z. Zhang**, C. Yu, H. Zhang, Z. Gao",
+      "venue": "IEEE Transactions on Medical Imaging",
+      "detail": "43(6):2215–2228",
+      "year": 2024,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 1区 Top · IF 9.8",
+          "kind": "top"
+        }
+      ],
+      "doi": "10.1109/TMI.2024.3362964",
+      "url": "https://doi.org/10.1109/TMI.2024.3362964",
+      "thumb": "img_journal/CSC.png",
+      "citations": null,
+      "highlight": true,
+      "note": ""
+    },
+    {
+      "id": "ecmo-echo",
+      "title": "Artificial Intelligence-assisted Echocardiographic Monitoring in Pediatric Patients on Extracorporeal Membrane Oxygenation",
+      "authors": "W. Chen, J. Wu, **Z. Zhang**, et al.",
+      "venue": "Frontiers in Cardiovascular Medicine",
+      "detail": "11:1418741",
+      "year": 2024,
+      "status": "published",
+      "type": "journal",
+      "badges": [
+        {
+          "text": "SCI 3区 · IF 2.9",
+          "kind": "plain"
+        }
+      ],
+      "doi": "10.3389/fcvm.2024.1418741",
+      "url": "https://doi.org/10.3389/fcvm.2024.1418741",
+      "thumb": "img_journal/fcvm.jpg",
+      "citations": null,
+      "note": ""
+    }
+  ]
+}

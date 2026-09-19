@@ -1,0 +1,10 @@
+{
+  "_readme": "Newest first. date is free text and is printed as given, so fill in real months before this goes live.",
+  "items": [
+    { "date": "2026", "en": "Two papers accepted to ISBI 2026, both as oral presentations.", "zh": "两篇论文被 ISBI 2026 接收，均为 Oral 报告。" },
+    { "date": "2026", "en": "PR-INR accepted to IEEE Transactions on Image Processing.", "zh": "PR-INR 被 IEEE TIP 接收。" },
+    { "date": "2026", "en": "Cyclic self-supervised diffusion for ultra-low-field MRI synthesis accepted to IEEE TMI.", "zh": "超低场 MRI 合成的循环自监督扩散工作被 IEEE TMI 接收。" },
+    { "date": "2026", "en": "GEMA-Score accepted to AAAI 2026.", "zh": "GEMA-Score 被 AAAI 2026 接收。" },
+    { "date": "2025", "en": "Awarded 800,000 GPU hours on Isambard-AI through the DSIT/UKRI AIRR open call.", "zh": "通过 DSIT/UKRI AIRR 开放征集获得 Isambard-AI 80 万 GPU 小时算力。" }
+  ]
+}

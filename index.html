@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Zhenxuan Zhang</title>
+<meta name="description" content="Zhenxuan Zhang — PhD student, Department of Bioengineering, Imperial College London. Motion-robust MRI reconstruction, ultra-low-field MRI synthesis, and verifiable radiology report generation." />
+<meta name="theme-color" content="#f4f5f2" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f5f2;
+  --surface:#ffffff;
+  --ink:#16191c;
+  --muted:#5f6a72;
+  --faint:#8b949a;
+  --rule:#dde2db;
+  --accent:#15616d;
+  --accent-soft:#e4eef0;
+  --warm:#8a5a12;
+  --warm-soft:#f4ecdc;
+  --shadow:0 1px 2px rgba(20,30,35,.05);
+  --measure:68ch;
+  --nav-h:56px;
+  --serif:"Newsreader","Songti SC",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans","Noto Sans SC","PingFang SC","Microsoft YaHei",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0d1114;
+    --surface:#141a1e;
+    --ink:#e7ebe7;
+    --muted:#9aa5ab;
+    --faint:#6d787e;
+    --rule:#242c31;
+    --accent:#5cb0bd;
+    --accent-soft:#16282c;
+    --warm:#d2a25c;
+    --warm-soft:#2a2213;
+    --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0d1114;
+  --surface:#141a1e;
+  --ink:#e7ebe7;
+  --muted:#9aa5ab;
+  --faint:#6d787e;
+  --rule:#242c31;
+  --accent:#5cb0bd;
+  --accent-soft:#16282c;
+  --warm:#d2a25c;
+  --warm-soft:#2a2213;
+  --shadow:none;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 20px);-webkit-text-size-adjust:100%}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--serif);
+  font-size:17px;
+  line-height:1.62;
+  font-synthesis-weight:none;
+}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:currentColor}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+img{max-width:100%;display:block}
+
+/* ---------- top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:var(--paper);
+  background:color-mix(in srgb,var(--paper) 88%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.topbar-in{
+  max-width:1120px;margin:0 auto;min-height:var(--nav-h);
+  padding:0 24px;display:flex;align-items:center;gap:20px;
+}
+.brand{font-family:var(--serif);font-size:17px;font-weight:600;letter-spacing:-.01em;white-space:nowrap}
+.nav{
+  font-family:var(--sans);font-size:13.5px;
+  display:flex;gap:2px;margin-left:auto;
+  overflow-x:auto;scrollbar-width:none;
+}
+.nav::-webkit-scrollbar{display:none}
+.nav a{color:var(--muted);padding:6px 10px;border-radius:4px;white-space:nowrap;border:0}
+.nav a:hover{color:var(--ink);background:var(--accent-soft)}
+.nav a.on{color:var(--accent);background:var(--accent-soft)}
+.toggles{display:flex;gap:6px;flex-shrink:0;font-family:var(--sans)}
+.tg{
+  background:none;border:1px solid var(--rule);color:var(--muted);
+  font:inherit;font-size:12.5px;padding:4px 9px;border-radius:4px;cursor:pointer;
+}
+.tg:hover{border-color:var(--accent);color:var(--accent)}
+.tg[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* ---------- shell ---------- */
+.shell{max-width:1120px;margin:0 auto;padding:44px 24px 72px;display:grid;grid-template-columns:268px 1fr;gap:56px;align-items:start}
+.rail{position:sticky;top:calc(var(--nav-h) + 28px);display:flex;flex-direction:column;gap:22px}
+.main{min-width:0;display:flex;flex-direction:column;gap:52px}
+
+/* ---------- rail ---------- */
+.portrait{width:100%;aspect-ratio:1/1.16;object-fit:cover;border-radius:3px;background:var(--surface);border:1px solid var(--rule)}
+.rail h1{font-size:27px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin-bottom:6px}
+.rail .role{font-family:var(--sans);font-size:13.5px;line-height:1.5;color:var(--muted)}
+.contact{font-family:var(--sans);font-size:13px;line-height:1.85;color:var(--muted);word-break:break-word}
+.contact a{border:0}
+.contact a:hover{border-bottom:1px solid currentColor}
+.contact .k{display:inline-block;width:1.15em;color:var(--faint)}
+
+.metrics{border:1px solid var(--rule);border-radius:4px;background:var(--surface);padding:14px 15px 12px;box-shadow:var(--shadow)}
+.metrics .hd{font-family:var(--sans);font-size:11.5px;color:var(--faint);display:flex;justify-content:space-between;gap:8px;margin-bottom:9px}
+.metrics .hd a{color:var(--faint);border:0}
+.metrics .hd a:hover{color:var(--accent)}
+.big{font-family:var(--sans);font-size:33px;font-weight:600;line-height:1;letter-spacing:-.025em;font-variant-numeric:tabular-nums;color:var(--ink)}
+.big small{font-family:var(--sans);font-size:12.5px;font-weight:400;color:var(--muted);letter-spacing:0;margin-left:7px}
+.subs{display:flex;gap:20px;margin-top:11px;font-family:var(--sans)}
+.subs div{font-size:11.5px;color:var(--muted)}
+.subs b{display:block;font-size:17px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.spark{display:flex;align-items:flex-end;gap:3px;height:34px;margin-top:13px}
+.spark span{flex:1;background:var(--accent);opacity:.32;border-radius:1px 1px 0 0;min-height:2px}
+.spark span:last-child{opacity:.85}
+.spark-x{display:flex;justify-content:space-between;font-family:var(--sans);font-size:10.5px;color:var(--faint);margin-top:4px}
+.stale{font-family:var(--sans);font-size:11.5px;color:var(--faint);margin-top:10px;line-height:1.45}
+
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chip{font-family:var(--sans);font-size:11.5px;color:var(--muted);border:1px solid var(--rule);border-radius:3px;padding:3px 8px}
+
+/* ---------- sections ---------- */
+section{scroll-margin-top:calc(var(--nav-h) + 24px)}
+h2{
+  font-size:14px;font-family:var(--sans);font-weight:600;letter-spacing:.01em;
+  color:var(--muted);padding-bottom:9px;border-bottom:1px solid var(--rule);margin-bottom:22px;
+  display:flex;align-items:baseline;gap:10px;
+}
+h2 .n{font-size:12px;color:var(--faint);font-weight:400;font-variant-numeric:tabular-nums}
+.prose{max-width:var(--measure)}
+.prose p + p{margin-top:.85em}
+
+/* lede */
+.lede h1{font-size:41px;font-weight:600;letter-spacing:-.028em;line-height:1.08;margin-bottom:10px}
+.lede .sub{font-family:var(--sans);font-size:15px;color:var(--muted);max-width:var(--measure);line-height:1.55}
+
+/* news */
+.news{display:flex;flex-direction:column;gap:11px;max-width:var(--measure)}
+.news li{display:grid;grid-template-columns:78px 1fr;gap:14px;list-style:none;font-size:15.5px}
+.news .d{font-family:var(--sans);font-size:12.5px;color:var(--faint);padding-top:4px;font-variant-numeric:tabular-nums}
+
+/* research + generic entries */
+.entries{display:flex;flex-direction:column;gap:26px;max-width:var(--measure)}
+.entry .t{font-size:18px;font-weight:600;letter-spacing:-.012em;line-height:1.3}
+.entry .m{font-family:var(--sans);font-size:12.5px;color:var(--faint);margin:3px 0 7px}
+.entry .d{font-size:15.5px;line-height:1.58;color:var(--ink)}
+.entry .out{font-family:var(--sans);font-size:12.5px;color:var(--accent);margin-top:6px}
+.edu{display:grid;grid-template-columns:44px 1fr;gap:16px;align-items:start}
+.edu img{width:44px;height:44px;object-fit:contain;border-radius:3px}
+
+/* ---------- publications ---------- */
+.filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:24px;font-family:var(--sans)}
+.f{
+  background:none;border:1px solid var(--rule);color:var(--muted);
+  font:inherit;font-size:12.5px;padding:5px 11px;border-radius:3px;cursor:pointer;
+  display:inline-flex;align-items:baseline;gap:6px;
+}
+.f:hover{border-color:var(--accent);color:var(--accent)}
+.f[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.f .c{font-size:11px;opacity:.65;font-variant-numeric:tabular-nums}
+
+.pubs{display:flex;flex-direction:column}
+.yr{
+  display:grid;grid-template-columns:54px 1fr;gap:18px;
+  padding-top:18px;border-top:1px solid var(--rule);margin-top:18px;
+}
+.yr:first-child{border-top:0;margin-top:0;padding-top:0}
+.yr .ylabel{
+  font-family:var(--sans);font-size:13px;font-weight:600;color:var(--faint);
+  font-variant-numeric:tabular-nums;position:sticky;top:calc(var(--nav-h) + 24px);
+}
+.ylist{display:flex;flex-direction:column;gap:20px;min-width:0}
+.pub{display:grid;grid-template-columns:62px 1fr;gap:16px;align-items:start;min-width:0}
+.pub .thumb{
+  width:62px;height:62px;object-fit:cover;border-radius:3px;
+  border:1px solid var(--rule);background:var(--surface);
+}
+.pub .t{font-size:16.5px;font-weight:500;line-height:1.34;letter-spacing:-.008em}
+.pub .t a{color:var(--ink);border:0}
+.pub .t a:hover{color:var(--accent)}
+.pub .au{font-family:var(--sans);font-size:12.5px;color:var(--muted);line-height:1.5;margin-top:5px}
+.pub .au b{font-weight:600;color:var(--ink)}
+.pub .vn{font-family:var(--sans);font-size:12.5px;color:var(--muted);margin-top:4px;display:flex;flex-wrap:wrap;align-items:center;gap:7px}
+.pub .vn em{font-style:italic;color:var(--ink)}
+.pub .note{font-family:var(--sans);font-size:11.5px;color:var(--faint);margin-top:3px}
+.bdg{font-family:var(--sans);font-size:11px;padding:2px 7px;border-radius:3px;border:1px solid var(--rule);color:var(--muted);white-space:nowrap}
+.bdg.top{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+.bdg.oral{background:var(--warm-soft);border-color:transparent;color:var(--warm)}
+.bdg.rank{border-color:var(--accent);color:var(--accent)}
+.bdg.review{border-style:dashed}
+.cit{font-family:var(--sans);font-size:11.5px;color:var(--faint);white-space:nowrap}
+.cit b{font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.srcline{font-family:var(--sans);font-size:12px;color:var(--faint);margin-top:26px;padding-top:14px;border-top:1px solid var(--rule)}
+.empty{font-family:var(--sans);font-size:14px;color:var(--muted);padding:26px 0}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:26px;max-width:var(--measure)}
+.two p{font-size:15.5px}
+.two p + p{margin-top:.5em}
+.two b{font-weight:600}
+
+footer{
+  max-width:1120px;margin:0 auto;padding:26px 24px 46px;
+  border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:12.5px;color:var(--faint);
+  display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr;gap:38px;padding:30px 20px 56px}
+  .rail{position:static;flex-direction:row;flex-wrap:wrap;align-items:flex-start;gap:18px 26px}
+  .rail .idblock{flex:1 1 240px}
+  .portrait{width:132px;aspect-ratio:1/1.16;flex:0 0 auto}
+  .metrics{flex:1 1 240px}
+  .contact{flex:1 1 240px}
+  .chips{flex-basis:100%}
+  .lede h1{font-size:33px}
+  .topbar-in{padding:0 20px;gap:12px}
+  .nav{order:3;width:100%;margin:0 0 6px;padding-bottom:2px}
+  .topbar-in{flex-wrap:wrap;padding-top:8px}
+  .yr{grid-template-columns:40px 1fr;gap:12px}
+  .yr .ylabel{position:static}
+  .two{grid-template-columns:1fr;gap:16px}
+  .news li{grid-template-columns:62px 1fr;gap:10px}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *{transition:none!important;animation:none!important}
+}
+@media print{
+  .topbar,.filters,.toggles{display:none}
+  body{background:#fff;font-size:11pt}
+  .shell{display:block;padding:0}
+  .rail{position:static;flex-direction:row;gap:20px;margin-bottom:24px}
+  .pub .thumb{display:none}
+  .pub{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <span class="brand" data-en="Zhenxuan Zhang" data-zh="张振璇">Zhenxuan Zhang</span>
+    <nav class="nav" id="nav">
+      <a href="#about"        data-en="About"        data-zh="关于">About</a>
+      <a href="#news"         data-en="News"         data-zh="动态">News</a>
+      <a href="#research"     data-en="Research"     data-zh="科研">Research</a>
+      <a href="#publications" data-en="Publications" data-zh="论文">Publications</a>
+      <a href="#teaching"     data-en="Teaching"     data-zh="教学">Teaching</a>
+      <a href="#awards"       data-en="Awards"       data-zh="奖项">Awards</a>
+      <a href="#education"    data-en="Education"    data-zh="教育">Education</a>
+    </nav>
+    <div class="toggles">
+      <button class="tg" id="langBtn" type="button">中文</button>
+      <button class="tg" id="themeBtn" type="button" aria-label="Switch colour theme">◐</button>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+
+  <aside class="rail">
+    <img class="portrait" src="logo/Picture 1.jpg" alt="Zhenxuan Zhang" id="portrait"
+         onerror="this.onerror=null;this.src=kspace('zhenxuan')" />
+
+    <div class="idblock">
+      <h1 data-en="Zhenxuan Zhang" data-zh="张振璇">Zhenxuan Zhang</h1>
+      <p class="role"
+         data-en="PhD student, Department of Bioengineering, Imperial College London"
+         data-zh="博士研究生 · 帝国理工学院生物工程系">PhD student, Department of Bioengineering, Imperial College London</p>
+    </div>
+
+    <div class="metrics" id="metrics" hidden>
+      <div class="hd">
+        <span data-en="Google Scholar" data-zh="谷歌学术">Google Scholar</span>
+        <a href="https://scholar.google.com/citations?user=8DvgcegAAAAJ" target="_blank" rel="noopener">profile</a>
+      </div>
+      <div class="big" id="mCit">—<small data-en="citations" data-zh="引用">citations</small></div>
+      <div class="subs">
+        <div><b id="mH">—</b><span data-en="h-index" data-zh="h 指数">h-index</span></div>
+        <div><b id="mI">—</b><span data-en="i10-index" data-zh="i10 指数">i10-index</span></div>
+        <div><b id="mN">—</b><span data-en="papers" data-zh="论文">papers</span></div>
+      </div>
+      <div class="spark" id="spark" hidden></div>
+      <div class="spark-x" id="sparkX" hidden></div>
+      <div class="stale" id="mStale"></div>
+    </div>
+
+    <div class="contact">
+      <div><span class="k">✉</span><a href="mailto:z.zhenxuan24@imperial.ac.uk">z.zhenxuan24@imperial.ac.uk</a></div>
+      <div><span class="k">✉</span><a href="mailto:vince126110@gmail.com">vince126110@gmail.com</a></div>
+      <div><span class="k">☏</span>+44 7880 879565</div>
+      <div><span class="k">◆</span><a href="https://scholar.google.com/citations?user=8DvgcegAAAAJ" target="_blank" rel="noopener">Google Scholar</a></div>
+      <div><span class="k">◆</span><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a></div>
+    </div>
+
+    <div class="chips">
+      <span class="chip" data-en="MRI reconstruction" data-zh="MRI 重建">MRI reconstruction</span>
+      <span class="chip" data-en="Modality synthesis" data-zh="模态合成">Modality synthesis</span>
+      <span class="chip" data-en="Agentic AI for radiology" data-zh="放射 Agentic AI">Agentic AI for radiology</span>
+      <span class="chip">INR · Diffusion · LLM</span>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <section id="about" class="lede">
+      <h1 data-en="Making MRI usable where the scanner is weak, the patient moves, and the report has to be checked."
+          data-zh="让 MRI 在磁场弱、病人动、报告需要被核查的地方依然可用。">Making MRI usable where the scanner is weak, the patient moves, and the report has to be checked.</h1>
+      <p class="sub"
+         data-en="Second-year PhD student at Imperial College London, supervised by Prof. Guang Yang and Dr Peter J. Lally, funded by the China Scholarship Council."
+         data-zh="帝国理工学院博士二年级研究生，导师为 Guang Yang 教授与 Peter J. Lally 博士，由国家留学基金委（CSC）全额资助。">Second-year PhD student at Imperial College London, supervised by Prof. Guang Yang and Dr Peter J. Lally, funded by the China Scholarship Council.</p>
+      <div class="prose" style="margin-top:20px">
+        <p data-en="My work builds agentic AI for medical imaging along three threads: motion-robust MRI reconstruction with implicit neural representations, ultra-low-field to high-field MRI synthesis via self-supervised diffusion, and verifiable radiology report generation with large language models. Before Imperial I worked on echocardiography analysis at Sun Yat-sen University."
+           data-zh="研究方向是面向医学影像的 Agentic AI，围绕三条主线展开：基于隐式神经表征的运动鲁棒 MRI 重建、基于自监督扩散模型的超低场到高场 MRI 合成，以及基于大语言模型的可验证放射报告生成。来帝国理工之前，在中山大学从事超声心动图分析研究。">My work builds agentic AI for medical imaging along three threads: motion-robust MRI reconstruction with implicit neural representations, ultra-low-field to high-field MRI synthesis via self-supervised diffusion, and verifiable radiology report generation with large language models. Before Imperial I worked on echocardiography analysis at Sun Yat-sen University.</p>
+        <p data-en="I care about methods that are label-efficient, uncertainty-aware, and deployable, with the long-term aim of turning foundation-model-driven AI into tools radiologists can actually trust in a real workflow."
+           data-zh="我关注标签高效、不确定性感知、可临床部署的方法，长期目标是把基础模型驱动的 AI 变成放射科医生在真实工作流中敢用的工具。">I care about methods that are label-efficient, uncertainty-aware, and deployable, with the long-term aim of turning foundation-model-driven AI into tools radiologists can actually trust in a real workflow.</p>
+      </div>
+    </section>
+
+    <section id="news">
+      <h2><span data-en="News" data-zh="近期动态">News</span></h2>
+      <ul class="news" id="newsList"></ul>
+    </section>
+
+    <section id="research">
+      <h2><span data-en="Research" data-zh="研究方向">Research</span></h2>
+      <div class="entries">
+
+        <div class="entry">
+          <div class="t" data-en="Motion-robust MRI reconstruction with implicit neural representations" data-zh="基于隐式神经表征的运动鲁棒 MRI 重建">Motion-robust MRI reconstruction with implicit neural representations</div>
+          <div class="m" data-en="Imperial College London · 2024 to now" data-zh="帝国理工学院 · 2024 至今">Imperial College London · 2024 to now</div>
+          <div class="d" data-en="PR-INR couples motion-aware diffusion for global structure recovery with implicit detail restoration for local fidelity, reconstructing 3D brain volumes from motion-corrupted 2D slices. It beats the state of the art on five public MRI datasets."
+               data-zh="PR-INR 将面向全局结构恢复的运动感知扩散模型与面向局部细节复原的隐式表征结合，从运动损伤的 2D 切片重建 3D 脑部体数据，在五个公开 MRI 数据集上超越现有 SOTA。">PR-INR couples motion-aware diffusion for global structure recovery with implicit detail restoration for local fidelity, reconstructing 3D brain volumes from motion-corrupted 2D slices. It beats the state of the art on five public MRI datasets.</div>
+          <div class="out" data-en="IEEE Transactions on Image Processing, 2026" data-zh="成果：IEEE TIP, 2026">IEEE Transactions on Image Processing, 2026</div>
+        </div>
+
+        <div class="entry">
+          <div class="t" data-en="Ultra-low-field to high-field MRI synthesis for point-of-care imaging" data-zh="面向便携式成像的超低场到高场 MRI 合成">Ultra-low-field to high-field MRI synthesis for point-of-care imaging</div>
+          <div class="m" data-en="Imperial College London · 2024 to now" data-zh="帝国理工学院 · 2024 至今">Imperial College London · 2024 to now</div>
+          <div class="d" data-en="Unpaired low-field to high-field translation for portable 0.05 T scanners: a cyclic self-supervised diffusion model, a pretext-task adversarial framework, and reliability-guided selective generation that abstains on unreliable regions to cut hallucination risk."
+               data-zh="面向便携式 0.05T 扫描仪的非配对低场-高场转换：双向循环自监督扩散模型、基于前置任务的对抗学习框架，以及可靠性引导的选择性生成机制（在不可靠区域拒答，降低幻觉风险）。">Unpaired low-field to high-field translation for portable 0.05 T scanners: a cyclic self-supervised diffusion model, a pretext-task adversarial framework, and reliability-guided selective generation that abstains on unreliable regions to cut hallucination risk.</div>
+          <div class="out" data-en="IEEE TMI 2026; two ISBI 2026 orals" data-zh="成果：IEEE TMI 2026；ISBI 2026 Oral 两篇">IEEE TMI 2026; two ISBI 2026 orals</div>
+        </div>
+
+        <div class="entry">
+          <div class="t" data-en="Verifiable radiology report generation with large language models" data-zh="基于大语言模型的可验证放射报告生成">Verifiable radiology report generation with large language models</div>
+          <div class="m" data-en="Imperial College London · 2024 to now" data-zh="帝国理工学院 · 2024 至今">Imperial College London · 2024 to now</div>
+          <div class="d" data-en="Agentic LLM pipelines built with practising radiologists. GEMA-Score decomposes report quality into clinically meaningful sub-criteria scored by cooperating agents; Reason Like a Radiologist uses chain-of-thought and reinforcement learning to produce reasoning traces a clinician can check."
+               data-zh="与临床放射科医生合作构建的 Agentic LLM 流水线。GEMA-Score 将报告质量分解为具有临床意义的子指标，由多智能体协同评估；Reason Like a Radiologist 通过思维链与强化学习生成可核查的推理轨迹。">Agentic LLM pipelines built with practising radiologists. GEMA-Score decomposes report quality into clinically meaningful sub-criteria scored by cooperating agents; Reason Like a Radiologist uses chain-of-thought and reinforcement learning to produce reasoning traces a clinician can check.</div>
+          <div class="out" data-en="AAAI 2026; Medical Image Analysis 2025 (co-first author)" data-zh="成果：AAAI 2026；MedIA 2025（共同一作）">AAAI 2026; Medical Image Analysis 2025 (co-first author)</div>
+        </div>
+
+        <div class="entry">
+          <div class="t" data-en="Multi-dimensional echocardiography analysis" data-zh="多维超声心动图分析">Multi-dimensional echocardiography analysis</div>
+          <div class="m" data-en="Sun Yat-sen University · 2021 to 2024" data-zh="中山大学 · 2021 至 2024">Sun Yat-sen University · 2021 to 2024</div>
+          <div class="d" data-en="A cross-space consistency framework embedding pixel-, image- and sequence-level tasks into one latent space for cardiac function assessment, validated on 10,908 patients across five datasets, plus a text-guided bidirectional reciprocal cycle for label-efficient segmentation."
+               data-zh="提出跨空间一致性框架，将像素级、图像级与序列级任务嵌入统一潜空间用于心功能评估（在 5 个数据集、10,908 例患者上验证），以及文本引导的双向循环框架实现标签高效分割。">A cross-space consistency framework embedding pixel-, image- and sequence-level tasks into one latent space for cardiac function assessment, validated on 10,908 patients across five datasets, plus a text-guided bidirectional reciprocal cycle for label-efficient segmentation.</div>
+          <div class="out" data-en="IEEE TMI 2024; Medical Image Analysis 2025" data-zh="成果：IEEE TMI 2024；MedIA 2025">IEEE TMI 2024; Medical Image Analysis 2025</div>
+        </div>
+
+      </div>
+    </section>
+
+    <section id="publications">
+      <h2>
+        <span data-en="Publications" data-zh="发表论文">Publications</span>
+        <span class="n" id="pubCount"></span>
+      </h2>
+      <div class="filters" id="filters"></div>
+      <div class="pubs" id="pubs"></div>
+      <div class="srcline" id="srcline"></div>
+    </section>
+
+    <section id="teaching">
+      <h2><span data-en="Teaching" data-zh="教学经历">Teaching</span></h2>
+      <div class="entries">
+        <div class="entry">
+          <div class="t" data-en="Graduate teaching assistant, Image Processing" data-zh="研究生助教 · 图像处理">Graduate teaching assistant, Image Processing</div>
+          <div class="m" data-en="Imperial College London · Jan to Apr 2025" data-zh="帝国理工学院 · 2025 年 1 月至 4 月">Imperial College London · Jan to Apr 2025</div>
+          <div class="d" data-en="Tutorial preparation, Q&amp;A sessions, exam marking." data-zh="负责辅导课备课、答疑与试卷批改。">Tutorial preparation, Q&amp;A sessions, exam marking.</div>
+        </div>
+        <div class="entry">
+          <div class="t" data-en="Graduate teaching assistant, Trustworthy AI in Medical Analysis" data-zh="研究生助教 · 医学分析中的可信 AI">Graduate teaching assistant, Trustworthy AI in Medical Analysis</div>
+          <div class="m" data-en="Imperial College London · Mar to May 2025" data-zh="帝国理工学院 · 2025 年 3 月至 5 月">Imperial College London · Mar to May 2025</div>
+          <div class="d" data-en="Ran in-class discussions and graded project reports." data-zh="组织课堂讨论，评阅项目报告。">Ran in-class discussions and graded project reports.</div>
+        </div>
+        <div class="entry">
+          <div class="t" data-en="MSc final project co-supervisor" data-zh="硕士毕业项目联合指导">MSc final project co-supervisor</div>
+          <div class="m" data-en="Imperial College London · 2025 and 2026" data-zh="帝国理工学院 · 2025 与 2026">Imperial College London · 2025 and 2026</div>
+          <div class="d" data-en="Co-supervised a group of four MSc students in 2025 and a group of five in 2026." data-zh="2025 年指导 4 名硕士生，2026 年指导 5 名硕士生完成毕业研究项目。">Co-supervised a group of four MSc students in 2025 and a group of five in 2026.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="awards">
+      <h2><span data-en="Awards and grants" data-zh="奖项与资助">Awards and grants</span></h2>
+      <div class="entries">
+        <div class="entry">
+          <div class="t" data-en="Isambard-AI compute grant, UK AI Research Resource" data-zh="Isambard-AI 算力资助 · 英国 AIRR 平台">Isambard-AI compute grant, UK AI Research Resource</div>
+          <div class="m" data-en="2025 · DSIT and UKRI" data-zh="2025 · DSIT / UKRI">2025 · DSIT and UKRI</div>
+          <div class="d" data-en="800,000 GPU hours on Isambard-AI through the AIRR open call, for AI-Enhanced MRI Reconstruction and Diagnostic Modeling Across Magnetic Field Strengths. PI Prof. Guang Yang; I was co-investigator on the winning proposal."
+               data-zh="通过 AIRR 开放征集获得 Isambard-AI 80 万 GPU 小时，项目为 AI-Enhanced MRI Reconstruction and Diagnostic Modeling Across Magnetic Field Strengths。项目负责人为 Guang Yang 教授，本人为中标提案的共同申请人。">800,000 GPU hours on Isambard-AI through the AIRR open call, for AI-Enhanced MRI Reconstruction and Diagnostic Modeling Across Magnetic Field Strengths. PI Prof. Guang Yang; I was co-investigator on the winning proposal.</div>
+        </div>
+        <div class="entry">
+          <div class="t" data-en="China Scholarship Council PhD scholarship" data-zh="国家公派留学奖学金（CSC）">China Scholarship Council PhD scholarship</div>
+          <div class="m" data-en="2024 to 2028" data-zh="2024 至 2028">2024 to 2028</div>
+          <div class="d" data-en="Full funding for doctoral study at Imperial College London." data-zh="全额资助于帝国理工学院攻读博士学位。">Full funding for doctoral study at Imperial College London.</div>
+        </div>
+        <div class="entry">
+          <div class="t" data-en="Sun Yat-sen University scholarship" data-zh="中山大学奖学金">Sun Yat-sen University scholarship</div>
+          <div class="m" data-en="2021 to 2022 first prize · 2022 to 2023 second prize" data-zh="2021—2022 一等奖 · 2022—2023 二等奖">2021 to 2022 first prize · 2022 to 2023 second prize</div>
+        </div>
+        <div class="entry">
+          <div class="t" data-en="National Undergraduate Biomedical Engineering Innovation Design Competition" data-zh="全国大学生生物医学工程创新设计竞赛">National Undergraduate Biomedical Engineering Innovation Design Competition</div>
+          <div class="m" data-en="2019 · third prize" data-zh="2019 · 三等奖">2019 · third prize</div>
+          <div class="d" data-en="Automatic segmentation of spine MRI." data-zh="脊柱 MRI 图像自动分割算法。">Automatic segmentation of spine MRI.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="education">
+      <h2><span data-en="Education" data-zh="教育经历">Education</span></h2>
+      <div class="entries">
+        <div class="entry edu">
+          <img src="logo/Imperial.png" alt="" onerror="this.style.visibility='hidden'">
+          <div>
+            <div class="t" data-en="PhD in Bioengineering" data-zh="生物工程博士">PhD in Bioengineering</div>
+            <div class="m" data-en="Imperial College London · 2024 to 2028 · Prof. Guang Yang and Dr Peter J. Lally" data-zh="帝国理工学院 · 2024—2028 · 导师 Guang Yang 教授、Peter J. Lally 博士">Imperial College London · 2024 to 2028 · Prof. Guang Yang and Dr Peter J. Lally</div>
+          </div>
+        </div>
+        <div class="entry edu">
+          <img src="logo/sysu.jpeg" alt="" onerror="this.style.visibility='hidden'">
+          <div>
+            <div class="t" data-en="MSc in Biological and Pharmaceutical Engineering" data-zh="生物与制药工程硕士">MSc in Biological and Pharmaceutical Engineering</div>
+            <div class="m" data-en="Sun Yat-sen University · 2021 to 2024 · Prof. Heye Zhang and Prof. Zhifan Gao" data-zh="中山大学生物医学工程学院 · 2021—2024 · 导师 张贺晔教授、高智凡教授">Sun Yat-sen University · 2021 to 2024 · Prof. Heye Zhang and Prof. Zhifan Gao</div>
+          </div>
+        </div>
+        <div class="entry edu">
+          <img src="logo/sysu.jpeg" alt="" onerror="this.style.visibility='hidden'">
+          <div>
+            <div class="t" data-en="BEng in Biomedical Engineering" data-zh="生物医学工程学士">BEng in Biomedical Engineering</div>
+            <div class="m" data-en="Sun Yat-sen University · 2017 to 2021" data-zh="中山大学生物医学工程学院 · 2017—2021">Sun Yat-sen University · 2017 to 2021</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="two" style="margin-top:32px">
+        <div>
+          <p data-en="<b>Languages</b> English, Mandarin, Cantonese, Hakka" data-zh="<b>语言</b> 英语、普通话、粤语、客家话"><b>Languages</b> English, Mandarin, Cantonese, Hakka</p>
+          <p data-en="<b>Programming</b> Python, C/C++, MATLAB" data-zh="<b>编程</b> Python, C/C++, MATLAB"><b>Programming</b> Python, C/C++, MATLAB</p>
+          <p data-en="<b>Frameworks</b> PyTorch, TensorFlow" data-zh="<b>框架</b> PyTorch, TensorFlow"><b>Frameworks</b> PyTorch, TensorFlow</p>
+        </div>
+        <div>
+          <p data-en="<b>Interests</b> MRI reconstruction, modality synthesis, vision-language modelling, agentic AI" data-zh="<b>研究兴趣</b> MRI 重建、模态合成、视觉-语言建模、Agentic AI"><b>Interests</b> MRI reconstruction, modality synthesis, vision-language modelling, agentic AI</p>
+          <p data-en="<b>Methods</b> implicit neural representations, diffusion models, large language models, uncertainty-aware learning" data-zh="<b>方法</b> 隐式神经表征、扩散模型、大语言模型、不确定性感知学习"><b>Methods</b> implicit neural representations, diffusion models, large language models, uncertainty-aware learning</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <span>© <span id="yr"></span> Zhenxuan Zhang</span>
+  <span data-en="Department of Bioengineering, Imperial College London" data-zh="帝国理工学院 生物工程系">Department of Bioengineering, Imperial College London</span>
+</footer>
+
+<script>
+/* ============================================================
+   CONFIG — edit these, nothing else in this file needs touching
+   ============================================================ */
+const CONFIG = {
+  scholarId:    "8DvgcegAAAAJ",
+  publications: "data/publications.json",        // written weekly by the Action
+  fallback:     "data/publications.manual.json", // used if the above is missing
+  scholar:      "data/scholar.json",             // citation counts
+  news:         "data/news.json",
+  defaultFilter:"selected",                      // selected | all | journal | conference | preprint | review
+  thumbBase:    ""                               // prefix for thumb paths, e.g. "assets/"
+};
+
+/* ---------- tiny helpers ---------- */
+const $  = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const bold = (s) => esc(s)
+  .replace(/\\\*/g, "\u0001")               // protect literal * (co-first author marks)
+  .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")   // **name** -> bold
+  .replace(/\u0001/g, "*");
+
+const store = {
+  get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } },
+  set(k,v){ try { localStorage.setItem(k, v); } catch(e){} }
+};
+
+async function getJSON(url){
+  const r = await fetch(url, {cache:"no-store"});
+  if(!r.ok) throw new Error(r.status + " " + url);
+  return r.json();
+}
+
+/* k-space style placeholder when a thumbnail file is missing */
+function kspace(seed){
+  let h = 0; for(const ch of String(seed)) h = (h*31 + ch.charCodeAt(0)) & 0xffff;
+  const rot = h % 180, a = 18 + (h % 26), b = 44 + (h % 33);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="124" height="124">
+    <defs><radialGradient id="g"><stop offset="0" stop-color="hsl(${a+180} 24% 92%)"/>
+    <stop offset=".45" stop-color="hsl(${b+170} 22% 64%)"/><stop offset="1" stop-color="hsl(${a+190} 26% 22%)"/></radialGradient>
+    <pattern id="l" width="124" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(${rot} 62 62)">
+    <rect width="124" height="3.2" fill="#fff" opacity=".13"/></pattern></defs>
+    <rect width="124" height="124" fill="url(#g)"/><rect width="124" height="124" fill="url(#l)"/></svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+/* ---------- language ---------- */
+let lang = store.get("zzx-lang") || "en";
+function applyLang(){
+  document.querySelectorAll("[data-en]").forEach(el => {
+    const v = lang === "en" ? el.dataset.en : el.dataset.zh;
+    if(v != null) el.innerHTML = v;
+  });
+  document.documentElement.lang = lang === "en" ? "en" : "zh-CN";
+  $("#langBtn").textContent = lang === "en" ? "中文" : "EN";
+  document.querySelectorAll("[data-i18n-en]").forEach(el => {
+    el.textContent = lang === "en" ? el.dataset.i18nEn : el.dataset.i18nZh;
+  });
+}
+$("#langBtn").addEventListener("click", () => {
+  lang = lang === "en" ? "zh" : "en";
+  store.set("zzx-lang", lang);
+  applyLang(); renderPubs(); renderSource(); renderNews(); renderMetrics();
+});
+
+/* ---------- theme ---------- */
+const savedTheme = store.get("zzx-theme");
+if(savedTheme) document.documentElement.dataset.theme = savedTheme;
+$("#themeBtn").addEventListener("click", () => {
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  const now  = document.documentElement.dataset.theme || (dark ? "dark" : "light");
+  const next = now === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = next;
+  store.set("zzx-theme", next);
+});
+
+/* ---------- news ---------- */
+let NEWS = [];
+function renderNews(){
+  const el = $("#newsList");
+  if(!NEWS.length){ $("#news").hidden = true; return; }
+  el.innerHTML = NEWS.map(n =>
+    `<li><span class="d">${esc(n.date)}</span><span>${esc(lang === "en" ? n.en : (n.zh || n.en))}</span></li>`
+  ).join("");
+}
+
+/* ---------- publications ---------- */
+let PUBS = [], FILTER = CONFIG.defaultFilter, META = {};
+
+const FILTERS = [
+  {key:"selected",   en:"Selected",     zh:"代表作",  test:p => p.highlight},
+  {key:"all",        en:"All",          zh:"全部",    test:() => true},
+  {key:"journal",    en:"Journal",      zh:"期刊",    test:p => p.type === "journal"   && p.status === "published"},
+  {key:"conference", en:"Conference",   zh:"会议",    test:p => p.type === "conference"&& p.status === "published"},
+  {key:"preprint",   en:"Preprint",     zh:"预印本",  test:p => p.status === "preprint"},
+  {key:"review",     en:"Under review", zh:"审稿中",  test:p => p.status === "review"}
+];
+
+function pubRow(p){
+  const thumb = p.thumb ? esc(CONFIG.thumbBase + p.thumb) : kspace(p.id || p.title);
+  const title = p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">${esc(p.title)}</a>` : esc(p.title);
+  const badges = (p.badges || []).map(b => `<span class="bdg ${esc(b.kind || "plain")}">${esc(b.text)}</span>`).join("");
+  const venue = p.venue ? `<em>${esc(p.venue)}</em>${p.detail ? ", " + esc(p.detail) : ""}` : "";
+  const cites = (p.citations != null && p.citations > 0)
+    ? `<span class="cit"><b>${p.citations}</b> ${lang === "en" ? "cites" : "引用"}</span>` : "";
+  const doi = p.doi ? `<a href="https://doi.org/${esc(p.doi)}" target="_blank" rel="noopener">doi</a>` : "";
+  return `<article class="pub">
+    <img class="thumb" src="${thumb}" alt="" loading="lazy" onerror="this.onerror=null;this.src='${kspace(p.id || p.title)}'">
+    <div>
+      <div class="t">${title}</div>
+      <div class="au">${bold(p.authors || "")}</div>
+      <div class="vn">${venue}${badges}${doi}${cites}</div>
+      ${p.note ? `<div class="note">${esc(p.note)}</div>` : ""}
+    </div>
+  </article>`;
+}
+
+function renderPubs(){
+  const f = FILTERS.find(x => x.key === FILTER) || FILTERS[1];
+
+  $("#filters").innerHTML = FILTERS.map(x => {
+    const n = PUBS.filter(x.test).length;
+    return n ? `<button class="f" type="button" data-k="${x.key}" aria-pressed="${x.key === FILTER}">
+      ${lang === "en" ? x.en : x.zh}<span class="c">${n}</span></button>` : "";
+  }).join("");
+  $("#filters").querySelectorAll("button").forEach(b =>
+    b.addEventListener("click", () => { FILTER = b.dataset.k; renderPubs(); }));
+
+  const list = PUBS.filter(f.test);
+  $("#pubCount").textContent = PUBS.length ? `${PUBS.length} total` : "";
+
+  if(!list.length){
+    $("#pubs").innerHTML = `<p class="empty">${lang === "en" ? "Nothing in this group yet." : "该分类暂无论文。"}</p>`;
+    return;
+  }
+
+  const years = [...new Set(list.map(p => p.year))].sort((a,b) => b - a);
+  $("#pubs").innerHTML = years.map(y =>
+    `<div class="yr"><div class="ylabel">${esc(y)}</div>
+      <div class="ylist">${list.filter(p => p.year === y).map(pubRow).join("")}</div></div>`
+  ).join("");
+}
+
+function renderSource(){
+  const el = $("#srcline");
+  if(META.source === "seed" || META.source === "fallback"){
+    el.innerHTML = lang === "en"
+      ? "Showing the built-in snapshot. The weekly job has not written data/publications.json yet."
+      : "当前显示的是内置快照，每周任务尚未生成 data/publications.json。";
+    return;
+  }
+  const when = META.generated ? new Date(META.generated).toLocaleDateString(lang === "en" ? "en-GB" : "zh-CN") : "";
+  el.innerHTML = lang === "en"
+    ? `Rebuilt from Google Scholar and OpenAlex on ${esc(when)}.`
+    : `由 Google Scholar 与 OpenAlex 于 ${esc(when)} 自动更新。`;
+}
+
+/* ---------- scholar metrics ---------- */
+let SCH = null;
+function renderMetrics(){
+  if(!SCH || !SCH.ok || SCH.citations == null) return;
+  $("#metrics").hidden = false;
+  $("#mCit").firstChild.nodeValue = SCH.citations.toLocaleString();
+  $("#mH").textContent = SCH.h_index ?? "—";
+  $("#mI").textContent = SCH.i10_index ?? "—";
+  $("#mN").textContent = PUBS.filter(p => p.status === "published").length || "—";
+
+  const cpy = SCH.cites_per_year || {};
+  const yrs = Object.keys(cpy).sort().slice(-7);
+  if(yrs.length > 1){
+    const max = Math.max(...yrs.map(y => cpy[y])) || 1;
+    $("#spark").hidden = false; $("#sparkX").hidden = false;
+    $("#spark").innerHTML = yrs.map(y =>
+      `<span style="height:${Math.max(6, Math.round(cpy[y] / max * 34))}px" title="${y}: ${cpy[y]}"></span>`).join("");
+    $("#sparkX").innerHTML = `<span>${yrs[0]}</span><span>${yrs[yrs.length - 1]}</span>`;
+  }
+  if(SCH.fetched){
+    const d = new Date(SCH.fetched);
+    const days = Math.floor((Date.now() - d) / 864e5);
+    $("#mStale").textContent = lang === "en"
+      ? `Updated ${days <= 1 ? "today" : days + " days ago"}`
+      : `更新于 ${days <= 1 ? "今天" : days + " 天前"}`;
+  }
+}
+
+/* ---------- nav highlight ---------- */
+const secs = [...document.querySelectorAll("section[id]")];
+const links = [...document.querySelectorAll(".nav a")];
+addEventListener("scroll", () => {
+  const y = scrollY + 140;
+  let cur = secs[0]?.id;
+  for(const s of secs) if(y >= s.offsetTop) cur = s.id;
+  links.forEach(a => a.classList.toggle("on", a.getAttribute("href") === "#" + cur));
+}, {passive:true});
+
+/* ---------- boot ---------- */
+const SEED = {"items":[{"id":"pr-inr","title":"From Coarse to Continuous: Progressive Refinement Implicit Neural Representation for Motion-Robust Anisotropic MRI Reconstruction","authors":"**Z. Zhang**, L. Zhang, Y. Cheng, Z. Wang, F. Wang, H. Zhang, Y. Yang, Y. Wu, J. Huang, A. Aviles-Rivero, Z. Gao, G. Yang, P. J. Lally","venue":"IEEE Transactions on Image Processing","detail":"35:3550–3565","year":2026,"status":"published","type":"journal","badges":[{"text":"SCI 1区 Top · IF 13.7","kind":"top"}],"doi":"","url":"","thumb":"img_journal/PR_INR.png","citations":null,"highlight":true},{"id":"cyclic-diffusion-ulf","title":"Cyclic Self-Supervised Diffusion for Ultra Low-field to High-field MRI Synthesis","authors":"**Z. Zhang\\***, P. Jing\\*, Z. Wang, U. Briski, C. Beitone, Y. Yang, Y. Wu, F. Wang, L. Yang, J. Huang, Z. Gao, Z. Chen, K. T. Islam, G. Yang, P. J. Lally","venue":"IEEE Transactions on Medical Imaging","detail":"","year":2026,"status":"published","type":"journal","badges":[{"text":"SCI 1区 Top · IF 9.8","kind":"top"}],"doi":"","url":"","thumb":"img_journal/CSS_DIFF.png","citations":null,"note":"*co-first authors","highlight":true},{"id":"gema-score","title":"GEMA-Score: Granular Explainable Multi-Agent Scoring Framework for Radiology Report Evaluation","authors":"**Z. Zhang**, K. Lee, P. Jing, W. Deng, H. Zhou, Z. Jin, J. Huang, Z. Gao, D. C. Marshall, Y. Fang, G. Yang","venue":"Proceedings of the AAAI Conference on Artificial Intelligence","detail":"40(15):13025–13033","year":2026,"status":"published","type":"conference","badges":[{"text":"CCF-A","kind":"rank"}],"doi":"","url":"","thumb":"img_journal/gema-score.png","citations":null,"highlight":true},{"id":"tucl-brain-tumor","title":"Task-oriented Uncertainty Collaborative Learning for Label-Efficient Brain Tumor Segmentation","authors":"**Z. Zhang**, H. Wu, J. Huang, B. Xie, Z. Gao, J. Du, P. J. Lally, G. Yang","venue":"IEEE International Symposium on Biomedical Imaging (ISBI)","detail":"","year":2026,"status":"published","type":"conference","badges":[{"text":"Oral","kind":"oral"}],"doi":"","url":"","thumb":"img_journal/TUCL.png","citations":null},{"id":"pretext-task-adversarial","title":"Pretext Task Adversarial Learning for Unpaired Low-field to Ultra High-field MRI Synthesis","authors":"**Z. Zhang**, P. Jing, C. Beitone, J. Huang, Z. Gao, G. Yang, P. J. Lally","venue":"IEEE International Symposium on Biomedical Imaging (ISBI)","detail":"","year":2026,"status":"published","type":"conference","badges":[{"text":"Oral","kind":"oral"}],"doi":"","url":"","thumb":"img_journal/PTA_net.png","citations":null},{"id":"music-score-benchmark","title":"Musical Score Understanding Benchmark: Evaluating Large Language Models' Comprehension of Complete Musical Scores","authors":"C. Dai, Y. Yang, K. Li, H. Zhou, S. Liang, Z. Bo, E. Liu, G. Jin, H. An, H. Zhang, **Z. Zhang**, et al.","venue":"Annual Meeting of the Association for Computational Linguistics (ACL)","detail":"","year":2026,"status":"published","type":"conference","badges":[{"text":"CCF-A","kind":"rank"}],"doi":"","url":"","thumb":"img_journal/MusicScore.png","citations":null},{"id":"wavelet-pet","title":"3D Wavelet-Based Structural Priors for Controlled Diffusion in Whole-Body Low-Dose PET Denoising","authors":"P. Jing, Y. Yang, C.-W. Cheng, **Z. Zhang**, L. Yang, T. V. Lima, K. Strobel, A. Leimgruber, A. Aviles-Rivero, G. Yang, et al.","venue":"International Conference on Pattern Recognition (ICPR)","detail":"28th","year":2026,"status":"published","type":"conference","badges":[{"text":"CCF-C","kind":"rank"}],"doi":"","url":"","thumb":"img_journal/WaveletPET.png","citations":null},{"id":"reason-like-radiologist","title":"Reason Like a Radiologist: Chain-of-Thought and Reinforcement Learning for Verifiable Report Generation","authors":"P. Jing\\*, K. Lee\\*, **Z. Zhang\\***, H. Zhou, Z. Yuan, Z. Gao, L. Zhu, G. Papanastasiou, Y. Fang, G. Yang","venue":"Medical Image Analysis","detail":"109:103910","year":2025,"status":"published","type":"journal","badges":[{"text":"SCI 1区 Top · IF 11.8","kind":"top"}],"doi":"","url":"","thumb":"img_journal/Box_Med_RL.png","citations":null,"note":"*co-first authors"},{"id":"brc-echo","title":"Bridging Multi-Level Gaps: Bidirectional Reciprocal Cycle Framework for Text-Guided Label-Efficient Segmentation in Echocardiography","authors":"**Z. Zhang**, H. Zhang, T. Zeng, G. Yang, Z. Shi, Z. Gao","venue":"Medical Image Analysis","detail":"102:103536","year":2025,"status":"published","type":"journal","badges":[{"text":"SCI 1区 Top · IF 11.8","kind":"top"}],"doi":"10.1016/j.media.2024.103536","url":"https://doi.org/10.1016/j.media.2024.103536","thumb":"img_journal/BRC.jpg","citations":null,"highlight":true},{"id":"mtrt-net","title":"Multiple Token Rearrangement Transformer Network with Explicit Superpixel Constraint for Segmentation of Echocardiography","authors":"W. Ding, H. Zhang, X. Liu, **Z. Zhang**, S. Zhuang, Z. Gao, L. Xu","venue":"Medical Image Analysis","detail":"101:103470","year":2025,"status":"published","type":"journal","badges":[{"text":"SCI 1区 Top · IF 11.8","kind":"top"}],"doi":"10.1016/j.media.2024.103470","url":"https://doi.org/10.1016/j.media.2024.103470","thumb":"img_journal/MTRT_net.jpg","citations":null},{"id":"hypercomplex-kronecker","title":"Lightweight Hypercomplex MRI Reconstruction: A Generalized Kronecker-Parameterized Approach","authors":"H. Zhang, J. Huang, Y. Wu, C. Dai, F. Wang, **Z. Zhang**, G. Yang","venue":"International Workshop on Machine Learning in Medical Imaging (MLMI)","detail":"pp. 95–105","year":2025,"status":"published","type":"conference","badges":[],"doi":"","url":"","thumb":"img_journal/Kronecker.png","citations":null},{"id":"ecmo-echo","title":"Artificial Intelligence-assisted Echocardiographic Monitoring in Pediatric Patients on Extracorporeal Membrane Oxygenation","authors":"W. Chen, J. Wu, **Z. Zhang**, et al.","venue":"Frontiers in Cardiovascular Medicine","detail":"11:1418741","year":2024,"status":"published","type":"journal","badges":[{"text":"SCI 3区 · IF 2.9","kind":"plain"}],"doi":"10.3389/fcvm.2024.1418741","url":"https://doi.org/10.3389/fcvm.2024.1418741","thumb":"img_journal/fcvm.jpg","citations":null},{"id":"cross-space-consistency","title":"Embedding Tasks into the Latent Space: Cross-Space Consistency for Multi-Dimensional Analysis in Echocardiography","authors":"**Z. Zhang**, C. Yu, H. Zhang, Z. Gao","venue":"IEEE Transactions on Medical Imaging","detail":"43(6):2215–2228","year":2024,"status":"published","type":"journal","badges":[{"text":"SCI 1区 Top · IF 9.8","kind":"top"}],"doi":"10.1109/TMI.2024.3362964","url":"https://doi.org/10.1109/TMI.2024.3362964","thumb":"img_journal/CSC.png","citations":null,"highlight":true},{"id":"hrmc","title":"Mining Implicit Expertise: Hierarchical Reversal Mutual Consistency for Learning Generalized Medical Visual Representations","authors":"**Z. Zhang**, H. Zhang, L. Gu, Z. Gao, G. Yang","venue":"Under review","detail":"IEEE TPAMI","year":2026,"status":"review","type":"journal","badges":[{"text":"Under review · IEEE TPAMI","kind":"review"}],"doi":"","url":"","thumb":"img_journal/HRMC.png","citations":null},{"id":"gsd-net","title":"From Noisy Labels to Intrinsic Structure: A Geometric-Structural Dual-Guided Framework for Noise-Robust Medical Image Segmentation","authors":"**Z. Zhang\\***, T. Wang\\*, Y. Zhou, X. Zhang, Y. Chen, T. Tan, G. Yang, T. Tong","venue":"Under review","detail":"Medical Image Analysis","year":2026,"status":"review","type":"journal","badges":[{"text":"Under review · Medical Image Analysis","kind":"review"}],"doi":"","url":"","thumb":"img_journal/GSD-Net.png","citations":null,"note":"*co-first authors"},{"id":"scribblevs","title":"ScribbleVS: Scribble-Supervised Medical Image Segmentation via Dynamic Competitive Pseudo Label Selection","authors":"T. Wang\\*, X. Zhang\\*, **Z. Zhang**, Y. Zhou, Y. Chen, L. Zhao, C. Xu, S. Chen, G. Yang, T. Tong","venue":"Under review","detail":"Medical Image Analysis","year":2026,"status":"review","type":"journal","badges":[{"text":"Under review · Medical Image Analysis","kind":"review"}],"doi":"","url":"","thumb":"img_journal/ScribbleVS.png","citations":null,"note":"*co-first authors"},{"id":"trustworthy-selective-generation","title":"Towards Trustworthy Selective Generation: Reliability-Guided Diffusion for Ultra-Low-Field to High-Field MRI Synthesis","authors":"**Z. Zhang**, P. Jing, R. Yuan, L. Hu, A. Wang, F. Wang, Y. Wu, K. T. Islam, Z. Chen, Z. Wang, et al.","venue":"arXiv","detail":"arXiv:2603.11325","year":2026,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2603.11325","thumb":"img_journal/Trustworthy.png","citations":null},{"id":"experts-eyes","title":"Seeing Through Experts' Eyes: A Foundational Vision Language Model Trained on Radiologists' Gaze and Reasoning","authors":"K. Lee, P. Jing, **Z. Zhang†**, Y. Yang, T. Wang, D. C. Marshall, Y. Fang, G. Yang","venue":"arXiv","detail":"arXiv:2604.14316","year":2026,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2604.14316","thumb":"img_journal/ExpertsEyes.png","citations":null,"note":"†co-corresponding author"},{"id":"map-diff","title":"MAP-Diff: Multi-Anchor Guided Diffusion for Progressive 3D Whole-Body Low-Dose PET Denoising","authors":"P. Jing, C.-W. Cheng, L. Yang, **Z. Zhang**, T. V. Lima, K. Strobel, A. Leimgruber, A. Aviles-Rivero, G. Yang, J. A. Montoya-Zegarra","venue":"arXiv","detail":"arXiv:2603.02012","year":2026,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2603.02012","thumb":"img_journal/MAPDiff.png","citations":null},{"id":"hrct-report","title":"Unleashing Video Language Models for Fine-grained HRCT Report Generation","authors":"Y. Fang, H. Zhou, K. Lee, Y. Wang, **Z. Zhang**, J. Huang, G. Yang","venue":"arXiv","detail":"arXiv:2603.12469","year":2026,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2603.12469","thumb":"img_journal/HRCT.png","citations":null},{"id":"hipath","title":"HiPath: Hierarchical Vision-Language Alignment for Structured Pathology Report Prediction","authors":"R. Yuan, **Z. Zhang**, A. Wang, L. Hu, X. Hua, Y. Peng, J. Luo, G. Yang","venue":"arXiv","detail":"arXiv:2603.19957","year":2026,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2603.19957","thumb":"img_journal/HiPath.png","citations":null},{"id":"dual-buffer-continual","title":"Dynamic Dual Buffer with Divide-and-Conquer Strategy for Online Continual Learning","authors":"C. Dai, H. Zhou, J. Huang, **Z. Zhang**, F. Wang, Y. Gao, G. Yang, F. Ye","venue":"arXiv","detail":"arXiv:2505.18101","year":2025,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2505.18101","thumb":"img_journal/ODEDM.png","citations":null},{"id":"multi-contrast-sr","title":"Decoupling Multi-Contrast Super-Resolution: Self-Supervised Implicit Re-Representation for Unpaired Cross-Modal Synthesis","authors":"Y. Wu, H. Rui, F. Wang, J. Huang, **Z. Zhang**, H. Zhang, Z. Wang, G. Yang","venue":"arXiv","detail":"arXiv:2505.05855","year":2025,"status":"preprint","type":"preprint","badges":[],"doi":"","url":"https://arxiv.org/abs/2505.05855","thumb":"img_journal/MultiContrast.png","citations":null}],"news":[{"date":"2026","en":"Two papers accepted to ISBI 2026, both as oral presentations.","zh":"两篇论文被 ISBI 2026 接收，均为 Oral 报告。"},{"date":"2026","en":"PR-INR accepted to IEEE Transactions on Image Processing.","zh":"PR-INR 被 IEEE TIP 接收。"},{"date":"2026","en":"Cyclic self-supervised diffusion for ultra-low-field MRI synthesis accepted to IEEE TMI.","zh":"超低场 MRI 合成的循环自监督扩散工作被 IEEE TMI 接收。"},{"date":"2026","en":"GEMA-Score accepted to AAAI 2026.","zh":"GEMA-Score 被 AAAI 2026 接收。"},{"date":"2025","en":"Awarded 800,000 GPU hours on Isambard-AI through the DSIT/UKRI AIRR open call.","zh":"通过 DSIT/UKRI AIRR 开放征集获得 Isambard-AI 80 万 GPU 小时算力。"}],"source":"seed"};
+
+(async function boot(){
+  $("#yr").textContent = new Date().getFullYear();
+  applyLang();
+
+  let data = null;
+  try { data = await getJSON(CONFIG.publications); }
+  catch(e){
+    try { const m = await getJSON(CONFIG.fallback); data = {items:m.entries || [], source:"fallback"}; }
+    catch(e2){ data = Object.assign({}, SEED, {source:"seed"}); }
+  }
+  META = {source:data.source || "action", generated:data.generated};
+  PUBS = (data.items || []).slice().sort((a,b) =>
+    (b.year - a.year) || (b.highlight === true) - (a.highlight === true) || a.title.localeCompare(b.title));
+  renderPubs(); renderSource();
+
+  try { NEWS = (await getJSON(CONFIG.news)).items || []; } catch(e){ NEWS = SEED.news || []; }
+  renderNews();
+
+  try { SCH = await getJSON(CONFIG.scholar); } catch(e){ SCH = null; }
+  renderMetrics();
+})();
+</script>
+</body>
+</html>

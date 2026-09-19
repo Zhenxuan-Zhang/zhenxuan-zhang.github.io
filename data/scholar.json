@@ -1,0 +1,12 @@
+{
+  "_readme": "Written by scripts/update_publications.py. If a run fails, the previous numbers stay here and the page keeps showing them.",
+  "scholar_id": "8DvgcegAAAAJ",
+  "ok": false,
+  "fetched": null,
+  "citations": null,
+  "citations_5y": null,
+  "h_index": null,
+  "i10_index": null,
+  "cites_per_year": {},
+  "message": "No successful run yet. Trigger the workflow from the Actions tab."
+}
