@@ -60,8 +60,20 @@ are lower than Scholar's because it counts a narrower corpus.
 ## Editing content
 
 **A paper that is under review or in press.** Add it to the `entries` array in
-`data/publications.manual.json`. These are written to the page verbatim and no
-index can overwrite them.
+`data/publications.manual.json`. These are written to the page verbatim while
+no index knows about them.
+
+Once the paper is accepted and turns up on Scholar or OpenAlex with a real
+venue, the indexed record takes over and the manual entry is retired, so the
+card stops saying "Under review" on its own. The job prints the retired titles
+in its log; delete them from `entries` when you next edit the file. A hit on
+arXiv alone does not count as acceptance, since a paper can be a preprint and
+under review at the same time. Add `"sticky": true` to an entry to keep it
+verbatim regardless.
+
+Acceptance often lands weeks before Scholar indexes it. To flip a paper
+immediately, delete it from `entries` and add an `overrides` block with the
+real venue and badge.
 
 **A badge, a thumbnail, an author string, a corrected venue.** Add it to the
 `overrides` object in the same file, keyed by the paper title in lower case

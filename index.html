@@ -624,17 +624,32 @@ function renderPubs(){
 }
 
 function renderSource(){
-  const el = $("#srcline");
-  if(META.source === "seed" || META.source === "fallback"){
-    el.innerHTML = lang === "en"
-      ? "Showing the built-in snapshot. The weekly job has not written data/publications.json yet."
-      : "当前显示的是内置快照，每周任务尚未生成 data/publications.json。";
-    return;
+  const zh = lang !== "en";
+  const when = META.generated
+    ? new Date(META.generated).toLocaleDateString(zh ? "zh-CN" : "en-GB") : "";
+  let msg;
+  switch(META.source){
+    case "embedded":
+      msg = zh ? "数据文件未能加载，当前显示页面内置的副本。"
+               : "Data files could not be loaded, so this is the copy built into the page.";
+      break;
+    case "fallback":
+      msg = zh ? "仅显示手工维护的条目，data/publications.json 未找到。"
+               : "Showing hand-maintained entries only. data/publications.json is missing.";
+      break;
+    case "seed":
+      msg = zh ? "手写的初始列表，每周更新任务尚未运行过。"
+               : "Hand-written starting list. The weekly job has not run yet.";
+      break;
+    case "openalex":
+      msg = zh ? `由 OpenAlex 于 ${when} 更新，本次未能访问 Google Scholar。`
+               : `Rebuilt from OpenAlex on ${when}. Google Scholar was unreachable that run.`;
+      break;
+    default:
+      msg = zh ? `由 Google Scholar 与 OpenAlex 于 ${when} 自动更新。`
+               : `Rebuilt from Google Scholar and OpenAlex on ${when}.`;
   }
-  const when = META.generated ? new Date(META.generated).toLocaleDateString(lang === "en" ? "en-GB" : "zh-CN") : "";
-  el.innerHTML = lang === "en"
-    ? `Rebuilt from Google Scholar and OpenAlex on ${esc(when)}.`
-    : `由 Google Scholar 与 OpenAlex 于 ${esc(when)} 自动更新。`;
+  $("#srcline").textContent = msg;
 }
 
 /* ---------- scholar metrics ---------- */
@@ -686,9 +701,9 @@ const SEED = {"items":[{"id":"pr-inr","title":"From Coarse to Continuous: Progre
   try { data = await getJSON(CONFIG.publications); }
   catch(e){
     try { const m = await getJSON(CONFIG.fallback); data = {items:m.entries || [], source:"fallback"}; }
-    catch(e2){ data = Object.assign({}, SEED, {source:"seed"}); }
+    catch(e2){ data = Object.assign({}, SEED, {source:"embedded"}); }
   }
-  META = {source:data.source || "action", generated:data.generated};
+  META = {source:data.source || "scholar+openalex", generated:data.generated};
   PUBS = (data.items || []).slice().sort((a,b) =>
     (b.year - a.year) || (b.highlight === true) - (a.highlight === true) || a.title.localeCompare(b.title));
   renderPubs(); renderSource();

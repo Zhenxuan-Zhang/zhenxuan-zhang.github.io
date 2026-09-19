@@ -294,6 +294,8 @@ def build(args) -> tuple[list, dict | None]:
             if item["title"]:
                 discovered[norm(item["title"])] = item
 
+    manual_titles = {norm(e.get("title", "")) for e in (manual.get("entries") or [])}
+
     for sp in scholar_papers:
         key = norm(sp["title"])
         if key in excluded:
@@ -302,17 +304,24 @@ def build(args) -> tuple[list, dict | None]:
         old = previous.get(key, {})
         item = discovered.get(key)
 
-        # a paper we already resolved once needs no second lookup
-        already_complete = bool(old.get("venue")) and bool(old.get("authors"))
+        # A paper we already resolved needs no second lookup, unless it is one we
+        # are waiting on: those must be re-checked every run or an acceptance is
+        # never noticed.
+        recheck = key in manual_titles or old.get("status") == "review"
+        already_complete = bool(old.get("venue")) and bool(old.get("authors")) and not recheck
+
         if item is None and not already_complete:
             log(f"  looking up: {sp['title'][:64]}")
             w = openalex_by_title(sp["title"], session)
             item = from_openalex(w) if w else crossref_by_title(sp["title"], session)
             time.sleep(0.3)
 
-        if item is None:                       # nothing new; Scholar's bare facts only
-            item = {"title": sp["title"], "year": sp["year"],
-                    "status": "published", "type": "conference"}
+        if item is None:
+            # Nothing new. Scholar's bare facts only, and no guessing at a status
+            # that would overwrite what the previous run knew.
+            item = {"title": sp["title"], "year": sp["year"]}
+            if not old:
+                item.update({"status": "published", "type": "conference"})
 
         # previous run is the base; only non-empty new values are allowed to replace it
         merged = dict(old)
@@ -338,18 +347,42 @@ def build(args) -> tuple[list, dict | None]:
         merged.setdefault("note", "")
         merged["id"] = merged.get("id") or slug(merged["title"])
         merged.update(overrides.get(key, {}))          # hand edits win
+        if merged.get("status") != "review":           # an accepted paper keeps no review badge
+            merged["badges"] = [b for b in merged.get("badges", []) if b.get("kind") != "review"]
         if not merged.get("year"):
             merged["year"] = datetime.now().year
         items.append(merged)
 
-    # hand-written entries (under review, in press) are appended verbatim
+    # Hand-written entries cover papers no index knows about yet. Once a paper
+    # turns up properly published, the real record wins and the manual entry is
+    # retired, otherwise "Under review" would stick to it for ever. A preprint
+    # hit does not count: a paper can sit on arXiv and be under review at once.
+    retired = []
     for entry in manual.get("entries", []) or []:
-        if norm(entry.get("title", "")) in excluded:
+        key = norm(entry.get("title", ""))
+        if key in excluded:
             continue
+
+        found = discovered.get(key)
+        venue = (found or {}).get("venue", "")
+        now_published = (bool(found) and found.get("status") == "published"
+                         and venue and norm(venue) != "under review")
+        if now_published and not entry.get("sticky"):
+            retired.append((entry.get("title", ""), found.get("venue", "")))
+            continue
+
         entry = dict(entry)
         entry["id"] = entry.get("id") or slug(entry["title"])
         items = [i for i in items if norm(i["title"]) != norm(entry["title"])]
         items.append(entry)
+
+    if retired:
+        log("")
+        log("No longer under review, now using the indexed record:")
+        for title, venue in retired:
+            log(f"  {title[:62]} -> {venue}")
+        log("Remove these from the entries array in data/publications.manual.json.")
+        log("")
 
     items.sort(key=lambda p: (-(p.get("year") or 0), not p.get("highlight"), p["title"]))
     return items, metrics
