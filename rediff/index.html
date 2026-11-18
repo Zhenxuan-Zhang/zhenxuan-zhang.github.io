@@ -1,0 +1,576 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>ReDiff — Reliability-Guided MRI Synthesis</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="ReDiff: reliability-guided Brownian bridges for 64 mT to 3 T MRI synthesis, with an uncertainty map that flags failures.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one long scroll. Narrow text column (~66ch) between wide media bands (max 1180px);
+   the hero pairs the thesis with a dark scanner "screen" under the bridge-noise arch. */
+:root {
+  --bg: #F6F6F8;
+  --surface: #FFFFFF;
+  --ink: #14141B;
+  --ink-2: #474757;
+  --muted: #74748A;
+  --line: #E3E3EB;
+  --accent: #D6245F;          /* ReDiff magenta (validated chart accent, light) */
+  --accent-2: #EE4F1C;        /* orange-red end of the brand gradient */
+  --cool: #2D6BFF;            /* uncertainty blue, as in the uncertainty maps */
+  --screen: #0A0A0F;
+  --bar: #D2D2DD;             /* de-emphasis bars */
+  --bar-2: #A4A4B7;           /* strongest baseline */
+  --grid: #E8E8EF;
+  --clip-bg: #FFFFFF;         /* white-ground clips sit on this */
+  --shadow: 0 1px 2px rgba(20, 20, 40, .06), 0 12px 32px rgba(20, 20, 40, .08);
+  --display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --w-text: 680px;
+  --w-wide: 1180px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0C0C11; --surface: #15151D; --ink: #F1F1F6; --ink-2: #BDBDCB; --muted: #8C8CA0; --line: #262632;
+    --accent: #F2477D; --accent-2: #FF7448; --cool: #6E9BFF; --screen: #050508;
+    --bar: #3C3C4A; --bar-2: #5F5F74; --grid: #22222C; --clip-bg: #F2F2F5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px rgba(0, 0, 0, .45);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0C0C11; --surface: #15151D; --ink: #F1F1F6; --ink-2: #BDBDCB; --muted: #8C8CA0; --line: #262632;
+  --accent: #F2477D; --accent-2: #FF7448; --cool: #6E9BFF; --screen: #050508;
+  --bar: #3C3C4A; --bar-2: #5F5F74; --grid: #22222C; --clip-bg: #F2F2F5;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 16px 40px rgba(0, 0, 0, .45);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 17px/1.65 var(--body);
+  -webkit-font-smoothing: antialiased;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.mono { font-family: var(--mono); }
+.eyebrow { font: 500 13px/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.grad { background: linear-gradient(90deg, var(--accent-2), var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* ---------- nav ---------- */
+.nav {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px))) calc(-1 * max(16px, env(safe-area-inset-right, 0px)));
+  padding: 12px max(16px, env(safe-area-inset-right, 0px)) 12px max(16px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-in { max-width: var(--w-wide); margin: 0 auto; display: flex; align-items: center; gap: 24px; }
+.wordmark { font: 700 18px/1 var(--display); letter-spacing: -0.02em; text-decoration: none; }
+.nav-links { display: flex; gap: 20px; margin-left: auto; overflow-x: auto; scrollbar-width: none; }
+.nav-links a { font-size: 14px; color: var(--ink-2); text-decoration: none; white-space: nowrap; }
+.nav-links a:hover { color: var(--ink); }
+
+/* ---------- sections ---------- */
+main { max-width: var(--w-wide); margin: 0 auto; }
+section { padding-block: clamp(64px, 9vw, 120px); border-top: 1px solid var(--line); }
+section.title-row { padding-block: clamp(40px, 6vw, 80px) clamp(24px, 3vw, 36px); border-top: 0; }
+.text { max-width: var(--w-text); }
+.section-head { display: grid; gap: 14px; margin-bottom: clamp(28px, 4vw, 48px); }
+.section-head h2 { font-size: clamp(32px, 5vw, 56px); line-height: 1.05; }
+.section-head p { color: var(--ink-2); font-size: 18px; max-width: var(--w-text); }
+
+/* ---------- hero ---------- */
+.title-row { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: end; padding-block: clamp(40px, 6vw, 80px) clamp(24px, 3vw, 36px); border-top: 0; }
+.title-row h1 { font-size: clamp(72px, 13vw, 168px); line-height: .9; letter-spacing: -0.045em; font-weight: 700; margin-top: 14px; }
+.title-row .lede { font-size: clamp(19px, 2.1vw, 23px); line-height: 1.5; color: var(--ink-2); margin-top: 22px; max-width: 40ch; }
+.title-row .meta { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; }
+.bento { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 18px; margin-bottom: clamp(28px, 4vw, 44px); }
+.bento .wide { grid-column: 1 / -1; }
+.bt { display: grid; grid-template-rows: 1fr auto; gap: 10px; min-width: 0; }
+.bt .frame { border-radius: 24px; overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow); background: var(--clip-bg); min-height: 0; }
+.bt .frame.dark { background: var(--screen); border-color: transparent; }
+.bt .frame.sq { aspect-ratio: 1 / 1; }
+.bt video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.cap2 { display: flex; flex-wrap: wrap; gap: 2px 10px; align-items: baseline; }
+.cap2 b { font: 600 16px/1.3 var(--display); }
+.cap2 span { font-size: 14px; color: var(--muted); }
+.cap2 a { font: 500 13px var(--mono); color: var(--accent); text-decoration: none; margin-left: auto; white-space: nowrap; }
+.cap2 a:hover { text-decoration: underline; }
+.chip { font: 500 13px/1 var(--mono); padding: 9px 12px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); background: var(--surface); }
+.arch { display: block; width: 100%; height: auto; overflow: visible; }
+.arch .lbl { font: 500 11px var(--mono); fill: var(--muted); letter-spacing: .04em; }
+
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-bottom: clamp(24px, 4vw, 40px); }
+.stat { padding: 26px 24px 24px 0; display: grid; gap: 8px; align-content: start; }
+.stat + .stat { padding-left: 24px; border-left: 1px solid var(--line); }
+.stat b { font: 600 clamp(34px, 4.2vw, 52px)/1 var(--display); letter-spacing: -0.03em; }
+.stat span { font-size: 15px; color: var(--ink-2); line-height: 1.45; }
+
+/* ---------- media ---------- */
+.clip-card { background: var(--clip-bg); border-radius: 22px; overflow: hidden; box-shadow: var(--shadow); border: 1px solid var(--line); }
+.clip-card video { display: block; width: 100%; height: auto; }
+:root[data-theme="dark"] .clip-card video { filter: brightness(.94); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .clip-card video { filter: brightness(.94); } }
+figure { margin: 0; }
+figcaption.cap { margin-top: 12px; font-size: 13.5px; color: var(--muted); max-width: 80ch; }
+.tile { border-radius: 14px; overflow: hidden; background: var(--screen); aspect-ratio: 1 / 1; }
+.tile img, .tile video { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+/* problem */
+.problem { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+.problem .big { border-radius: 18px; overflow: hidden; box-shadow: var(--shadow); background: var(--screen); }
+.problem .big img { display: block; width: 100%; }
+.zooms { display: grid; gap: 26px; }
+.zoom h3 { font-size: 21px; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+.zoom h3 i { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.pair img { display: block; width: 100%; border-radius: 10px; }
+.pair span { display: block; font-size: 12.5px; color: var(--muted); margin-top: 6px; }
+
+/* method steps */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(16px, 2.5vw, 32px); margin-bottom: clamp(32px, 5vw, 56px); }
+.step { display: grid; gap: 10px; align-content: start; padding-top: 18px; border-top: 2px solid var(--ink); }
+.step .n { font: 500 13px var(--mono); color: var(--accent); }
+.step h3 { font-size: 23px; }
+.step p { color: var(--ink-2); font-size: 16px; }
+.step .eq { font: 400 14px/1.5 var(--mono); color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; }
+.figure-card { background: #FFFFFF; border-radius: 18px; border: 1px solid var(--line); padding: clamp(10px, 2vw, 22px); box-shadow: var(--shadow); overflow-x: auto; }
+.figure-card img { display: block; width: 100%; min-width: 620px; }
+.wide-gap { height: clamp(36px, 5vw, 64px); }
+
+/* compare slider */
+.cmp-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: clamp(20px, 4vw, 48px); align-items: center; }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+.seg button { font: 500 14px var(--body); color: var(--ink-2); background: transparent; border: 0; border-radius: 9px; padding: 9px 14px; cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.cmp { position: relative; aspect-ratio: 1 / 1; max-width: 640px; width: 100%; border-radius: 22px; overflow: hidden; background: var(--screen); box-shadow: var(--shadow); touch-action: pan-y; user-select: none; }
+.cmp img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.cmp .top { clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+.cmp .handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; margin-left: -1px; background: #fff; box-shadow: 0 0 12px rgba(120, 200, 255, .9); pointer-events: none; }
+.cmp .knob { position: absolute; top: 50%; left: var(--pos, 50%); width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: #F5F5F7; display: grid; place-items: center; box-shadow: 0 4px 14px rgba(0, 0, 0, .35); pointer-events: none; }
+.cmp .knob svg { width: 22px; height: 22px; }
+.cmp .tag { position: absolute; top: 14px; font: 500 12px var(--mono); color: #F2F2F6; background: rgba(0, 0, 0, .55); padding: 6px 9px; border-radius: 8px; }
+.cmp .tag.l { left: 14px; } .cmp .tag.r { right: 14px; }
+.cmp input[type="range"] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
+.cmp-side { display: grid; gap: 18px; }
+.psnr-row { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; align-items: baseline; font-variant-numeric: tabular-nums; }
+.psnr-row b { font: 600 26px/1.1 var(--display); }
+.psnr-row span { color: var(--ink-2); font-size: 15px; }
+
+/* chart */
+.chart-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: start; }
+.chart-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px 20px 14px; position: relative; }
+.chart-card h3 { font: 600 17px/1.3 var(--body); letter-spacing: 0; }
+.chart-card .sub { font-size: 13.5px; color: var(--muted); margin-top: 4px; }
+.chart { margin-top: 14px; overflow-x: auto; }
+.chart svg { display: block; width: 100%; min-width: 420px; height: auto; }
+.chart text { font: 500 12.5px var(--body); fill: var(--ink-2); }
+.chart .val { fill: var(--ink); font-variant-numeric: tabular-nums; }
+.chart .tick { fill: var(--muted); font-variant-numeric: tabular-nums; font-size: 11.5px; }
+.table-toggle { margin-top: 10px; font: 500 13px var(--body); color: var(--ink-2); background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+.data-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14px; font-variant-numeric: tabular-nums; }
+.data-table th, .data-table td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.data-table td:last-child, .data-table th:last-child { text-align: right; }
+.tip { position: absolute; pointer-events: none; background: var(--ink); color: var(--bg); font: 500 13px/1.35 var(--body); padding: 7px 9px; border-radius: 8px; white-space: nowrap; transform: translate(-50%, -110%); font-variant-numeric: tabular-nums; }
+.kpis { display: grid; gap: 28px; }
+.kpi b { display: block; font: 600 clamp(40px, 5vw, 64px)/1 var(--display); letter-spacing: -0.03em; }
+.kpi span { display: block; margin-top: 8px; color: var(--ink-2); font-size: 16px; }
+
+/* uncertainty grid */
+.uq { display: grid; grid-template-columns: minmax(0, 2.1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 56px); align-items: center; }
+.uq-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.uq-grid .colh { font: 500 13px var(--body); color: var(--ink-2); text-align: center; }
+.uq-grid .rowh { grid-column: 1 / -1; font: 600 14px var(--body); margin-top: 10px; }
+.uq-grid .rowh.fail { color: var(--accent); }
+.uq-grid .rowh small { font-weight: 400; color: var(--muted); }
+.legend-row { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 14px; font-size: 13px; color: var(--muted); }
+.legend-row i { display: inline-block; width: 26px; height: 8px; border-radius: 4px; margin-right: 6px; vertical-align: middle; }
+
+/* anatomy */
+.anat-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 22px; text-align: center; }
+.anat-stats b { display: block; font: 600 clamp(28px, 3.6vw, 44px)/1.1 var(--display); letter-spacing: -0.02em; }
+.anat-stats span { display: block; color: var(--ink-2); font-size: 14.5px; margin-top: 6px; }
+.cols3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); text-align: center; margin-top: 10px; font: 600 15px var(--body); }
+.cols3 .r { color: var(--accent); }
+
+footer { max-width: var(--w-wide); margin: 0 auto; padding-block: 40px 56px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 12px 32px; color: var(--muted); font-size: 14px; }
+footer b { color: var(--ink); font-family: var(--display); }
+
+@media (max-width: 900px) {
+  .title-row, .bento, .problem, .cmp-wrap, .chart-grid, .uq { grid-template-columns: minmax(0, 1fr); }
+  .arch { max-width: 520px; }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .stats { grid-template-columns: minmax(0, 1fr); }
+  .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .nav-links { gap: 14px; }
+}
+@media (max-width: 560px) {
+  .uq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .uq-grid .colh { display: none; }
+  .anat-stats, .cols3 { grid-template-columns: minmax(0, 1fr); }
+  .cols3 { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .arch .dot { display: none; }
+}
+</style>
+</head><body>
+
+<nav class="nav" aria-label="Sections">
+  <div class="nav-in">
+    <a class="wordmark grad" href="#top">ReDiff</a>
+    <div class="nav-links">
+      <a href="#problem">Problem</a><a href="#method">Method</a><a href="#compare">Compare</a>
+      <a href="#results">Results</a><a href="#uncertainty">Uncertainty</a><a href="#anatomy">Anatomy</a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+  <!-- HERO: title row, then the showreel -->
+  <section class="title-row" aria-labelledby="h-title">
+    <div>
+      <p class="eyebrow">64 mT → 3 T MRI synthesis</p>
+      <h1 id="h-title" class="grad">ReDiff</h1>
+      <p class="lede">Reliability-guided Brownian bridges that turn portable 64 mT scans into 3 T-quality images and mark where the result should not be trusted.</p>
+      <div class="meta">
+        <span class="chip">Imperial College London</span>
+        <span class="chip">Paper under review</span>
+      </div>
+    </div>
+    <svg class="arch" viewBox="0 0 600 150" aria-hidden="true">
+      <defs>
+        <linearGradient id="archg" x1="0" x2="1">
+          <stop offset="0" style="stop-color: var(--accent-2)"/><stop offset="1" style="stop-color: var(--accent)"/>
+        </linearGradient>
+      </defs>
+      <path id="archp" d="M 14 140 C 160 -24, 440 -24, 586 140" style="fill: none; stroke: url(#archg)" stroke-width="2" stroke-linecap="round"/>
+      <circle class="dot" r="6" style="fill: var(--accent)">
+        <animateMotion dur="6s" repeatCount="indefinite"><mpath href="#archp"/></animateMotion>
+      </circle>
+      <text class="lbl" x="22" y="140">anchor b · t = 1000</text>
+      <text class="lbl" x="578" y="140" text-anchor="end">estimate · t = 0</text>
+      <text class="lbl" x="300" y="62" text-anchor="middle">bridge noise δt, largest mid-way</text>
+    </svg>
+  </section>
+
+  <div class="bento" aria-label="Highlights">
+    <figure class="bt">
+      <div class="frame"><video class="auto" muted loop playsinline preload="metadata" poster="media/anat_explode.jpg" aria-label="Exploded view of nine SynthSeg structures from 64 mT, ReDiff and 3 T, highlighted one by one with Dice and volume"><source src="media/anat_explode.mp4" type="video/mp4"></video></div>
+      <figcaption class="cap2"><b>Every structure, one by one</b><span>nine deep structures segmented from 64 mT, ReDiff and 3 T</span><a href="#anatomy">Anatomy ↓</a></figcaption>
+    </figure>
+    <figure class="bt">
+      <div class="frame dark sq"><video class="auto" muted loop playsinline preload="metadata" poster="media/hero.jpg" aria-label="ReDiff turns a 64 mT brain scan into a 3 T-like image, then a slider reveals its uncertainty map"><source src="media/hero.mp4" type="video/mp4"></video></div>
+      <figcaption class="cap2"><b>Generation and its uncertainty</b><span>slice #0535</span><a href="#compare">Compare ↓</a></figcaption>
+    </figure>
+    <figure class="bt wide">
+      <div class="frame"><video class="auto" muted loop playsinline preload="metadata" poster="media/bridges.jpg" aria-label="Standard and RGS bridges sampling from the same anchor; where their paths differ; final output and uncertainty map"><source src="media/bridges.mp4" type="video/mp4"></video></div>
+      <figcaption class="cap2"><b>Two bridges, live</b><span>they part where the anchor is weak; their spread is the uncertainty map</span><a href="#method">Method ↓</a></figcaption>
+    </figure>
+  </div>
+
+  <div class="stats" role="list">
+    <div class="stat" role="listitem"><b class="grad">+1.55 / +2.35 dB</b><span>PSNR over a Brownian bridge from the raw 64 mT image, on the two paired datasets</span></div>
+    <div class="stat" role="listitem"><b>0.83</b><span>AUROC of the uncertainty map for flagging low-fidelity slices</span></div>
+    <div class="stat" role="listitem"><b>0.902</b><span>mean SynthSeg Dice with the 3 T segmentations, the highest of all methods (BBDM 0.890)</span></div>
+  </div>
+
+  <!-- PROBLEM -->
+  <section id="problem" aria-labelledby="h-problem">
+    <div class="section-head">
+      <p class="eyebrow">The problem</p>
+      <h2 id="h-problem">Sharp is not the same as correct.</h2>
+      <p>Recovering a 3 T image from a 64 mT scan is ill-posed, and unevenly so: some regions keep enough evidence, others do not. Diffusion bridges inject the same randomness everywhere, so their outputs can look plausible and still contain anatomy that was never scanned.</p>
+    </div>
+    <div class="problem">
+      <figure>
+        <div class="big"><img src="media/f1_syn.webp" alt="A diffusion-bridge baseline (BBDM) synthesis from a 64 mT scan with two boxed regions" loading="lazy" width="1100"></div>
+        <figcaption class="cap">A diffusion-bridge baseline (BBDM) synthesis from a 64 mT scan, test subject 13. Boxes mark the two zoomed regions.</figcaption>
+      </figure>
+      <div class="zooms">
+        <div class="zoom">
+          <h3><i style="background:#D62828"></i>Invented texture</h3>
+          <div class="pair">
+            <div><img src="media/f1_z1_syn.webp" alt="Synthesized texture, zoomed" loading="lazy"><span>synthesized</span></div>
+            <div><img src="media/f1_z1_ref.webp" alt="3 T reference, same region" loading="lazy"><span>3 T reference</span></div>
+          </div>
+        </div>
+        <div class="zoom">
+          <h3><i style="background:#1F5BD8"></i>Spurious boundary</h3>
+          <div class="pair">
+            <div><img src="media/f1_z2_syn.webp" alt="Synthesized boundary, zoomed" loading="lazy"><span>synthesized</span></div>
+            <div><img src="media/f1_z2_ref.webp" alt="3 T reference, same region" loading="lazy"><span>3 T reference</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHOD -->
+  <section id="method" aria-labelledby="h-method">
+    <div class="section-head">
+      <p class="eyebrow">Method</p>
+      <h2 id="h-method">Anchor. Two bridges. One map.</h2>
+      <p>ReDiff makes generation bold only where the evidence is weak, and turns the disagreement between two differently guided samplers into an uncertainty map.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <span class="n">1 · anchor</span>
+        <h3>Start from a coarse 3 T estimate</h3>
+        <p>A frozen residual network maps the 64 mT image to a coarse estimate that absorbs the contrast and intensity change. The bridge starts there, so it only has to add residual detail.</p>
+        <p class="eq">b = x + f<sub>ψ</sub>(x)</p>
+      </div>
+      <div class="step">
+        <span class="n">2 · reliability-guided noise</span>
+        <h3>Be bold only where the anchor is weak</h3>
+        <p>A reliability network predicts where the anchor is wrong. A second bridge scales its noise by that map, with the same endpoints and step rule as the standard bridge.</p>
+        <p class="eq">g = 1 + γu</p>
+      </div>
+      <div class="step">
+        <span class="n">3 · uncertainty from spread</span>
+        <h3>Average two, keep the gap</h3>
+        <p>One sample per bridge. Their mean is the output, and averaging lowers the squared error by exactly their disagreement at every pixel, which becomes the map U.</p>
+        <p class="eq">ŷ = (ŷ₁ + ŷ₂) / 2 · U = ((ŷ₁ − ŷ₂) / 2)²</p>
+      </div>
+    </div>
+    <figure>
+      <div class="figure-card"><img src="media/method.webp" alt="ReDiff pipeline: coarse anchoring and reliability, a standard and an RGS bridge in parallel, uncertainty from candidate spread" loading="lazy"></div>
+      <figcaption class="cap">The pipeline from the paper.</figcaption>
+    </figure>
+    <div class="wide-gap"></div>
+    <div class="section-head" style="margin-bottom:22px">
+      <h3 style="font-size:clamp(24px,3vw,34px)">Watch both bridges sample</h3>
+      <p>Both start at the anchor. Noise peaks in the middle of the bridge, and the reliability-guided bridge adds more where the anchor is unreliable. Their paths part almost only there. At t = 0 the two candidates are averaged, and what they still disagree on is the uncertainty map.</p>
+    </div>
+    <figure>
+      <div class="clip-card">
+        <video class="auto" muted loop playsinline preload="metadata" poster="media/bridges.jpg" aria-label="Standard and RGS bridges sampling from the same anchor; where their paths differ; final output and uncertainty map">
+          <source src="media/bridges.mp4" type="video/mp4">
+        </video>
+      </div>
+      <figcaption class="cap">Recorded 200-step runs of both bridges on slice #0535. The last frame is the reported output and uncertainty map.</figcaption>
+    </figure>
+  </section>
+
+  <!-- COMPARE -->
+  <section id="compare" aria-labelledby="h-compare">
+    <div class="section-head">
+      <p class="eyebrow">Compare</p>
+      <h2 id="h-compare">From a 64 mT scan <span class="grad">to 3 T detail.</span></h2>
+      <p>Drag across the image to compare. All four images show the same private T2 test slice.</p>
+    </div>
+    <div class="cmp-wrap">
+      <div>
+        <div class="seg" role="group" aria-label="Choose a comparison">
+          <button type="button" id="pair-lf" aria-pressed="true" data-l="lf" data-r="ours">64 mT vs ReDiff</button>
+          <button type="button" id="pair-bbdm" aria-pressed="false" data-l="bbdm" data-r="ours">BBDM vs ReDiff</button>
+          <button type="button" id="pair-ref" aria-pressed="false" data-l="ours" data-r="ref">ReDiff vs 3 T</button>
+        </div>
+        <div class="cmp" id="cmp" style="--pos:50%; margin-top:16px">
+          <img class="bottom" id="cmp-r" src="media/cmp_ours.webp" alt="ReDiff output" draggable="false">
+          <img class="top" id="cmp-l" src="media/cmp_lf.webp" alt="64 mT input" draggable="false">
+          <div class="handle"></div>
+          <div class="knob" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#1E1E22" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l-5 6 5 6M15 6l5 6-5 6"/></svg></div>
+          <span class="tag l" id="tag-l">64 mT input</span><span class="tag r" id="tag-r">ReDiff</span>
+          <input type="range" id="cmp-range" min="0" max="100" value="50" step="0.5" aria-label="Comparison divider position">
+        </div>
+      </div>
+      <div class="cmp-side">
+        <p class="eyebrow">PSNR on this slice</p>
+        <div class="psnr-row"><b>23.87 dB</b><span>64 mT input</span><b>38.21 dB</b><span>BBDM</span><b class="grad">41.96 dB</b><span>ReDiff</span></div>
+        <p style="color:var(--muted);font-size:14px">Private T2 test slice #0535, PSNR as reported in the paper.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" aria-labelledby="h-results">
+    <div class="section-head">
+      <p class="eyebrow">Results</p>
+      <h2 id="h-results">Best PSNR in every contrast.</h2>
+      <p>On two paired 64 mT-to-3 T datasets, ReDiff has the best PSNR and LPIPS in every contrast against GAN-, transformer- and diffusion-based methods.</p>
+    </div>
+    <div class="chart-grid">
+      <div class="chart-card">
+        <h3>Mean PSNR over the six contrast × dataset cells</h3>
+        <p class="sub">dB, higher is better · hover a bar for its value</p>
+        <div class="chart" id="psnr-chart"></div>
+        <button class="table-toggle" type="button" id="psnr-toggle" aria-expanded="false" aria-controls="psnr-table">Show data table</button>
+        <table class="data-table" id="psnr-table" hidden></table>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b class="grad">+1.96 dB</b><span>over BBDM, the strongest baseline (mean of the six cells)</span></div>
+        <div class="kpi"><b>+1.55 / +2.35 dB</b><span>over a Brownian bridge from the raw 64 mT image, private / Leiden dataset</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UNCERTAINTY -->
+  <section id="uncertainty" aria-labelledby="h-uq">
+    <div class="section-head">
+      <p class="eyebrow">Uncertainty</p>
+      <h2 id="h-uq">It knows <span class="grad">when it fails.</span></h2>
+      <p>Each clip replays sampling. On a typical slice the two bridges end up agreeing, so the uncertainty stays dark. On a failure they still disagree at the end, in the same places as the error.</p>
+    </div>
+    <div class="uq">
+      <div>
+        <div class="uq-grid">
+          <div class="colh">64 mT input</div><div class="colh">Output</div><div class="colh">|error|</div><div class="colh">Uncertainty</div>
+          <div class="rowh">Typical <small>· Monash T2 · 39.4 dB</small></div>
+          <div class="tile"><img src="media/typ_in.webp" alt="Typical slice: 64 mT input" loading="lazy"></div>
+          <div class="tile"><video class="auto" muted loop playsinline preload="metadata" poster="media/typ_out.jpg" aria-label="Typical slice: output during sampling"><source src="media/typ_out.mp4" type="video/mp4"></video></div>
+          <div class="tile"><img src="media/typ_err.webp" alt="Typical slice: absolute error against 3 T" loading="lazy"></div>
+          <div class="tile"><video class="auto" muted loop playsinline preload="metadata" poster="media/typ_ucs.jpg" aria-label="Typical slice: where the two bridges differ, ending in the uncertainty map"><source src="media/typ_ucs.mp4" type="video/mp4"></video></div>
+          <div class="rowh fail">Detected failure <small>· Monash FLAIR · 27.0 dB</small></div>
+          <div class="tile"><img src="media/fail_in.webp" alt="Failure slice: 64 mT input" loading="lazy"></div>
+          <div class="tile"><video class="auto" muted loop playsinline preload="metadata" poster="media/fail_out.jpg" aria-label="Failure slice: output during sampling"><source src="media/fail_out.mp4" type="video/mp4"></video></div>
+          <div class="tile"><img src="media/fail_err.webp" alt="Failure slice: absolute error against 3 T" loading="lazy"></div>
+          <div class="tile"><video class="auto" muted loop playsinline preload="metadata" poster="media/fail_ucs.jpg" aria-label="Failure slice: where the two bridges differ, ending in the uncertainty map"><source src="media/fail_ucs.mp4" type="video/mp4"></video></div>
+        </div>
+        <div class="legend-row">
+          <span><i style="background:linear-gradient(90deg,#000,#8C1405,#FF6B3D,#FFC24A,#FFF8D9)"></i>|error|, one scale for both rows</span>
+          <span><i style="background:linear-gradient(90deg,#000,#082673,#3B7AFF,#4FD1F5,#E6FFFF)"></i>uncertainty, one scale for both rows</span>
+        </div>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><b class="grad">0.83</b><span>AUROC for flagging low-fidelity slices</span></div>
+        <div class="kpi"><b>10.0% → 3.6%</b><span>failure rate after deferring the 20% most uncertain slices</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANATOMY -->
+  <section id="anatomy" aria-labelledby="h-anat">
+    <div class="section-head">
+      <p class="eyebrow">Downstream</p>
+      <h2 id="h-anat">Anatomy <span class="grad">you can measure.</span></h2>
+      <p>SynthSeg segmentations of whole synthesized FLAIR volumes, test subject 13. From the raw 64 mT scan most deep structures are lost. From ReDiff they come back and match 3 T.</p>
+    </div>
+    <figure>
+      <div class="clip-card">
+        <video class="auto" muted loop playsinline preload="metadata" poster="media/anat_turn.jpg" aria-label="Lateral ventricle, thalamus and hippocampus from 64 mT, ReDiff and 3 T FLAIR, rotating">
+          <source src="media/anat_turn.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="cols3" aria-hidden="true"><span>64 mT input</span><span class="r">ReDiff</span><span>3 T reference</span></div>
+    </figure>
+    <div class="anat-stats">
+      <div><b class="grad">0.03 → 0.87</b><span>thalamus volume R², 64 mT → ReDiff</span></div>
+      <div><b class="grad">0.00 → 0.89</b><span>hippocampus volume R²</span></div>
+      <div><b>0.902</b><span>mean SynthSeg Dice · BBDM 0.890</span></div>
+    </div>
+    <div class="wide-gap"></div>
+    <div class="section-head" style="margin-bottom:22px">
+      <h3 style="font-size:clamp(24px,3vw,34px)">Every structure, one by one</h3>
+      <p>The same subject, pulled apart into the nine deep structures of the Dice analysis. Each structure lights up with its Dice and volume against the subject’s own 3 T segmentation. Over all eleven structures, mean Dice rises from 0.24 to 0.89.</p>
+    </div>
+    <figure>
+      <div class="clip-card">
+        <video class="auto" muted loop playsinline preload="metadata" poster="media/anat_explode.jpg" aria-label="Exploded view of nine SynthSeg structures from 64 mT, ReDiff and 3 T, highlighted one by one with Dice and volume">
+          <source src="media/anat_explode.mp4" type="video/mp4">
+        </video>
+      </div>
+      <figcaption class="cap">Exploded view: rigid offsets for display only. Dice and volumes are the paper’s per-subject values.</figcaption>
+    </figure>
+  </section>
+</main>
+
+<footer>
+  <b>ReDiff</b>
+  <span>Reliability-guided Brownian bridges for 64 mT → 3 T MRI synthesis</span>
+  <span>Imperial College London · paper under review · code after review</span>
+</footer>
+
+<script>
+(() => {
+  /* ---------- clips: play when visible, pause otherwise; respect reduced motion ---------- */
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const vids = Array.from(document.querySelectorAll('video.auto'));
+  if (reduce) {
+    vids.forEach(v => { v.controls = true; });
+  } else if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const v = e.target;
+        if (e.isIntersecting) { const p = v.play(); if (p && p.catch) p.catch(() => { v.controls = true; }); }
+        else v.pause();
+      });
+    }, { threshold: 0.25 });
+    vids.forEach(v => io.observe(v));
+  } else {
+    vids.forEach(v => { v.autoplay = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); });
+  }
+
+  /* ---------- compare slider ---------- */
+  const SRC = { lf: ['media/cmp_lf.webp', '64 mT input'], ours: ['media/cmp_ours.webp', 'ReDiff'],
+                ref: ['media/cmp_ref.webp', '3 T reference'], bbdm: ['media/cmp_bbdm.webp', 'BBDM'] };
+  const cmp = document.getElementById('cmp'), range = document.getElementById('cmp-range');
+  const L = document.getElementById('cmp-l'), R = document.getElementById('cmp-r');
+  const tL = document.getElementById('tag-l'), tR = document.getElementById('tag-r');
+  const setPos = v => cmp.style.setProperty('--pos', v + '%');
+  range.addEventListener('input', () => setPos(range.value));
+  document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.seg button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    const l = SRC[b.dataset.l], r = SRC[b.dataset.r];
+    L.src = l[0]; L.alt = l[1]; tL.textContent = l[1];
+    R.src = r[0]; R.alt = r[1]; tR.textContent = r[1];
+  }));
+  ['cmp_ref.webp', 'cmp_bbdm.webp'].forEach(f => { const i = new Image(); i.src = 'media/' + f; });
+
+  /* ---------- emphasis bar chart (mean PSNR over six cells) ---------- */
+  const data = [['ReDiff', 37.72], ['BBDM', 35.76], ['APT', 32.6], ['CSS-Diff', 32.1], ['CyTran', 31.68], ['ResViT', 30.81],
+                ['MiDiffusion', 30.19], ['McCaD', 29.9], ['Pix2Pix', 29.48], ['ESRGAN', 29.23], ['LoHiResGAN', 29.02], ['Low-field input', 23.41]];
+  const host = document.getElementById('psnr-chart');
+  const W = 620, rowH = 30, top = 8, left = 128, right = 64, H = top + data.length * rowH + 30;
+  const x0 = 20, x1 = 40, sx = v => left + (v - x0) / (x1 - x0) * (W - left - right);
+  const NS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(NS, 'svg');
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.setAttribute('role', 'img');
+  svg.setAttribute('aria-label', 'Mean PSNR in dB: ' + data.map(d => `${d[0]} ${d[1].toFixed(2)}`).join(', '));
+  const el = (n, a, parent = svg) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); parent.appendChild(e); return e; };
+  [20, 25, 30, 35, 40].forEach(t => {
+    el('line', { x1: sx(t), x2: sx(t), y1: top - 4, y2: top + data.length * rowH, style: 'stroke: var(--grid)', 'stroke-width': 1 });
+    el('text', { x: sx(t), y: top + data.length * rowH + 18, 'text-anchor': 'middle', class: 'tick' }).textContent = t;
+  });
+  const card = host.closest('.chart-card');
+  const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; card.appendChild(tip);
+  data.forEach(([name, v], i) => {
+    const y = top + i * rowH, bh = 18, by = y + (rowH - bh) / 2;
+    const fill = 'fill: ' + (name === 'ReDiff' ? 'var(--accent)' : (name === 'BBDM' ? 'var(--bar-2)' : 'var(--bar)'));
+    el('text', { x: left - 10, y: by + bh / 2 + 4.5, 'text-anchor': 'end', style: name === 'ReDiff' ? 'font-weight:700;fill:var(--ink)' : '' }).textContent = name;
+    const w = sx(v) - sx(x0), r = 4;
+    /* square at the baseline, 4px rounded data end */
+    el('path', { d: `M ${sx(x0)} ${by} h ${w - r} a ${r} ${r} 0 0 1 ${r} ${r} v ${bh - 2 * r} a ${r} ${r} 0 0 1 ${-r} ${r} h ${-(w - r)} Z`, style: fill });
+    if (name === 'ReDiff' || name === 'BBDM') {
+      el('text', { x: sx(v) + 8, y: by + bh / 2 + 4.5, class: 'val', style: name === 'ReDiff' ? 'font-weight:700' : '' }).textContent = v.toFixed(2);
+    }
+    const hit = el('rect', { x: 0, y, width: W, height: rowH, style: 'fill: transparent', tabindex: 0, 'aria-label': `${name}: ${v.toFixed(2)} dB` });
+    const show = () => {
+      const r = svg.getBoundingClientRect(), c = card.getBoundingClientRect(), k = r.width / W;
+      tip.textContent = `${name} · ${v.toFixed(2)} dB`;
+      tip.style.left = (r.left - c.left + sx(v) * k) + 'px'; tip.style.top = (r.top - c.top + by * k) + 'px'; tip.hidden = false;
+    };
+    hit.addEventListener('mouseenter', show); hit.addEventListener('focus', show);
+    hit.addEventListener('mouseleave', () => tip.hidden = true); hit.addEventListener('blur', () => tip.hidden = true);
+  });
+  host.appendChild(svg);
+  const table = document.getElementById('psnr-table');
+  table.innerHTML = '<thead><tr><th>Method</th><th>Mean PSNR (dB)</th></tr></thead><tbody>' +
+    data.map(d => `<tr><td>${d[0]}</td><td>${d[1].toFixed(2)}</td></tr>`).join('') + '</tbody>';
+  const tg = document.getElementById('psnr-toggle');
+  tg.addEventListener('click', () => { table.hidden = !table.hidden; tg.setAttribute('aria-expanded', String(!table.hidden)); tg.textContent = table.hidden ? 'Show data table' : 'Hide data table'; });
+})();
+</script>
+
+</body></html>
